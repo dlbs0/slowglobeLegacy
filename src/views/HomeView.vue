@@ -32,7 +32,7 @@ onMounted(() => {
     //   zoom: 3,
     //   duration: 5000
     // })
-    // spinGlobe()
+    spinGlobe()
 
     // setTimeout(() => map.setPadding({ left: 0, right: 0, top: 0, bottom: 400 }), 2000)
   })
