@@ -3,6 +3,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 
 import mapboxgl from 'mapbox-gl' // or "const mapboxgl = require('mapbox-gl');"
 import { onMounted } from 'vue'
+import PolaroidPicture from '@/components/PolaroidPicture.vue'
 
 onMounted(() => {
   mapboxgl.accessToken =
@@ -37,7 +38,7 @@ onMounted(() => {
     // setTimeout(() => map.setPadding({ left: 0, right: 0, top: 0, bottom: 400 }), 2000)
   })
   map.on('moveend', () => {
-    spinGlobe()
+    // spinGlobe()
   })
   function spinGlobe() {
     const secondsPerRevolution = 180
@@ -65,9 +66,18 @@ onMounted(() => {
     <div class="scrollableContentWrapper">
       <div class="scrollableContent">
         <div class="scrollSpacer"></div>
-        <div class="header">Timeline</div>
-        <div class="header">Timeline</div>
-        <div class="header">Timeline</div>
+        <!-- <div class="header">Timeline</div> -->
+        <PolaroidPicture></PolaroidPicture>
+
+        <div class="contentCard">
+          <h2>Content</h2>
+          Yes there's lots of content here
+        </div>
+        <div class="contentCard">
+          <h2>Great Ocean Roadtrip</h2>
+          Yes there's lots of content here
+        </div>
+        <!-- <div class="header">Timeline</div> -->
       </div>
     </div>
     <!-- <div class="content"></div> -->
@@ -101,6 +111,19 @@ onMounted(() => {
   /* width: 60%; */
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+.contentCard {
+  background-color: #724c1777;
+  background-color: #ffffff;
+  /* border-radius: 0.4em; */
+  margin: 1em;
+  padding: 1em;
+  backdrop-filter: blur(10px);
+  h2 {
+    margin-top: 0;
+    margin-bottom: 0.4em;
+  }
 }
 
 .header {

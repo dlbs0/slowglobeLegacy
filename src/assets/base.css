@@ -2,9 +2,10 @@
   --background-color: #f9f8f2;
   --header-background-color: rgb(234, 233, 226);
   --text-heading-color: rgb(51, 51, 50);
+  --primary: #721817;
+  --secondary: #285943;
+  /* https://coolors.co/f04248-285943-f9f8f2-eae9e2-333332 */
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&display=swap');
 
 body {
   background-color: var(--background-color);
@@ -14,6 +15,14 @@ body {
   font-style: normal;
   margin: 0;
   padding: 0;
+}
+h2,
+h3 {
+  color: var(--primary);
+  font-family: 'Space Grotesk', sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 600;
+  font-style: normal;
 }
 
 .mapboxgl-ctrl-logo {
