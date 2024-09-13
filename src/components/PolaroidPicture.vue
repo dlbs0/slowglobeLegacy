@@ -24,11 +24,14 @@
   left: 40%;
   top: 15%; */
   background: linear-gradient(120deg, #fff, #ddd 60%);
-  box-shadow:
+  /* box-shadow:
     2px -2px 20px 0px rgba(0, 0, 0, 0.6),
-    inset 4px 5px 10px 0 rgba(0, 0, 0, 0.1);
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+    inset 4px 5px 10px 0 rgba(0, 0, 0, 0.1); */
+  box-shadow: inset 4px 5px 10px 0 rgba(0, 0, 0, 0.1);
+  /* -webkit-backface-visibility: hidden; */
+  /* backface-visibility: hidden; */
+  filter: drop-shadow(2px -2px 20px rgba(0, 0, 0, 0.6));
+  /* inset drop-shadow(4px 5px 10px rgba(0, 0, 0, 0.1)); */
   display: grid;
   gap: 0;
 

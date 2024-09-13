@@ -6,6 +6,9 @@
   --secondary: #285943;
   /* https://coolors.co/f04248-285943-f9f8f2-eae9e2-333332 */
 }
+/* html {
+  scroll-snap-type: y mandatory;
+} */
 
 body {
   background-color: var(--background-color);

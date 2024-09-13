@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@turf/turf": "^7.1.0",
     "@vueuse/core": "^11.0.3",
     "mapbox-gl": "^3.6.0",
     "pinia": "^2.1.7",
