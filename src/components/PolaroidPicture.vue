@@ -1,21 +1,55 @@
 <template>
-  <div class="polaroid">
-    <div class="polaroid-img">
-      <!-- <div class="gloss"></div> -->
-      <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" />
+  <div class="container stickyCard" id="polaroidCard">
+    <div class="polaroid">
+      <div class="polaroid-img">
+        <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" />
+      </div>
+      <div class="polaroid-caption">Fields of gold</div>
     </div>
-    <div class="polaroid-caption">Fields of gold</div>
   </div>
 </template>
 
 <style scoped>
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+.container:nth-child(4n-1) {
+  transform: rotate(-4deg) translateX(-1em);
 }
+.container:nth-child(4n + 1) {
+  transform: rotate(4deg) translateX(2em);
+}
+
+.container:nth-child(7n) {
+  transform: rotate(11deg) translateX(1.6em);
+}
+.container:nth-child(8n + 1) {
+  transform: rotate(0deg);
+}
+.container:nth-child(8n + 8) {
+  transform: rotate(-10deg);
+}
+.container:nth-child(14n + 14) {
+  transform: rotate(-1deg) translateX(1em);
+}
+
+.stickyCard {
+  position: sticky;
+  /* top: 100px; */
+  top: calc((100vh - 4rem) / 2 - (calc(var(--polaroid-width) * 1.112 * 0.5)) - 1px);
+  transform-origin: center center;
+  z-index: 2;
+  width: min-content;
+}
+
+.backing {
+  width: calc(var(--polaroid-width) * 1.112 * 1.1);
+  aspect-ratio: 0.8;
+  background-color: aqua;
+  z-index: 0;
+  position: relative;
+  top: 0;
+  scroll-snap-align: center;
+}
+
 .polaroid {
-  --polaroid-width: 300px;
   width: var(--polaroid-width);
   padding: calc(var(--polaroid-width) * 0.056);
   aspect-ratio: 0.8;
@@ -30,7 +64,7 @@
   box-shadow: inset 4px 5px 10px 0 rgba(0, 0, 0, 0.1);
   /* -webkit-backface-visibility: hidden; */
   /* backface-visibility: hidden; */
-  filter: drop-shadow(2px -2px 20px rgba(0, 0, 0, 0.6));
+  filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.6));
   /* inset drop-shadow(4px 5px 10px rgba(0, 0, 0, 0.1)); */
   display: grid;
   gap: 0;
@@ -38,23 +72,6 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: start;
-  /* justify-content: center; */
-  /* &:nth-child(1) {
-    left: 25%;
-    transform: rotate(10deg);
-  } */
-
-  /* &:nth-child(2) {
-    left: 40%;
-    top: 20%;
-    transform: rotate(-15deg);
-  }
-
-  &:nth-child(3) {
-    left: 55%;
-    top: 10%;
-    transform: rotate(5deg);
-  } */
 }
 
 .polaroid-img {

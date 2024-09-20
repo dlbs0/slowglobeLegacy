@@ -92,46 +92,14 @@ watch(arrivedState, (value) => {
     <!-- <h1>Home</h1> -->
     <div class="polaroidGrid">
       <div class="mapSpacer"></div>
-      <div class="pGridItem">
+      <div class="mapSpacer"></div>
+      <template v-for="i in 10" :key="i">
         <PolaroidPicture></PolaroidPicture>
-      </div>
-      <div class="pGridItem">
-        <PolaroidPicture></PolaroidPicture>
-      </div>
-      <div class="pGridItem">
-        <PolaroidPicture></PolaroidPicture>
-      </div>
-      <div class="pGridItem">
-        <PolaroidPicture></PolaroidPicture>
-      </div>
-      <div class="pGridItem">
-        <PolaroidPicture></PolaroidPicture>
-      </div>
-      <div class="pGridItem">
-        <PolaroidPicture></PolaroidPicture>
-      </div>
+        <div class="snapper"></div>
+      </template>
+      <div class="mapSpacer"></div>
     </div>
   </div>
-  <!-- <div class="scrollableContentWrapper">
-      <div class="scrollableContent">
-        <div class="scrollSpacer"></div>
-        <PolaroidPicture></PolaroidPicture>
-
-        <div class="contentCard">
-          <h2>Content</h2>
-          Yes there's lots of content here
-        </div>
-        <div class="contentCard">
-          <h2>Great Ocean Roadtrip</h2>
-          Yes there's lots of content here
-        </div>
-      </div>
-    </div> -->
-  <!-- <div class="header">Timeline</div> -->
-  <!-- <div class="content"></div> -->
-  <!-- <div class="content"></div>
-    <div class="content"></div> -->
-  <!-- </div> -->
 </template>
 
 <style scoped>
@@ -154,59 +122,22 @@ watch(arrivedState, (value) => {
 
 .polaroidGrid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: 1fr auto;
   grid-template-rows: 100vh auto;
   grid-gap: 4em;
   justify-items: start;
   padding-left: 1em;
 }
-.pGridItem {
+
+.snapper {
+  width: 200px;
   scroll-snap-align: center;
-  z-index: 2;
-  width: min-content;
+  z-index: -20;
 }
 
 .mapSpacer {
   height: calc(100vh - 4rem - 50vh);
   scroll-snap-align: start;
   z-index: 2;
-}
-.scrollSpacer {
-  height: 50vh;
-}
-/* .scrollableContentWrapper {
-  display: flex;
-  justify-content: center;
-} */
-.scrollableContent {
-  height: 50vh;
-  /* width: 60%; */
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
-.contentCard {
-  background-color: #724c1777;
-  background-color: #ffffff;
-  /* border-radius: 0.4em; */
-  margin: 1em;
-  padding: 1em;
-  backdrop-filter: blur(10px);
-  h2 {
-    margin-top: 0;
-    margin-bottom: 0.4em;
-  }
-}
-
-.header {
-  max-height: 4rem;
-  background-color: #c8d8de;
-  font-size: 2em;
-  width: 60%;
-  text-align: center;
-}
-
-.content {
-  height: 100vh;
 }
 </style>
