@@ -19,7 +19,6 @@ onMounted(() => {
     zoom: 1.5, // starting zoom
     projection: 'globe', // display the map as a 3D globe
     attributionControl: false
-    // interactive: false
   })
   map.on('style.load', () => {
     map?.setFog({ 'space-color': 'transparent', 'horizon-blend': 0 }) // Set the default atmosphere style
@@ -31,15 +30,8 @@ onMounted(() => {
       'space-color': 'transparent',
       'star-intensity': 0.0
     }) // Set the default atmosphere style
-    // map.easeTo({
-    //   center: [17.266653349606436, 62.40558318791134],
-    //   pitch: 75,
-    //   zoom: 3,
-    //   duration: 5000
-    // })
-    spinGlobe()
 
-    // setTimeout(() => map.setPadding({ left: 0, right: 0, top: 0, bottom: 400 }), 2000)
+    spinGlobe()
   })
   map.on('moveend', () => {
     if (arrivedState.top) spinGlobe()
@@ -48,12 +40,7 @@ onMounted(() => {
     if (!map) return
     const secondsPerRevolution = 180
     let distancePerSecond = 360 / secondsPerRevolution
-    // const zoom = map.getZoom()
-    // if (zoom > slowSpinZoom) {
-    //   // Slow spinning at higher zooms
-    //   const zoomDif = (maxSpinZoom - zoom) / (maxSpinZoom - slowSpinZoom)
-    //   distancePerSecond *= zoomDif
-    // }
+
     const center = map.getCenter()
     center.lng += distancePerSecond
     // Smoothly animate the map over one second.
@@ -89,7 +76,6 @@ watch(arrivedState, (value) => {
 <template>
   <div class="map" id="backmap"></div>
   <div class="main" ref="el">
-    <!-- <h1>Home</h1> -->
     <div class="polaroidGrid">
       <div class="mapSpacer"></div>
       <div class="mapSpacer"></div>
@@ -107,7 +93,6 @@ watch(arrivedState, (value) => {
   position: fixed;
   top: 0;
   left: 0;
-  /* z-index: -1; */
   width: 100%;
   height: 100vh;
   pointer-events: v-bind('arrivedState.top ? "none" : "auto"');
