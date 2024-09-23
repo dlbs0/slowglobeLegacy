@@ -108,14 +108,16 @@ watch(arrivedState, (value) => {
 .polaroidGrid {
   display: grid;
   grid-template-columns: 1fr auto;
+  grid-template-columns: 100% 10px;
   grid-template-rows: 100vh auto;
-  grid-gap: 4em;
+  grid-gap: 4em 0px;
   justify-items: start;
   padding-left: 1em;
 }
 
 .snapper {
-  width: 200px;
+  width: 10px;
+  /* margin-right: 10px; */
   scroll-snap-align: center;
   z-index: -20;
 }
