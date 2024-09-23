@@ -1,10 +1,17 @@
+<script setup lang="ts">
+const props = defineProps({
+  imgUrl: String
+})
+</script>
+
 <template>
   <div class="container stickyCard" id="polaroidCard">
     <div class="polaroid">
       <div class="polaroid-img">
-        <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" />
+        <!-- <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" /> -->
+        <img :src="imgUrl" />
       </div>
-      <div class="polaroid-caption">Fields of gold</div>
+      <div class="polaroid-caption">To buy a bike in Bracke</div>
     </div>
   </div>
 </template>
@@ -37,6 +44,11 @@
   transform-origin: center center;
   z-index: 2;
   width: min-content;
+  transition: all 0.5s ease;
+}
+
+.container:hover {
+  transform: scale(1.05);
 }
 
 .backing {

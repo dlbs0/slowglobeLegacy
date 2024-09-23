@@ -19,9 +19,10 @@ onMounted(() => {
     zoom: 1.5, // starting zoom
     projection: 'globe', // display the map as a 3D globe
     attributionControl: false
+    // antialias: true
   })
+
   map.on('style.load', () => {
-    map?.setFog({ 'space-color': 'transparent', 'horizon-blend': 0 }) // Set the default atmosphere style
     map?.setFog({
       range: [-1, 2],
       'horizon-blend': 0.1,
@@ -71,6 +72,13 @@ watch(arrivedState, (value) => {
     map.setPadding({ left: 0, right: 0, top: 0, bottom: 0 })
   }
 })
+
+const images = [
+  '/images/20240922_172726-2.jpg',
+  '/images/20240906_112409.jpg',
+  '/images/20240922_162227.jpg',
+  '/images/20240922_172726.jpg'
+]
 </script>
 
 <template>
@@ -79,8 +87,8 @@ watch(arrivedState, (value) => {
     <div class="polaroidGrid">
       <div class="mapSpacer"></div>
       <div class="mapSpacer"></div>
-      <template v-for="i in 10" :key="i">
-        <PolaroidPicture></PolaroidPicture>
+      <template v-for="i in images" :key="i">
+        <PolaroidPicture :img-url="i"></PolaroidPicture>
         <div class="snapper"></div>
       </template>
       <div class="mapSpacer"></div>
