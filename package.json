@@ -18,6 +18,7 @@
     "mapbox-gl": "^3.6.0",
     "pinia": "^2.2.2",
     "vue": "^3.4.29",
+    "vue-preview-imgs": "^2.0.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {

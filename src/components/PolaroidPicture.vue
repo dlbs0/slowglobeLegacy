@@ -6,13 +6,15 @@ const props = defineProps({
 
 <template>
   <div class="container stickyCard" id="polaroidCard">
-    <div class="polaroid">
-      <div class="polaroid-img">
-        <!-- <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" /> -->
-        <img :src="imgUrl" />
+    <RouterLink to="/trip/bracke">
+      <div class="polaroid">
+        <div class="polaroid-img">
+          <!-- <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" /> -->
+          <img :src="imgUrl" />
+        </div>
+        <div class="polaroid-caption">To buy a bike in Bracke</div>
       </div>
-      <div class="polaroid-caption">To buy a bike in Bracke</div>
-    </div>
+    </RouterLink>
   </div>
 </template>
 
@@ -35,6 +37,13 @@ const props = defineProps({
 }
 .container:nth-child(14n + 14) {
   transform: rotate(-1deg) translateX(1em);
+}
+
+.container {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 }
 
 .stickyCard {

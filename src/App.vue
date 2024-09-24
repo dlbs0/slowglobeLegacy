@@ -5,13 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
     <div class="wrapper">
-      <!-- slowglobe -->
-      <!-- SLOWGLOBE -->
-      SG
-      <!-- <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav> -->
+      <RouterLink to="/"> SG </RouterLink>
     </div>
   </header>
 
@@ -20,7 +14,6 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style scoped>
 header {
-  /* line-height: 1.5; */
   max-height: 4rem;
   position: sticky;
   top: 0;
@@ -28,9 +21,11 @@ header {
   display: flex;
   justify-content: center;
   text-align: center;
+  z-index: 100;
 }
 .wrapper {
   background-color: var(--header-background-color);
+  z-index: 100;
   width: min-content;
   font-size: 3.5rem;
   font-weight: 700;
@@ -38,6 +33,12 @@ header {
   border-radius: 0 0 0.2em 0.2em;
   color: rgb(110, 25, 25);
   color: var(--primary);
-  /* color: var(--secondary); */
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+.router-link-active {
+  text-decoration: none;
 }
 </style>

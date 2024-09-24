@@ -110,6 +110,7 @@ const images = [
   scroll-snap-type: y mandatory;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
+  overflow-x: hidden;
   scroll-padding: calc((100vh - 4rem) / 2-1);
 }
 
