@@ -1,8 +1,7 @@
 import { allTrips, getTripById } from '@/trips/allTrips'
-import { bracke } from '@/trips/bracke'
 import { featureCollection, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
-import mapboxgl, { type StyleImageInterface } from 'mapbox-gl'
+import mapboxgl, { GeoJSONSource, type StyleImageInterface } from 'mapbox-gl'
 import { onMounted, ref } from 'vue'
 
 let map: null | mapboxgl.Map = null
@@ -97,9 +96,10 @@ export function zoomToId(id: string) {
     pitch: 50,
     padding: { left: leftPadding, right: 0, top: 0, bottom: bottomPadding }
   })
-
-  map.getSource('dot-point')?.setData(featureCollection([point(trip.geography.overview.center)]))
-  map.getSource('tracks')?.setData(trip.geography.detail ?? featureCollection([]))
+  const dotSource = map.getSource('dot-point') as GeoJSONSource
+  dotSource?.setData(featureCollection([point(trip.geography.overview.center)]))
+  const tracksSource = map.getSource('tracks') as GeoJSONSource
+  tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
 }
 
 export function cancelMovement() {
@@ -149,70 +149,7 @@ function addLayersAndSources() {
     }
   })
 
-  const size = 200
-
-  // This implements `StyleImageInterface`
-  // to draw a pulsing dot icon on the map.
-  const pulsingDot: StyleImageInterface = {
-    width: size,
-    height: size,
-    data: new Uint8Array(size * size * 4),
-
-    // When the layer is added to the map,
-    // get the rendering context for the map canvas.
-    onAdd: function () {
-      const canvas = document.createElement('canvas')
-      canvas.width = this.width
-      canvas.height = this.height
-      this.context = canvas.getContext('2d')
-    },
-
-    // Call once before every frame where the icon will be used.
-    render: function () {
-      const duration = 2000
-      const t = (performance.now() % duration) / duration
-      const t2 = ((performance.now() + duration / 2) % duration) / duration
-
-      const radius = (size / 2) * 0.3
-      const outerRadius = (size / 2) * 0.7 * t + radius
-      const outerRadius2 = (size / 2) * 0.7 * t2 + radius
-      const context = this.context
-
-      // Draw the outer circle.
-      context.clearRect(0, 0, this.width, this.height)
-      context.beginPath()
-      context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2)
-      context.fillStyle = `rgba(114, 24, 23, ${1 - t})`
-      context.fill()
-
-      context.beginPath()
-      context.arc(this.width / 2, this.height / 2, outerRadius2, 0, Math.PI * 2)
-      context.fillStyle = `rgba(114, 24, 23, ${1 - t2})`
-      context.fill()
-
-      // Draw the inner circle.
-      context.beginPath()
-      context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2)
-      context.fillStyle = 'rgba(114, 24, 23, 1)'
-      context.strokeStyle = '#ddd'
-      context.lineWidth = 2 + 2 * (1 - t / 2)
-      // context.lineWidth = 4
-      context.fill()
-      context.stroke()
-
-      // Update this image's data with data from the canvas.
-      this.data = context.getImageData(0, 0, this.width, this.height).data
-
-      // Continuously repaint the map, resulting
-      // in the smooth animation of the dot.
-      map?.triggerRepaint()
-
-      // Return `true` to let the map know that the image was updated.
-      return true
-    }
-  }
-
-  map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
+  map.addImage('pulsing-dot', new pulsingDot(), { pixelRatio: 2 })
 
   map.addSource('dot-point', {
     type: 'geojson',
@@ -239,4 +176,68 @@ export function showOverviews(value: boolean) {
   overviewLayers.forEach((layer) => {
     map?.setLayoutProperty(layer, 'visibility', value ? 'visible' : 'none')
   })
+}
+
+// This implements `StyleImageInterface`
+// to draw a pulsing dot icon on the map.
+class pulsingDot implements StyleImageInterface {
+  size = 200
+  public width = this.size
+  public height = this.size
+  public data = new Uint8ClampedArray(this.size * this.size * 4)
+  public context: CanvasRenderingContext2D | null = null
+
+  // When the layer is added to the map,
+  // get the rendering context for the map canvas.
+  public onAdd() {
+    const canvas = document.createElement('canvas')
+    canvas.width = this.width
+    canvas.height = this.height
+    this.context = canvas.getContext('2d')
+  }
+
+  // Call once before every frame where the icon will be used.
+  public render() {
+    const duration = 2000
+    const t = (performance.now() % duration) / duration
+    const t2 = ((performance.now() + duration / 2) % duration) / duration
+
+    const radius = (this.size / 2) * 0.3
+    const outerRadius = (this.size / 2) * 0.7 * t + radius
+    const outerRadius2 = (this.size / 2) * 0.7 * t2 + radius
+    const context = this.context
+    if (!context) return true
+
+    // Draw the outer circle.
+    context.clearRect(0, 0, this.width, this.height)
+    context.beginPath()
+    context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2)
+    context.fillStyle = `rgba(114, 24, 23, ${1 - t})`
+    context.fill()
+
+    context.beginPath()
+    context.arc(this.width / 2, this.height / 2, outerRadius2, 0, Math.PI * 2)
+    context.fillStyle = `rgba(114, 24, 23, ${1 - t2})`
+    context.fill()
+
+    // Draw the inner circle.
+    context.beginPath()
+    context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2)
+    context.fillStyle = 'rgba(114, 24, 23, 1)'
+    context.strokeStyle = '#ddd'
+    context.lineWidth = 2 + 2 * (1 - t / 2)
+    // context.lineWidth = 4
+    context.fill()
+    context.stroke()
+
+    // Update this image's data with data from the canvas.
+    this.data = context.getImageData(0, 0, this.width, this.height).data
+
+    // Continuously repaint the map, resulting
+    // in the smooth animation of the dot.
+    map?.triggerRepaint()
+
+    // Return `true` to let the map know that the image was updated.
+    return true
+  }
 }

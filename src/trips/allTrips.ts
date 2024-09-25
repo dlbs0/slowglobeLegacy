@@ -6,10 +6,8 @@ export interface Trip {
   headerImage: string
   date: string
   locationText: string
-  geography: { overview: TripGeographyOverview; detail?: TripGeographyDetail }
+  geography: { overview: TripGeographyOverview; detail?: GeoJSON.FeatureCollection }
 }
-
-export interface TripGeographyDetail {}
 
 export interface TripGeographyOverview {
   center: [number, number]
