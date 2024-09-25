@@ -1,14 +1,23 @@
 <script setup lang="ts">
 import 'mapbox-gl/dist/mapbox-gl.css'
-
+import { useWindowSize } from '@vueuse/core'
 import { vIntersectionObserver } from '@vueuse/components'
-import { computed, onBeforeMount } from 'vue'
+import { computed, onBeforeMount, onUnmounted } from 'vue'
 import PolaroidPicture from '@/components/PolaroidPicture.vue'
-import { showGlobe, zoomToId } from '@/functions/map'
+import { setMapInteractive, setMapSpin, showGlobe, showOverviews, zoomToId } from '@/functions/map'
 import { allTrips } from '@/trips/allTrips'
 
 onBeforeMount(() => {
   showGlobe()
+  setMapInteractive(false)
+  setMapSpin(true)
+  showOverviews(true)
+})
+
+onUnmounted(() => {
+  setMapInteractive(false)
+  setMapSpin(false)
+  showOverviews(false)
 })
 
 function onIntersectionObserver([
@@ -20,7 +29,6 @@ function onIntersectionObserver([
   }
 }
 
-import { useWindowSize } from '@vueuse/core'
 const { width } = useWindowSize()
 
 const intMarg = computed(() => {
@@ -32,7 +40,7 @@ const intMarg = computed(() => {
 </script>
 
 <template>
-  <div class="main" ref="el">
+  <div class="main" ref="elz">
     <div class="polaroidGrid">
       <div class="mapSpacer"></div>
       <div class="mapSpacer"></div>
@@ -65,6 +73,7 @@ const intMarg = computed(() => {
     scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px);
     /* scroll-snap-type: none; */
   }
+  z-index: 20;
 }
 
 .polaroidGrid {
@@ -78,6 +87,7 @@ const intMarg = computed(() => {
   }
   justify-items: start;
   align-items: center;
+  z-index: 2;
   /* padding: 0 1em; */
   /* padding-left: 1em; */
 }
@@ -94,6 +104,7 @@ const intMarg = computed(() => {
 
 .mapSpacer {
   height: calc(100vh - 4rem - 50vh);
+  background-color: aquamarine;
   scroll-snap-align: start;
   z-index: 2;
 }

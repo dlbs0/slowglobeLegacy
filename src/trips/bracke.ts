@@ -1,5 +1,5 @@
 import type { Trip } from './allTrips'
-
+// signal.eu.org/osm/#locs=62.750236,15.417418;62.386411,17.315204
 export const bracke: Trip = {
   id: 'bracke',
   name: 'To buy a bike in Bracke',

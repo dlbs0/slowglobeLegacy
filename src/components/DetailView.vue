@@ -20,6 +20,6 @@
   mask: var(--mask);
   z-index: 1;
   position: relative;
-  opacity: 0.85;
+  opacity: 0.9;
 }
 </style>

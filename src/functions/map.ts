@@ -1,10 +1,13 @@
-import { getTripById } from '@/trips/allTrips'
-import { randomPoint } from '@turf/turf'
-import { useScroll, useWindowSize } from '@vueuse/core'
-import mapboxgl from 'mapbox-gl'
-import { onMounted, ref, watch } from 'vue'
+import { allTrips, getTripById } from '@/trips/allTrips'
+import { bracke } from '@/trips/bracke'
+import { featureCollection, point } from '@turf/turf'
+import { useWindowSize } from '@vueuse/core'
+import mapboxgl, { type StyleImageInterface } from 'mapbox-gl'
+import { onMounted, ref } from 'vue'
 
 let map: null | mapboxgl.Map = null
+const mapShouldSpin = ref(false)
+const mapInteractive = ref(false)
 
 const { width, height } = useWindowSize()
 
@@ -27,7 +30,6 @@ export function useMap() {
 
     map.on('style.load', () => {
       console.log('style loaded')
-      console.log(map?.getFog())
       map?.setFog({
         range: [0.5, 10],
         'horizon-blend': 0.1,
@@ -36,50 +38,26 @@ export function useMap() {
         'space-color': 'transparent',
         'star-intensity': 0.0
       }) // Set the default atmosphere style
-
-      spinGlobe()
+      addLayersAndSources()
     })
     map.on('moveend', () => {
-      if (arrivedState.top) spinGlobe()
+      if (mapShouldSpin.value) spinGlobe()
     })
-    function spinGlobe() {
-      if (!map) return
-      const secondsPerRevolution = 180
-      const distancePerSecond = 360 / secondsPerRevolution
-
-      const center = map.getCenter()
-      center.lng += distancePerSecond
-      // Smoothly animate the map over one second.
-      // When this animation is complete, it calls a 'moveend' event.
-      // map.easeTo({ center, duration: 1000, easing: (n) => n, zoom: 1.5, pitch: 0 })
-    }
   })
+  return { interactive: mapInteractive }
+}
 
-  const el = ref<HTMLElement | null>(null)
-  const { isScrolling, arrivedState } = useScroll(el)
-  watch(isScrolling, (value) => {
-    if (!value && map && !arrivedState.top) {
-      console.log('arrivedState', value, map)
-      // generate a random lnglat
-      const randomPointCoords = randomPoint()
-      map.easeTo({
-        duration: 2000,
-        pitch: 60,
-        zoom: 3,
-        center: randomPointCoords.features[0].geometry.coordinates as [number, number]
-      })
-    }
-  })
-  watch(arrivedState, (value) => {
-    console.log('arrivedState', value.top)
-    if (!value.top && map) {
-      map.setPadding({ left: 300, right: 0, top: 0, bottom: 0 })
-    } else if (map) {
-      map.setPadding({ left: 0, right: 0, top: 0, bottom: 0 })
-    }
-  })
+function spinGlobe() {
+  if (!map) return
+  if (!mapShouldSpin.value) return
+  const secondsPerRevolution = 180
+  const distancePerSecond = 360 / secondsPerRevolution
 
-  return { interactive: arrivedState.top }
+  const center = map.getCenter()
+  center.lng += distancePerSecond
+  // Smoothly animate the map over one second.
+  // When this animation is complete, it calls a 'moveend' event.
+  map.easeTo({ center, duration: 1000, easing: (n) => n, zoom: 1.5, pitch: 0, padding: 0 })
 }
 
 export function showBracke() {
@@ -105,6 +83,7 @@ export function showGlobe() {
 }
 
 export function zoomToId(id: string) {
+  setMapSpin(false)
   if (!map) return
   const trip = getTripById(id)
   if (!trip) return
@@ -118,9 +97,146 @@ export function zoomToId(id: string) {
     pitch: 50,
     padding: { left: leftPadding, right: 0, top: 0, bottom: bottomPadding }
   })
+
+  map.getSource('dot-point')?.setData(featureCollection([point(trip.geography.overview.center)]))
+  map.getSource('tracks')?.setData(trip.geography.detail ?? featureCollection([]))
 }
 
 export function cancelMovement() {
   if (!map) return
   map.stop()
+}
+
+export function setMapInteractive(value: boolean) {
+  mapInteractive.value = value
+}
+
+export function setMapSpin(value: boolean) {
+  mapShouldSpin.value = value
+  if (value) spinGlobe()
+}
+
+function addLayersAndSources() {
+  if (!map) return
+  map.addSource('centers', {
+    type: 'geojson',
+    data: featureCollection(allTrips.map((trip) => point(trip.geography.overview.center)))
+  })
+
+  map.addLayer({
+    id: 'centers',
+    type: 'circle',
+    source: 'centers',
+    paint: {
+      'circle-color': 'rgb(110, 25, 25)',
+      'circle-opacity': 1,
+      'circle-radius': 5
+    }
+  })
+
+  map.addSource('tracks', {
+    type: 'geojson',
+    data: featureCollection([])
+  })
+
+  map.addLayer({
+    id: 'tracks',
+    type: 'line',
+    source: 'tracks',
+    paint: {
+      'line-color': 'rgb(110, 25, 25)',
+      'line-width': 2
+    }
+  })
+
+  const size = 200
+
+  // This implements `StyleImageInterface`
+  // to draw a pulsing dot icon on the map.
+  const pulsingDot: StyleImageInterface = {
+    width: size,
+    height: size,
+    data: new Uint8Array(size * size * 4),
+
+    // When the layer is added to the map,
+    // get the rendering context for the map canvas.
+    onAdd: function () {
+      const canvas = document.createElement('canvas')
+      canvas.width = this.width
+      canvas.height = this.height
+      this.context = canvas.getContext('2d')
+    },
+
+    // Call once before every frame where the icon will be used.
+    render: function () {
+      const duration = 2000
+      const t = (performance.now() % duration) / duration
+      const t2 = ((performance.now() + duration / 2) % duration) / duration
+
+      const radius = (size / 2) * 0.3
+      const outerRadius = (size / 2) * 0.7 * t + radius
+      const outerRadius2 = (size / 2) * 0.7 * t2 + radius
+      const context = this.context
+
+      // Draw the outer circle.
+      context.clearRect(0, 0, this.width, this.height)
+      context.beginPath()
+      context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2)
+      context.fillStyle = `rgba(114, 24, 23, ${1 - t})`
+      context.fill()
+
+      context.beginPath()
+      context.arc(this.width / 2, this.height / 2, outerRadius2, 0, Math.PI * 2)
+      context.fillStyle = `rgba(114, 24, 23, ${1 - t2})`
+      context.fill()
+
+      // Draw the inner circle.
+      context.beginPath()
+      context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2)
+      context.fillStyle = 'rgba(114, 24, 23, 1)'
+      context.strokeStyle = '#ddd'
+      context.lineWidth = 2 + 2 * (1 - t / 2)
+      // context.lineWidth = 4
+      context.fill()
+      context.stroke()
+
+      // Update this image's data with data from the canvas.
+      this.data = context.getImageData(0, 0, this.width, this.height).data
+
+      // Continuously repaint the map, resulting
+      // in the smooth animation of the dot.
+      map?.triggerRepaint()
+
+      // Return `true` to let the map know that the image was updated.
+      return true
+    }
+  }
+
+  map.addImage('pulsing-dot', pulsingDot, { pixelRatio: 2 })
+
+  map.addSource('dot-point', {
+    type: 'geojson',
+    data: featureCollection([])
+  })
+  map.addLayer({
+    id: 'layer-with-pulsing-dot',
+    type: 'symbol',
+    source: 'dot-point',
+    layout: {
+      'icon-image': 'pulsing-dot'
+    },
+    paint: {
+      'icon-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0, 7, 1, 12, 0]
+    }
+  })
+}
+
+export function showOverviews(value: boolean) {
+  if (!map) return
+  return
+  const overviewLayers = ['layer-with-pulsing-dot', 'centers']
+
+  overviewLayers.forEach((layer) => {
+    map?.setLayoutProperty(layer, 'visibility', value ? 'visible' : 'none')
+  })
 }
