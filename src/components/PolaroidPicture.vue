@@ -1,18 +1,19 @@
 <script setup lang="ts">
-const props = defineProps({
-  imgUrl: String
+defineProps({
+  imgUrl: String,
+  link: String,
+  caption: String
 })
 </script>
 
 <template>
   <div class="container stickyCard" id="polaroidCard">
-    <RouterLink to="/trip/bracke">
+    <RouterLink :to="link ?? ''">
       <div class="polaroid">
         <div class="polaroid-img">
-          <!-- <img src="http://farm7.static.flickr.com/6052/6411572503_fd28c63f1a.jpg" /> -->
           <img :src="imgUrl" />
         </div>
-        <div class="polaroid-caption">To buy a bike in Bracke</div>
+        <div class="polaroid-caption">{{ caption }}</div>
       </div>
     </RouterLink>
   </div>
@@ -44,12 +45,20 @@ const props = defineProps({
     text-decoration: none;
     color: inherit;
   }
+  @media (width <= 900px) {
+    /* … */
+    padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
+  }
+  padding: 0px 10vw;
 }
 
 .stickyCard {
   position: sticky;
-  /* top: 100px; */
-  top: calc((100vh - 4rem) / 2 - (calc(var(--polaroid-width) * 1.112 * 0.5)) - 1px);
+  /* calculated by taking the aspect ratio of 0.8, which inverted give 1.25, then adding the padding from .polaroid twice */
+  top: calc((100vh - 4rem) / 2 - (calc(var(--polaroid-width) * 1.362 * 0.5)) - 1px);
+  @media (width <= 900px) {
+    top: calc((100vh - (var(--polaroid-width) * 1.362)) - 4em + 1px);
+  }
   transform-origin: center center;
   z-index: 2;
   width: min-content;
@@ -60,31 +69,16 @@ const props = defineProps({
   transform: scale(1.05);
 }
 
-.backing {
-  width: calc(var(--polaroid-width) * 1.112 * 1.1);
-  aspect-ratio: 0.8;
-  background-color: aqua;
-  z-index: 0;
-  position: relative;
-  top: 0;
-  scroll-snap-align: center;
-}
-
 .polaroid {
   width: var(--polaroid-width);
   padding: calc(var(--polaroid-width) * 0.056);
   aspect-ratio: 0.8;
   background: #fff;
-  /* position: absolute;
-  left: 40%;
-  top: 15%; */
   background: linear-gradient(120deg, #fff, #ddd 60%);
   /* box-shadow:
     2px -2px 20px 0px rgba(0, 0, 0, 0.6),
     inset 4px 5px 10px 0 rgba(0, 0, 0, 0.1); */
   box-shadow: inset 4px 5px 10px 0 rgba(0, 0, 0, 0.1);
-  /* -webkit-backface-visibility: hidden; */
-  /* backface-visibility: hidden; */
   filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.6));
   /* inset drop-shadow(4px 5px 10px rgba(0, 0, 0, 0.1)); */
   display: grid;
@@ -96,19 +90,11 @@ const props = defineProps({
 }
 
 .polaroid-img {
-  /* position: absolute; */
   position: relative;
   display: inline-block;
   aspect-ratio: 1/1;
   width: 100%;
-  /* top: 20px;
-  left: 10px; */
 
-  /* width: var(--polaroid-width); */
-  /* margin: calc(var(--polaroid-width) * 0.056); */
-  /* margin: 5.6%; */
-  /* 17%; */
-  /* height: 280px; */
   background: #eee;
   overflow: hidden;
   img {
@@ -124,8 +110,6 @@ const props = defineProps({
   left: 0;
   width: 100%;
   height: 100%;
-  /* width: calc(var(--polaroid-width) - (var(--polaroid-width) * 2 * 0.056));
-  height: calc(var(--polaroid-width) - (var(--polaroid-width) * 2 * 0.056)); */
   background: linear-gradient(
     120deg,
     rgba(255, 255, 255, 0.6),
@@ -137,7 +121,6 @@ const props = defineProps({
 }
 
 .polaroid-caption {
-  /* position: relative; */
   justify-self: center;
   flex-grow: 10;
   font-family: 'Reenie Beanie', cursive;
@@ -147,6 +130,5 @@ const props = defineProps({
   bottom: 5px;
   padding: 5px 5px;
   margin: 0;
-  /* letter-spacing: 0.1em; */
 }
 </style>

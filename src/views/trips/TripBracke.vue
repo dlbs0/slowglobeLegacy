@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
+import { showBracke } from '@/functions/map'
+import { onMounted } from 'vue'
 import { Gallery } from 'vue-preview-imgs'
+
+onMounted(() => {
+  showBracke()
+})
 </script>
 
 <template>

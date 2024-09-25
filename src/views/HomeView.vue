@@ -1,95 +1,53 @@
 <script setup lang="ts">
 import 'mapbox-gl/dist/mapbox-gl.css'
 
-import mapboxgl from 'mapbox-gl'
-import { randomPoint } from '@turf/turf'
-import { onMounted, ref, watch } from 'vue'
+import { vIntersectionObserver } from '@vueuse/components'
+import { computed, onBeforeMount } from 'vue'
 import PolaroidPicture from '@/components/PolaroidPicture.vue'
-import { useScroll } from '@vueuse/core'
+import { showGlobe, zoomToId } from '@/functions/map'
+import { allTrips } from '@/trips/allTrips'
 
-let map: null | mapboxgl.Map = null
-
-onMounted(() => {
-  mapboxgl.accessToken =
-    'pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
-  map = new mapboxgl.Map({
-    container: 'backmap', // container ID
-    style: 'mapbox://styles/dlbs0/cm0zbvi4501a501pj3rkd5sls',
-    center: [130, 0], // starting position [lng, lat]
-    zoom: 1.5, // starting zoom
-    projection: 'globe', // display the map as a 3D globe
-    attributionControl: false
-    // antialias: true
-  })
-
-  map.on('style.load', () => {
-    map?.setFog({
-      range: [-1, 2],
-      'horizon-blend': 0.1,
-      color: '#c8d8de',
-      'high-color': 'transparent',
-      'space-color': 'transparent',
-      'star-intensity': 0.0
-    }) // Set the default atmosphere style
-
-    spinGlobe()
-  })
-  map.on('moveend', () => {
-    if (arrivedState.top) spinGlobe()
-  })
-  function spinGlobe() {
-    if (!map) return
-    const secondsPerRevolution = 180
-    let distancePerSecond = 360 / secondsPerRevolution
-
-    const center = map.getCenter()
-    center.lng += distancePerSecond
-    // Smoothly animate the map over one second.
-    // When this animation is complete, it calls a 'moveend' event.
-    map.easeTo({ center, duration: 1000, easing: (n) => n, zoom: 1.5, pitch: 0 })
-  }
-})
-const el = ref<HTMLElement | null>(null)
-const { isScrolling, arrivedState } = useScroll(el)
-watch(isScrolling, (value) => {
-  if (!value && map && !arrivedState.top) {
-    console.log('arrivedState', value, map)
-    // generate a random lnglat
-    const randomPointCoords = randomPoint()
-    map.easeTo({
-      duration: 2000,
-      pitch: 60,
-      zoom: 3,
-      center: randomPointCoords.features[0].geometry.coordinates as [number, number]
-    })
-  }
-})
-watch(arrivedState, (value) => {
-  console.log('arrivedState', value.top)
-  if (!value.top && map) {
-    map.setPadding({ left: 300, right: 0, top: 0, bottom: 0 })
-  } else if (map) {
-    map.setPadding({ left: 0, right: 0, top: 0, bottom: 0 })
-  }
+onBeforeMount(() => {
+  showGlobe()
 })
 
-const images = [
-  '/images/20240922_172726-2.jpg',
-  '/images/20240906_112409.jpg',
-  '/images/20240922_162227.jpg',
-  '/images/20240922_172726.jpg'
-]
+function onIntersectionObserver([
+  { isIntersecting, target, rootBounds }
+]: IntersectionObserverEntry[]) {
+  if (isIntersecting && target.id) {
+    console.log('target.id:', target.id, rootBounds)
+    zoomToId(target.id)
+  }
+}
+
+import { useWindowSize } from '@vueuse/core'
+const { width } = useWindowSize()
+
+const intMarg = computed(() => {
+  if (width.value <= 900) {
+    return '-60% 0px -30px 0px'
+  }
+  return '-45% 0px -45% 0px'
+})
 </script>
 
 <template>
-  <div class="map" id="backmap"></div>
   <div class="main" ref="el">
     <div class="polaroidGrid">
       <div class="mapSpacer"></div>
       <div class="mapSpacer"></div>
-      <template v-for="i in images" :key="i">
-        <PolaroidPicture :img-url="i"></PolaroidPicture>
-        <div class="snapper"></div>
+      <template v-for="i in allTrips" :key="i">
+        <PolaroidPicture
+          :img-url="i.headerImage"
+          :caption="i.name"
+          :link="`/trip/${i.id}`"
+        ></PolaroidPicture>
+
+        <div
+          class="snapper"
+          :id="i.id"
+          v-intersection-observer="[onIntersectionObserver, { rootMargin: intMarg }]"
+        ></div>
       </template>
       <div class="mapSpacer"></div>
     </div>
@@ -97,21 +55,16 @@ const images = [
 </template>
 
 <style scoped>
-.map {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  pointer-events: v-bind('arrivedState.top ? "none" : "auto"');
-}
-
 .main {
   scroll-snap-type: y mandatory;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
   overflow-x: hidden;
   scroll-padding: calc((100vh - 4rem) / 2-1);
+  @media (width <= 900px) {
+    scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px);
+    /* scroll-snap-type: none; */
+  }
 }
 
 .polaroidGrid {
@@ -119,14 +72,22 @@ const images = [
   grid-template-columns: 1fr auto;
   grid-template-columns: 100% 10px;
   grid-template-rows: 100vh auto;
-  grid-gap: 4em 0px;
+  gap: 4em 0px;
+  @media (width <= 900px) {
+    /* gap: 25vh 0px; */
+  }
   justify-items: start;
-  padding-left: 1em;
+  align-items: center;
+  /* padding: 0 1em; */
+  /* padding-left: 1em; */
 }
 
 .snapper {
   width: 10px;
+  height: 100%;
+  /* background-color: blue; */
   /* margin-right: 10px; */
+  /* scroll-snap-align: start; */
   scroll-snap-align: center;
   z-index: -20;
 }
