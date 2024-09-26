@@ -1,21 +1,32 @@
 <!-- Heading component, styles and formats text placed inside it from the parent component -->
 
 <template>
-  <div class="titleRow">
-    <div class="above">
-      <div class="byline">
-        {{ byline }}
+  <div class="wrap">
+    <div class="titleRow">
+      <div class="above">
+        <div class="byline">
+          {{ byline }}
+        </div>
+        <div class="date">{{ date }}</div>
       </div>
-      <div class="date">{{ date }}</div>
+      <img src="/images/20240922_172726-2.jpg" />
     </div>
-    <img src="/images/20240922_172726-2.jpg" />
+    <h1>
+      <slot></slot>
+    </h1>
   </div>
-  <h1>
-    <slot></slot>
-  </h1>
 </template>
 
 <style scoped>
+.wrap {
+  z-index: 1;
+  position: relative;
+  --mask: conic-gradient(from 130deg at top, #000000, #000000 1deg 99deg, #00000000 100deg) 50%/2.38em
+    100%;
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+  padding-top: 3em;
+}
 img {
   display: inline-block;
   height: 5.5em;

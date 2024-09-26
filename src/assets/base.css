@@ -42,8 +42,10 @@ h1 {
   font-size: 4em;
   margin-top: 0.2em;
   margin-bottom: 0.65em;
+  /* margin-bottom: 0em; */
   letter-spacing: -0.02em;
   line-height: 1.05em;
+  z-index: 2;
 }
 
 .mapboxgl-ctrl-logo {
@@ -53,7 +55,7 @@ h1 {
   padding: 1em;
   display: flex;
   background-color: white;
-  margin: 1.5em 0;
+  /* margin: 1.5em 0; */
 }
 
 .vpis-gallery {
@@ -64,4 +66,7 @@ h1 {
 }
 .vpis-item img {
   width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: fill;
+  object-position: 50% 50%;
 }

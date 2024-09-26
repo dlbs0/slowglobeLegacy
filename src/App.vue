@@ -12,6 +12,7 @@ const { interactive } = useMap()
     </div>
   </header>
   <main class="test">
+    <div class="map" id="backmap"></div>
     <!-- <RouterView /> -->
     <router-view v-slot="{ Component, route }">
       <Transition name="up" mode="out-in">
@@ -39,7 +40,6 @@ const { interactive } = useMap()
         <component :is="Component" :key="route.path" />
       </transition>
     </router-view> -->
-    <div class="map" id="backmap"></div>
   </main>
 </template>
 
@@ -48,8 +48,8 @@ const { interactive } = useMap()
   /* position: absolute;
   position: relative;
   left: 100%; */
-  overflow-x: hidden;
-  z-index: 2;
+  /* overflow-x: hidden;
+  z-index: 2; */
 }
 .fade-enter-active,
 .fade-leave-active {

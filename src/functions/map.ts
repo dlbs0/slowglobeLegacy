@@ -1,12 +1,14 @@
 import { allTrips, getTripById } from '@/trips/allTrips'
-import { featureCollection, point } from '@turf/turf'
+import { bbox, featureCollection, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
+import type { Feature, FeatureCollection } from 'geojson'
 import mapboxgl, { GeoJSONSource, type StyleImageInterface } from 'mapbox-gl'
 import { onMounted, ref } from 'vue'
 
 let map: null | mapboxgl.Map = null
 const mapShouldSpin = ref(false)
 const mapInteractive = ref(false)
+let firstLoad = true
 
 const { width, height } = useWindowSize()
 
@@ -63,11 +65,12 @@ export function showBracke() {
   if (!map) return
   map.easeTo({
     center: [15.4185552491721, 62.750063825451555],
-    duration: 3000,
+    duration: firstLoad ? 10 : 3000,
     pitch: 0,
     zoom: 12,
     padding: { left: 0, right: 0, top: 0, bottom: height.value * 0.25 }
   })
+  firstLoad = false
 }
 
 export function showGlobe() {
@@ -98,8 +101,36 @@ export function zoomToId(id: string) {
   })
   const dotSource = map.getSource('dot-point') as GeoJSONSource
   dotSource?.setData(featureCollection([point(trip.geography.overview.center)]))
-  const tracksSource = map.getSource('tracks') as GeoJSONSource
+  const tracksSource = map.getSource('overview-tracks') as GeoJSONSource
   tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+  firstLoad = false
+}
+
+export function showTracks(id: string) {
+  if (!map) return
+  console.log('showTracks', id)
+  const trip = getTripById(id)
+  if (!trip) return
+
+  const tracksSource = map.getSource('detail-tracks') as GeoJSONSource
+  tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+}
+
+export function fitBounds(
+  geography: FeatureCollection | Feature,
+  padding: { left: number; right: number; top: number; bottom: number } = {
+    left: 20,
+    right: 20,
+    top: 20,
+    bottom: 20
+  }
+) {
+  if (!map) return
+  console.log('geography:', geography)
+  const bounds = bbox(geography)
+  console.log('bounds:', bounds)
+  if (!bounds || bounds.length != 4) return
+  map.fitBounds(bounds, { padding })
 }
 
 export function cancelMovement() {
@@ -118,35 +149,61 @@ export function setMapSpin(value: boolean) {
 
 function addLayersAndSources() {
   if (!map) return
+  map.loadImage('/images/diamond.png', (error, image) => {
+    if (error) throw error
+    if (!map?.hasImage('diamond') && image) map?.addImage('diamond', image)
+  })
+
   map.addSource('centers', {
     type: 'geojson',
     data: featureCollection(allTrips.map((trip) => point(trip.geography.overview.center)))
   })
 
+  // map.addLayer({
+  //   id: 'centers',
+  //   type: 'circle',
+  //   source: 'centers',
+  //   paint: {
+  //     'circle-color': 'rgb(110, 25, 25)',
+  //     'circle-opacity': 1,
+  //     'circle-radius': 5
+  //   }
+  // })
   map.addLayer({
     id: 'centers',
-    type: 'circle',
+    type: 'symbol',
     source: 'centers',
-    paint: {
-      'circle-color': 'rgb(110, 25, 25)',
-      'circle-opacity': 1,
-      'circle-radius': 5
+    layout: {
+      'icon-image': 'diamond',
+      'icon-size': 1
     }
   })
 
-  map.addSource('tracks', {
+  map.addSource('overview-tracks', {
     type: 'geojson',
     data: featureCollection([])
   })
 
   map.addLayer({
-    id: 'tracks',
+    id: 'overview-tracks',
     type: 'line',
-    source: 'tracks',
+    source: 'overview-tracks',
     paint: {
       'line-color': 'rgb(110, 25, 25)',
       'line-width': 2
     }
+  })
+
+  map.addSource('detail-tracks', {
+    type: 'geojson',
+    data: featureCollection([])
+  })
+
+  map.addLayer({
+    id: 'detail-tracks',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: { 'line-color': 'rgb(110, 25, 25)', 'line-width': 4 }
   })
 
   map.addImage('pulsing-dot', new pulsingDot(), { pixelRatio: 2 })
@@ -170,11 +227,28 @@ function addLayersAndSources() {
 
 export function showOverviews(value: boolean) {
   if (!map) return
-  return
-  const overviewLayers = ['layer-with-pulsing-dot', 'centers']
+  const overviewLayers = ['layer-with-pulsing-dot', 'centers', 'overview-tracks']
 
   overviewLayers.forEach((layer) => {
-    map?.setLayoutProperty(layer, 'visibility', value ? 'visible' : 'none')
+    const lay = map?.getLayer(layer)
+    if (!lay) {
+      setTimeout(() => {
+        console.log('retrying setting overviews', layer)
+        showOverviews(value)
+      }, 100)
+    } else map?.setLayoutProperty(layer, 'visibility', value ? 'visible' : 'none')
+  })
+
+  const detailLayers = ['detail-tracks']
+  detailLayers.forEach((layer) => {
+    const lay = map?.getLayer(layer)
+    console.log('lay:', lay)
+    if (!lay) {
+      setTimeout(() => {
+        console.log('retrying setting overviews', layer)
+        showOverviews(value)
+      }, 100)
+    } else map?.setLayoutProperty(layer, 'visibility', value ? 'none' : 'visible')
   })
 }
 
