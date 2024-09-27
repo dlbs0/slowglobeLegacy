@@ -4,12 +4,14 @@ import SGHeader from '@/components/SGHeader.vue'
 import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { setMapInteractive, showBracke, showOverviews, showTracks } from '@/functions/map'
+import { useMapInteractive, showOverviews, showTracks } from '@/functions/map'
 import { onMounted } from 'vue'
 import { bracke } from '@/trips/bracke'
+import { featureCollection, point } from '@turf/turf'
+
+const { setMapInteractive } = useMapInteractive()
 
 onMounted(() => {
-  showBracke()
   setMapInteractive(false)
   showOverviews(false)
   showTracks('bracke')
@@ -17,7 +19,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <DetailView>
+  <DetailView trip="bracke">
     <SGHeader byline="Bräcke, Sweden" date="2024-09-22">To Buy a Bike in Bräcke</SGHeader>
     <SGText>
       I needed a bike.
@@ -48,40 +50,104 @@ onMounted(() => {
     </SGText>
 
     <SGImages
+      :addPhotosToMap="true"
       :list="[
         {
-          href: '/images/20240912_092320.jpg',
+          href: '/images/bracke/20240912_092320.jpg',
           // thumbnail: '/images/20240922_172726-2.jpg',
           width: 3959,
           height: 2969,
-          cropped: true
+          cropped: true,
+          coords: [17.30491637358277, 62.39231737278283]
         },
         {
-          href: '/images/20240922_134006.jpg',
+          href: '/images/bracke/20240922_134006.jpg',
           width: 2963,
-          height: 3951
+          height: 3951,
+          coords: [17.3124174738977, 62.39050823971086]
         }
       ]"
     />
-    <SGMapCutout :fit-bounds-geometry="bracke.geography.detail?.features[0]" />
+    <!-- <SGMapCutout :fit-bounds-geometry="bracke.geography.detail?.features[0]" /> -->
+    <SGMapCutout
+      :fit-bounds-geometry="
+        featureCollection([
+          point([17.300041770187057, 62.393583266996245]),
+          point([17.316135024206655, 62.38844209644947])
+        ])
+      "
+    />
 
     <SGText>
       After negotiating the correct amount out of the ATM, I was at the train station just in time
       to recieve a text informing me that my train was cancelled. I would get the pleasure of a
       replacement bus instead. There seemed to be a few people in the same boat, and we all went
       down the escalators into the bus terminal, and were eventually bundled onto a waiting bus.
+
+      <br />
+      <br />
+      The bus took it's time getting to Ånge, where we were switched to the train, and then finally
+      I arrived in Bräcke, only close to an hour late. It was a strange but nice town; weathered and
+      empty feeling, but a few people were on the streets as I walked to my destination, just out of
+      town.
     </SGText>
 
+    <SGMapCutout :fit-bounds-geometry="bracke.geography.detail?.features[2]" :pitch="55" />
     <SGImages
+      :add-photos-to-map="true"
       :list="[
         {
-          href: '/images/20240922_162227.jpg',
+          href: '/images/bracke/20240922_161623.jpg',
           width: 3000,
-          height: 3000
+          height: 3000,
+          coords: [15.41796956604836, 62.7499712815856]
         },
 
         {
-          href: '/images/20240922_172726.jpg',
+          href: '/images/bracke/20240922_162336.jpg',
+          width: 3000,
+          height: 3000
+        },
+        {
+          href: '/images/bracke/20240922_162029.jpg',
+          width: 3000,
+          height: 3000,
+          coords: [15.419971930896901, 62.75265443913532]
+        },
+        {
+          href: '/images/bracke/20240922_162652.jpg',
+          width: 3000,
+          height: 3000
+        },
+        {
+          href: '/images/bracke/20240922_163258.jpg',
+          width: 3000,
+          height: 3000,
+          coords: [15.42889978328157, 62.75658631423672]
+        }
+      ]"
+    />
+    <SGText>
+      My drumming friend was into drums and bikes, both motored and not. I found his red house in a
+      little enclave of roads needing works and pine trees. He enthusiastically talked me through
+      the bike, then invited me inside while I waited for my train to come, where we drank cordial
+      and talked as he smoked.
+      <br />
+      <br />
+      Time went surprisingly quickly, and all of a sudden I realised that I'd need to leave if I
+      didn't want to miss my train home, so I was in a rush to pay the guy, take the bike and speed
+      down the hill to the lake where I beat the train by seconds. After my earlier bus experiences,
+      I enjoyed the newfound luxury of the train all the way home.
+    </SGText>
+    <SGImages
+      :list="[
+        {
+          href: '/images/bracke/20240922_172726-3.jpg',
+          width: 3000,
+          height: 3000
+        },
+        {
+          href: '/images/bracke/20240922_162227.jpg',
           width: 3000,
           height: 3000
         }

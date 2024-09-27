@@ -4,8 +4,10 @@ import { useWindowSize } from '@vueuse/core'
 import { vIntersectionObserver } from '@vueuse/components'
 import { computed, onBeforeMount, onUnmounted } from 'vue'
 import PolaroidPicture from '@/components/PolaroidPicture.vue'
-import { setMapInteractive, setMapSpin, showGlobe, showOverviews, zoomToId } from '@/functions/map'
+import { setMapSpin, showGlobe, showOverviews, useMapInteractive, zoomToId } from '@/functions/map'
 import { allTrips } from '@/trips/allTrips'
+
+const { setMapInteractive } = useMapInteractive()
 
 onBeforeMount(() => {
   showGlobe()

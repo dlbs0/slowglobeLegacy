@@ -69,7 +69,7 @@ img {
 </style>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   byline: String,
   date: String
 })

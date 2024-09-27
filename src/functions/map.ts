@@ -3,7 +3,7 @@ import { bbox, featureCollection, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
 import type { Feature, FeatureCollection } from 'geojson'
 import mapboxgl, { GeoJSONSource, type StyleImageInterface } from 'mapbox-gl'
-import { onMounted, ref } from 'vue'
+import { onMounted, readonly, ref } from 'vue'
 
 let map: null | mapboxgl.Map = null
 const mapShouldSpin = ref(false)
@@ -45,7 +45,27 @@ export function useMap() {
       if (mapShouldSpin.value) spinGlobe()
     })
   })
-  return { interactive: mapInteractive }
+  return { interactive: readonly(mapInteractive) }
+}
+
+export function useMapInteractive() {
+  function setMapInteractive(value: boolean) {
+    mapInteractive.value = value
+    if (!map) return
+    const ints = [
+      map.scrollZoom,
+      map.dragRotate,
+      map.dragPan,
+      map.doubleClickZoom,
+      map.touchZoomRotate
+    ]
+    if (value) {
+      ints.forEach((int) => int.enable())
+    } else {
+      ints.forEach((int) => int.disable())
+    }
+  }
+  return { mapInteractive: readonly(mapInteractive), setMapInteractive }
 }
 
 function spinGlobe() {
@@ -61,10 +81,13 @@ function spinGlobe() {
   map.easeTo({ center, duration: 1000, easing: (n) => n, zoom: 1.5, pitch: 0, padding: 0 })
 }
 
-export function showBracke() {
+export function showArticleStart(id: string) {
   if (!map) return
+  const trip = getTripById(id)
+  if (!trip) return
+
   map.easeTo({
-    center: [15.4185552491721, 62.750063825451555],
+    center: trip.geography.overview.center,
     duration: firstLoad ? 10 : 3000,
     pitch: 0,
     zoom: 12,
@@ -123,23 +146,20 @@ export function fitBounds(
     right: 20,
     top: 20,
     bottom: 20
-  }
+  },
+  pitch: number = 0
 ) {
   if (!map) return
   console.log('geography:', geography)
   const bounds = bbox(geography)
   console.log('bounds:', bounds)
   if (!bounds || bounds.length != 4) return
-  map.fitBounds(bounds, { padding })
+  map.fitBounds(bounds, { padding, pitch })
 }
 
 export function cancelMovement() {
   if (!map) return
   map.stop()
-}
-
-export function setMapInteractive(value: boolean) {
-  mapInteractive.value = value
 }
 
 export function setMapSpin(value: boolean) {
@@ -153,22 +173,16 @@ function addLayersAndSources() {
     if (error) throw error
     if (!map?.hasImage('diamond') && image) map?.addImage('diamond', image)
   })
+  map.loadImage('/images/circle.png', (error, image) => {
+    if (error) throw error
+    if (!map?.hasImage('pattern-dot') && image) map?.addImage('pattern-dot', image, { sdf: true })
+  })
 
   map.addSource('centers', {
     type: 'geojson',
     data: featureCollection(allTrips.map((trip) => point(trip.geography.overview.center)))
   })
 
-  // map.addLayer({
-  //   id: 'centers',
-  //   type: 'circle',
-  //   source: 'centers',
-  //   paint: {
-  //     'circle-color': 'rgb(110, 25, 25)',
-  //     'circle-opacity': 1,
-  //     'circle-radius': 5
-  //   }
-  // })
   map.addLayer({
     id: 'centers',
     type: 'symbol',
@@ -196,14 +210,45 @@ function addLayersAndSources() {
 
   map.addSource('detail-tracks', {
     type: 'geojson',
+    lineMetrics: true,
+
     data: featureCollection([])
   })
 
+  // map.addLayer({
+  //   id: 'detail-tracks',
+  //   type: 'line',
+  //   source: 'detail-tracks',
+  //   paint: { 'line-color': 'rgb(110, 25, 25)', 'line-width': 4 }
+  // })
   map.addLayer({
-    id: 'detail-tracks',
+    id: 'detail-tracks-walk',
     type: 'line',
     source: 'detail-tracks',
-    paint: { 'line-color': 'rgb(110, 25, 25)', 'line-width': 4 }
+    layout: { 'line-join': 'none' },
+    paint: { 'line-width': 10, 'line-pattern': 'pattern-dot', 'line-color': 'rgb(110, 25, 25)' },
+    filter: ['==', 'type', 'walk']
+  })
+  map.addLayer({
+    id: 'detail-tracks-train',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      'line-color': 'rgb(110, 25, 25)',
+      'line-width': 6
+    },
+    filter: ['==', 'type', 'train']
+  })
+  map.addLayer({
+    id: 'detail-tracks-train-dashes',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      'line-color': '#aa8c53',
+      'line-width': 4,
+      'line-dasharray': [0, 2, 2]
+    },
+    filter: ['==', 'type', 'train']
   })
 
   map.addImage('pulsing-dot', new pulsingDot(), { pixelRatio: 2 })
@@ -239,7 +284,7 @@ export function showOverviews(value: boolean) {
     } else map?.setLayoutProperty(layer, 'visibility', value ? 'visible' : 'none')
   })
 
-  const detailLayers = ['detail-tracks']
+  const detailLayers = ['detail-tracks-walk', 'detail-tracks-train', 'detail-tracks-train-dashes']
   detailLayers.forEach((layer) => {
     const lay = map?.getLayer(layer)
     console.log('lay:', lay)
@@ -314,4 +359,8 @@ class pulsingDot implements StyleImageInterface {
     // Return `true` to let the map know that the image was updated.
     return true
   }
+}
+
+export function getMap() {
+  return map
 }

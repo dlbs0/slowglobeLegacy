@@ -11,7 +11,7 @@ const { interactive } = useMap()
       <RouterLink to="/"> SG </RouterLink>
     </div>
   </header>
-  <main class="test">
+  <main>
     <div class="map" id="backmap"></div>
     <!-- <RouterView /> -->
     <router-view v-slot="{ Component, route }">
@@ -44,13 +44,6 @@ const { interactive } = useMap()
 </template>
 
 <style>
-.test {
-  /* position: absolute;
-  position: relative;
-  left: 100%; */
-  /* overflow-x: hidden;
-  z-index: 2; */
-}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s ease;
@@ -167,5 +160,9 @@ header {
   height: 100vh;
   pointer-events: v-bind('interactive ?  "auto":"none"');
   z-index: 0;
+}
+
+.mapboxgl-marker {
+  pointer-events: none !important;
 }
 </style>

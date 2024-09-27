@@ -1,42 +1,22 @@
 <template>
   <div class="pswp"></div>
+  <div class="topTrigger" v-intersection-observer="onIntersectionObserver"></div>
 
   <div class="cont2">
-    <!-- <div class="container"> -->
     <slot></slot>
   </div>
-  <!-- </div> -->
 </template>
 
 <style scoped>
+.topTrigger {
+  height: 1px;
+}
 .cont2 {
   margin: 0 auto;
   margin-top: 45vh;
-  /* padding: 1em 3em; */
-  /* padding-top: 3em; */
   max-width: calc(60ch + 6em);
   color: var(--md-sys-color-on-surface);
-  /* background-color: var(--md-sys-color-surface); */
-  /* background-color: var(--article-background-color); */
-  /* display: flex;
-  flex-direction: column; */
-  /* gap: 20vh; */
-}
-.container {
-  margin: 0 auto;
-  margin-top: 45vh;
-  padding: 1em 3em;
-  padding-top: 3em;
-  max-width: 60ch;
-  /* background-color: var(--md-sys-color-surface); */
-  color: var(--md-sys-color-on-surface);
-
-  /* z-index: 1; */
-  display: flex;
-  flex-direction: column;
-  /* position: relative; */
-  /* opacity: 0.9; */
-  /* gap: 20vh; */
+  /* filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.4)); */
 }
 
 .cont2 > * {
@@ -44,3 +24,18 @@
   padding: 1em 3em;
 }
 </style>
+
+<script setup lang="ts">
+import { showArticleStart } from '@/functions/map'
+import { vIntersectionObserver } from '@vueuse/components'
+
+const props = defineProps({
+  trip: String
+})
+
+function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
+  if (isIntersecting) {
+    showArticleStart(props.trip ?? '')
+  }
+}
+</script>

@@ -41,8 +41,7 @@ h1 {
   font-weight: 600;
   font-size: 4em;
   margin-top: 0.2em;
-  margin-bottom: 0.65em;
-  /* margin-bottom: 0em; */
+  margin-bottom: 0em;
   letter-spacing: -0.02em;
   line-height: 1.05em;
   z-index: 2;
@@ -69,4 +68,36 @@ h1 {
   aspect-ratio: 1 / 1;
   object-fit: fill;
   object-position: 50% 50%;
+}
+
+.photoMarker {
+  width: 6em;
+  aspect-ratio: 1 / 1;
+  background-position: 50% 50%;
+  background-size: cover;
+  padding: 0.5em;
+  translate: 0em -4em;
+  background-color: white;
+  border-radius: 0.25em;
+  box-shadow: 0 0 0.5em rgba(0, 0, 0, 0.2);
+
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: fill;
+    object-position: 50% 50%;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.photoMarker::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
 }
