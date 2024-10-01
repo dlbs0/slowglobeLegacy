@@ -4,18 +4,8 @@ import SGHeader from '@/components/SGHeader.vue'
 import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { useMapInteractive, showOverviews, showTracks } from '@/functions/map'
-import { onMounted } from 'vue'
 import { bracke } from '@/trips/bracke'
 import { featureCollection, point } from '@turf/turf'
-
-const { setMapInteractive } = useMapInteractive()
-
-onMounted(() => {
-  setMapInteractive(false)
-  showOverviews(false)
-  showTracks('bracke')
-})
 </script>
 
 <template>
@@ -54,16 +44,10 @@ onMounted(() => {
       :list="[
         {
           href: '/images/bracke/20240912_092320.jpg',
-          // thumbnail: '/images/20240922_172726-2.jpg',
-          width: 3959,
-          height: 2969,
-          cropped: true,
           coords: [17.30491637358277, 62.39231737278283]
         },
         {
           href: '/images/bracke/20240922_134006.jpg',
-          width: 2963,
-          height: 3951,
           coords: [17.3124174738977, 62.39050823971086]
         }
       ]"
@@ -98,31 +82,16 @@ onMounted(() => {
       :list="[
         {
           href: '/images/bracke/20240922_161623.jpg',
-          width: 3000,
-          height: 3000,
           coords: [15.41796956604836, 62.7499712815856]
         },
-
-        {
-          href: '/images/bracke/20240922_162336.jpg',
-          width: 3000,
-          height: 3000
-        },
+        '/images/bracke/20240922_162336.jpg',
         {
           href: '/images/bracke/20240922_162029.jpg',
-          width: 3000,
-          height: 3000,
           coords: [15.419971930896901, 62.75265443913532]
         },
-        {
-          href: '/images/bracke/20240922_162652.jpg',
-          width: 3000,
-          height: 3000
-        },
+        '/images/bracke/20240922_162652.jpg',
         {
           href: '/images/bracke/20240922_163258.jpg',
-          width: 3000,
-          height: 3000,
           coords: [15.42889978328157, 62.75658631423672]
         }
       ]"
@@ -140,18 +109,7 @@ onMounted(() => {
       I enjoyed the newfound luxury of the train all the way home.
     </SGText>
     <SGImages
-      :list="[
-        {
-          href: '/images/bracke/20240922_172726-3.jpg',
-          width: 3000,
-          height: 3000
-        },
-        {
-          href: '/images/bracke/20240922_162227.jpg',
-          width: 3000,
-          height: 3000
-        }
-      ]"
+      :list="['/images/bracke/20240922_172726-3.jpg', '/images/bracke/20240922_162227.jpg']"
     />
   </DetailView>
 </template>
