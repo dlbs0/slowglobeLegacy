@@ -3,18 +3,26 @@ import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  // scrollBehavior(to, from, savedPosition) {
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       console.log('savedPosition:', savedPosition)
-  //       if (savedPosition) {
-  //         resolve(savedPosition)
-  //       } else {
-  //         resolve({ left: 0, top: 0 })
-  //       }
-  //     }, 1000)
-  //   })
-  // },
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { left: 0, top: 0 }
+    }
+
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     console.log('savedPosition:', savedPosition)
+    //     if (savedPosition) {
+    //       // return savedPosition
+    //       resolve(savedPosition)
+    //     } else {
+    //       // return { left: 0, top: 0 }
+    //       resolve({ left: 0, top: 0 })
+    //     }
+    //   }, 1000)
+    // })
+  },
   routes: [
     {
       path: '/',
@@ -31,6 +39,7 @@ const router = createRouter({
     },
     {
       path: '/trip/bracke',
+      name: 'bracke',
       component: () => import('../views/trips/TripBracke.vue')
     }
     // {

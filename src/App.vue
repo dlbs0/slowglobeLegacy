@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useMap } from '@/functions/map'
+import { computed, ref } from 'vue'
+const route = useRoute()
 
 const { interactive } = useMap()
+const shouldScrollSnap = computed(() => route.path === '/')
+const ssnapText = computed(() => (shouldScrollSnap.value ? 'y mandatory' : 'none'))
+const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
 </script>
 
 <template>
@@ -12,12 +17,12 @@ const { interactive } = useMap()
     </div>
   </header>
   <main>
-    <div class="map" id="backmap"></div>
     <!-- <RouterView /> -->
+    <div class="map" id="backmap"></div>
     <router-view v-slot="{ Component, route }">
-      <Transition name="up" mode="out-in">
+      <Transition :name="transitionName" mode="out-in">
         <div :key="route.name" class="test">
-          <component :is="Component"></component>
+          <component :is="Component" :key="route.path"></component>
         </div>
       </Transition>
     </router-view>
@@ -41,85 +46,55 @@ const { interactive } = useMap()
       </transition>
     </router-view> -->
   </main>
+  <component :is="'style'" type="text/css">
+    html { --some-var: {{ ssnapText }}; scroll-snap-type: var(--some-var) !important; }
+  </component>
 </template>
 
 <style>
+.slide-enter-to,
+.slide-leave-from,
+.up-enter-to,
+.up-leave-from {
+  position: relative;
+  left: 0;
+}
+
+.slide-enter-from,
+.up-leave-to {
+  position: relative;
+  left: -50%;
+}
+
+.up-enter-from,
+.slide-leave-to {
+  position: relative;
+  margin-top: 100vh;
+  opacity: 0;
+}
+
+.slide-leave-active,
+.up-enter-active {
+  transition:
+    margin 0.7s ease-out,
+    opacity 0.7s ease-out;
+}
+.slide-enter-active,
+.up-leave-active {
+  transition: left 0.3s ease-out;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 1s ease;
-  z-index: 2;
   opacity: 1;
-  /* position: absolute; */
   position: relative;
 }
 
 .fade-enter-from,
 .fade-leave-to {
-  /* position: absolute; */
   position: relative;
   opacity: 0;
-  z-index: 2;
-}
-
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.5s ease-out;
-  .main {
-    scrollbar-color: transparent transparent;
-  }
-}
-
-.slide-enter-to {
-  position: relative;
-  left: 0;
-}
-
-.slide-enter-from {
-  position: relative;
-  left: 100%;
-}
-
-.slide-leave-to {
-  position: relative;
-  left: -100%;
-}
-
-.slide-leave-from {
-  position: relative;
-  left: 0;
-}
-
-.up-enter-active,
-.up-leave-active {
-  /* transition: all 0.5s ease-out; */
-  transition:
-    margin 0.75s ease-out,
-    opacity 0.75s linear;
-
-  .main {
-    scrollbar-color: transparent transparent;
-  }
-}
-
-.up-enter-to {
-  position: relative;
-  left: 0;
-}
-
-.up-enter-from {
-  position: relative;
-  margin-top: 100vh;
-  opacity: 0;
-}
-
-.up-leave-to {
-  position: relative;
-  margin-top: 100vh;
-}
-
-.up-leave-from {
-  position: relative;
-  left: 0;
 }
 </style>
 
@@ -160,9 +135,5 @@ header {
   height: 100vh;
   pointer-events: v-bind('interactive ?  "auto":"none"');
   z-index: 0;
-}
-
-.mapboxgl-marker {
-  pointer-events: none !important;
 }
 </style>

@@ -123,7 +123,7 @@ defineProps({
 .polaroid-caption {
   justify-self: center;
   flex-grow: 10;
-  font-family: 'Reenie Beanie', cursive;
+  font-family: 'Reenie Beanie', 'Courier New', Courier, monospace;
   font-size: 1.6em;
   font-weight: 400;
   font-style: normal;

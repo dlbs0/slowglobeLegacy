@@ -13,6 +13,20 @@
 /* html {
   scroll-snap-type: y mandatory;
 } */
+html {
+  /* body won't work ¯\_(ツ)_/¯ */
+  /* scroll-snap-type: y mandatory; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /* scroll-padding: calc((100vh - 4rem) / 2 - 1px); */
+  @media (width <= 900px) {
+    /* scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px); */
+    .snapper {
+      /* scroll-snap-align: start !important; */
+      /* scroll-snap-stop: always; */
+    }
+  }
+}
 
 body {
   background-color: var(--background-color);
@@ -24,6 +38,11 @@ body {
   padding: 0;
   --polaroid-width: max(300px, 15vw);
   --portrait-width: 900px;
+  /* @media (width <= 900px) {
+    scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px);
+  } */
+
+  /* z-index: 20; */
 }
 h2,
 h3 {

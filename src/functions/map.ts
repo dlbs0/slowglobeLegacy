@@ -71,6 +71,7 @@ export function useMapInteractive() {
 function spinGlobe() {
   if (!map) return
   if (!mapShouldSpin.value) return
+  if (map.isMoving()) return
   const secondsPerRevolution = 180
   const distancePerSecond = 360 / secondsPerRevolution
 
@@ -99,7 +100,7 @@ export function showArticleStart(id: string) {
 export function showGlobe() {
   if (!map) return
   map.flyTo({
-    center: [130, 0], // starting position [lng, lat]
+    center: [map.getCenter().lng, 0], // starting position [lng, lat]
     zoom: 1.5, // starting zoom    duration: 2000,
     pitch: 0,
     duration: 3000,
@@ -150,9 +151,9 @@ export function fitBounds(
   pitch: number = 0
 ) {
   if (!map) return
-  console.log('geography:', geography)
+  // console.log('geography:', geography)
   const bounds = bbox(geography)
-  console.log('bounds:', bounds)
+  // console.log('bounds:', bounds)
   if (!bounds || bounds.length != 4) return
   map.fitBounds(bounds, { padding, pitch })
 }
@@ -287,7 +288,6 @@ export function showOverviews(value: boolean) {
   const detailLayers = ['detail-tracks-walk', 'detail-tracks-train', 'detail-tracks-train-dashes']
   detailLayers.forEach((layer) => {
     const lay = map?.getLayer(layer)
-    console.log('lay:', lay)
     if (!lay) {
       setTimeout(() => {
         console.log('retrying setting overviews', layer)

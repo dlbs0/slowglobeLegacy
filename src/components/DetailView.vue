@@ -26,15 +26,33 @@
 </style>
 
 <script setup lang="ts">
-import { showArticleStart } from '@/functions/map'
+import {
+  setMapSpin,
+  showArticleStart,
+  showOverviews,
+  showTracks,
+  useMapInteractive
+} from '@/functions/map'
 import { vIntersectionObserver } from '@vueuse/components'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 
 const props = defineProps({
   trip: String
 })
+const { setMapInteractive } = useMapInteractive()
+
+onMounted(() => {
+  setMapInteractive(false)
+  setMapSpin(false)
+  showOverviews(false)
+  showTracks('bracke')
+  showArticleStart(props.trip ?? '')
+})
+const router = useRouter()
 
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
-  if (isIntersecting) {
+  if (isIntersecting && router.currentRoute.value.name == props.trip) {
     showArticleStart(props.trip ?? '')
   }
 }

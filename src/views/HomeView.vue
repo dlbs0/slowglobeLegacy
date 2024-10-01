@@ -6,8 +6,11 @@ import { computed, onBeforeMount, onUnmounted } from 'vue'
 import PolaroidPicture from '@/components/PolaroidPicture.vue'
 import { setMapSpin, showGlobe, showOverviews, useMapInteractive, zoomToId } from '@/functions/map'
 import { allTrips } from '@/trips/allTrips'
+import { useRouter } from 'vue-router'
 
 const { setMapInteractive } = useMapInteractive()
+
+const router = useRouter()
 
 onBeforeMount(() => {
   showGlobe()
@@ -26,8 +29,13 @@ function onIntersectionObserver([
   { isIntersecting, target, rootBounds }
 ]: IntersectionObserverEntry[]) {
   if (isIntersecting && target.id) {
-    console.log('target.id:', target.id, rootBounds)
-    zoomToId(target.id)
+    if (target.id === 'topOfPage' && router.currentRoute.value.name == 'home') {
+      showGlobe()
+      setMapSpin(true)
+    } else {
+      console.log('target.id:', target.id, rootBounds)
+      zoomToId(target.id)
+    }
   }
 }
 
@@ -44,7 +52,15 @@ const intMarg = computed(() => {
 <template>
   <div class="main" ref="elz">
     <div class="polaroidGrid">
-      <div class="mapSpacer"></div>
+      <div
+        class="mapSpacer"
+        id="topOfPage"
+        v-intersection-observer="[onIntersectionObserver, { rootMargin: intMarg }]"
+      >
+        Scroll Down
+        <br />
+        <iconify-icon icon="guidance:down-arrow"></iconify-icon>
+      </div>
       <div class="mapSpacer"></div>
       <template v-for="i in allTrips" :key="i">
         <PolaroidPicture
@@ -64,25 +80,26 @@ const intMarg = computed(() => {
   </div>
 </template>
 
+<style></style>
+
 <style scoped>
 .main {
-  scroll-snap-type: y mandatory;
+  /* scroll-snap-type: y mandatory;
   height: calc(100vh - 4rem);
   overflow-y: scroll;
   overflow-x: hidden;
   scroll-padding: calc((100vh - 4rem) / 2-1);
   @media (width <= 900px) {
     scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px);
-    /* scroll-snap-type: none; */
   }
-  z-index: 20;
+  z-index: 20; */
 }
 
 .polaroidGrid {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-columns: 100% 10px;
-  grid-template-rows: 100vh auto;
+  grid-template-rows: 70vh auto;
   gap: 4em 0px;
   @media (width <= 900px) {
     /* gap: 25vh 0px; */
@@ -96,18 +113,65 @@ const intMarg = computed(() => {
 
 .snapper {
   width: 10px;
-  height: 100%;
+  height: 90px;
   /* background-color: blue; */
   /* margin-right: 10px; */
-  /* scroll-snap-align: start; */
   scroll-snap-align: center;
+  /* scroll-snap-align: center; */
   z-index: -20;
 }
 
 .mapSpacer {
-  height: calc(100vh - 4rem - 50vh);
-  background-color: aquamarine;
+  align-self: flex-start;
+  /* height: calc(100vh - 4rem - 50vh); */
+  height: 100%;
+  /* background-color: rgba(83, 112, 102, 0.288); */
   scroll-snap-align: start;
   z-index: 2;
+}
+
+.mapSpacer:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  @media (width <= 900px) {
+    /* … */
+    padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
+  }
+  padding: 0px 10vw;
+  padding-top: 4em;
+
+  font-family: 'Reenie Beanie', 'Courier New', Courier, monospace;
+  font-size: 2em;
+
+  /* scroll-margin-top: 4em; */
+  scroll-margin-block-start: 4em;
+
+  /* animation:; */
+  /* animation-delay: 10s; */
+  animation:
+    hover 3s ease-in-out infinite alternate,
+    fadeOut 5s forwards ease-in-out 10s;
+}
+
+@keyframes hover {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.mapSpacer:last-child {
+  height: 50vh;
 }
 </style>
