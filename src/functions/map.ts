@@ -116,9 +116,12 @@ export function zoomToId(id: string) {
   const bottomPadding = width.value > 900 ? 0 : height.value * 0.5
   const leftPadding = width.value > 900 ? width.value * 0.25 : 0
 
+  let zoom = trip.geography.overview.zoom
+  if (width.value < 900) zoom -= 1
+
   map.flyTo({
     center: trip.geography.overview.center,
-    zoom: trip.geography.overview.zoom,
+    zoom: zoom,
     duration: 2000,
     pitch: 50,
     padding: { left: leftPadding, right: 0, top: 0, bottom: bottomPadding }

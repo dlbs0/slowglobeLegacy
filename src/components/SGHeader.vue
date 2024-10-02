@@ -32,6 +32,8 @@ img {
   height: 5.5em;
   aspect-ratio: 1 / 1;
   object-fit: cover;
+  /* mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
+  mask-size: 944px 604px; */
 }
 img {
   --r: 4px; /* control the radius of the circles */

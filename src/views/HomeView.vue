@@ -50,33 +50,34 @@ const intMarg = computed(() => {
 </script>
 
 <template>
-  <div class="main" ref="elz">
-    <div class="polaroidGrid">
-      <div
-        class="mapSpacer"
-        id="topOfPage"
-        v-intersection-observer="[onIntersectionObserver, { rootMargin: intMarg }]"
-      >
-        Scroll Down
-        <br />
-        <iconify-icon icon="guidance:down-arrow"></iconify-icon>
-      </div>
-      <div class="mapSpacer"></div>
-      <template v-for="i in allTrips" :key="i">
-        <PolaroidPicture
-          :img-url="i.headerImage"
-          :caption="i.name"
-          :link="`/trip/${i.id}`"
-        ></PolaroidPicture>
-
-        <div
-          class="snapper"
-          :id="i.id"
-          v-intersection-observer="[onIntersectionObserver, { rootMargin: intMarg }]"
-        ></div>
-      </template>
-      <div class="mapSpacer"></div>
+  <!-- <div class="main" ref="elz"> -->
+  <div class="polaroidGrid">
+    <div
+      class="mapSpacer"
+      id="topOfPage"
+      v-intersection-observer="[onIntersectionObserver, { rootMargin: intMarg }]"
+    >
+      Scroll Down
+      <br />
+      <iconify-icon icon="guidance:down-arrow"></iconify-icon>
     </div>
+    <div class="mapSpacer"></div>
+    <template v-for="i in allTrips" :key="i">
+      <PolaroidPicture
+        :img-url="i.headerImage"
+        :caption="i.name"
+        :link="`/trip/${i.id}`"
+      ></PolaroidPicture>
+      <!-- <div></div> -->
+
+      <div
+        class="snapper"
+        :id="i.id"
+        v-intersection-observer="[onIntersectionObserver, { rootMargin: intMarg }]"
+      ></div>
+    </template>
+    <div class="mapSpacer halfHeight"></div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -99,10 +100,13 @@ const intMarg = computed(() => {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-columns: 100% 10px;
-  grid-template-rows: 70vh auto;
+  grid-template-rows: 80vh auto;
+  @media (width <= 900px) {
+    grid-template-rows: 100vh auto;
+  }
   gap: 4em 0px;
   @media (width <= 900px) {
-    /* gap: 25vh 0px; */
+    gap: 55vh 0px;
   }
   justify-items: start;
   align-items: center;
@@ -112,22 +116,30 @@ const intMarg = computed(() => {
 }
 
 .snapper {
-  width: 10px;
+  /* width: 10px; */
   height: 90px;
   /* background-color: blue; */
   /* margin-right: 10px; */
   scroll-snap-align: center;
-  /* scroll-snap-align: center; */
+  @media (width <= 900px) {
+    scroll-snap-align: end;
+    height: 100%;
+  }
+  scroll-snap-stop: always;
   z-index: -20;
 }
 
 .mapSpacer {
   align-self: flex-start;
-  /* height: calc(100vh - 4rem - 50vh); */
+  /* height: min(100%, calc(100vh - 4rem - 50vh)); */
   height: 100%;
+  /* width: 100%; */
   /* background-color: rgba(83, 112, 102, 0.288); */
   scroll-snap-align: start;
   z-index: 2;
+}
+.halfHeight {
+  height: 50vh;
 }
 
 .mapSpacer:first-child {
@@ -135,10 +147,21 @@ const intMarg = computed(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: calc(((var(--polaroid-width) * 1.362)));
+  width: var(--polaroid-width);
+  padding: calc(var(--polaroid-width) * 0.056);
+  /* width: 100%; */
   @media (width <= 900px) {
     /* … */
-    padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
+    /* padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2); */
+    width: 100%;
+    padding-top: 4em;
+    padding: 0;
+    justify-content: end;
+    height: 95vh;
+    /* margin-bottom: 1200vh; */
   }
+  /* padding: 0px 10vw; */
   padding: 0px 10vw;
   padding-top: 4em;
 
@@ -148,8 +171,6 @@ const intMarg = computed(() => {
   /* scroll-margin-top: 4em; */
   scroll-margin-block-start: 4em;
 
-  /* animation:; */
-  /* animation-delay: 10s; */
   animation:
     hover 3s ease-in-out infinite alternate,
     fadeOut 5s forwards ease-in-out 10s;

@@ -73,7 +73,6 @@ onMounted(() => {
     ...props.list.map((i) => ({ href: typeof i == 'string' ? i : i.href, height: 0, width: 0 }))
   ]
   // console.log('images mounted')
-  // document.getElementById('gallery-' + randomId)?.scrollIntoView()
   // list the children of the gallery
   const gallery = document.getElementById('gallery-' + randomId)
   // console.log('gallery:', gallery)
@@ -106,7 +105,7 @@ onUnmounted(() => {
 
 <style scoped>
 .container {
-  background-color: var(--article-background-color);
+  /* background-color: var(--article-background-color); */
   z-index: 2;
   position: relative;
 }

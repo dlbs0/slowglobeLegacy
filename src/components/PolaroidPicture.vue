@@ -48,6 +48,7 @@ defineProps({
   @media (width <= 900px) {
     /* … */
     padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
+    transform: none !important;
   }
   padding: 0px 10vw;
 }
@@ -55,9 +56,11 @@ defineProps({
 .stickyCard {
   position: sticky;
   /* calculated by taking the aspect ratio of 0.8, which inverted give 1.25, then adding the padding from .polaroid twice */
-  top: calc((100vh - 4rem) / 2 - (calc(var(--polaroid-width) * 1.362 * 0.5)) - 1px);
+  /* top: calc((100vh - 4rem) / 2 - (calc(var(--polaroid-width) * 1.362 * 0.5)) - 1px); */
+  top: calc((100vh) / 2 - (calc(var(--polaroid-width) * 1.362 * 0.5)));
   @media (width <= 900px) {
-    top: calc((100vh - (var(--polaroid-width) * 1.362)) - 4em + 1px);
+    /* top: calc((100vh - (var(--polaroid-width) * 1.362)) - 4em + 1px); */
+    position: static;
   }
   transform-origin: center center;
   z-index: 2;

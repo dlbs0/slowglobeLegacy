@@ -26,25 +26,6 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
         </div>
       </Transition>
     </router-view>
-    <!-- <router-view v-slot="{ Component }">
-      
-      <transition name="fade">
-        <component :is="Component" />
-      </transition>
-    </router-view> -->
-    <!-- <router-view v-slot="{ Component, route }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" :key="route.path" />
-      </transition>
-    </router-view> -->
-    <!-- <transition>
-      <router-view></router-view>
-    </transition> -->
-    <!-- <router-view v-slot="{ Component, route }">
-      <transition name="slide-fade">
-        <component :is="Component" :key="route.path" />
-      </transition>
-    </router-view> -->
   </main>
   <component :is="'style'" type="text/css">
     html { --some-var: {{ ssnapText }}; scroll-snap-type: var(--some-var) !important; }
@@ -63,7 +44,7 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
 .slide-enter-from,
 .up-leave-to {
   position: relative;
-  left: -50%;
+  left: calc(var(--polaroid-width) * 1.362 * -1.1);
 }
 
 .up-enter-from,

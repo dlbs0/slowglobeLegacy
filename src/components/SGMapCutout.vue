@@ -49,14 +49,14 @@ function onIntersectionObserver([
 
 <style scoped>
 .startSeg {
-  background-color: var(--article-background-color);
+  /* background-color: var(--article-background-color); */
   height: 0em;
   --mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50%/2.38em 100%;
   -webkit-mask: var(--mask);
   mask: var(--mask);
 }
 .endSeg {
-  background-color: var(--article-background-color);
+  /* background-color: var(--article-background-color); */
   height: 0em;
   --mask: conic-gradient(from 130deg at top, #000000, #000000 1deg 99deg, #00000000 100deg) 50%/2.38em
     100%;
@@ -72,9 +72,11 @@ function onIntersectionObserver([
   z-index: -10;
   /* transform: translate(100px, -10vh); */
   position: relative;
+  /* position: static; */
   top: 0;
   left: 0;
-  opacity: 0.9;
+  /* pointer-events: none; */
+  /* opacity: 0.9; */
 }
 
 .mapIntToggle {
@@ -82,7 +84,10 @@ function onIntersectionObserver([
   position: relative;
   top: 1em;
   right: 0em;
-  background-color: var(--article-background-color);
+  @media (width <= 900px) {
+    right: 1em;
+  }
+  /* background-color: var(--article-background-color); */
   padding: 0.5em;
   margin-left: auto;
   border-radius: 0.25em;
