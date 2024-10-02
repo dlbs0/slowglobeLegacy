@@ -1,6 +1,8 @@
 <template>
   <div class="startSeg"></div>
   <div class="mapIntToggle" @click="setMapInteractive(!mapInteractive)">
+    <iconify-icon v-if="mapInteractive" icon="material-symbols:lock" inline></iconify-icon>
+    <iconify-icon v-else icon="material-symbols:lock-open" inline></iconify-icon>
     {{ mapInteractive ? 'Lock' : 'Unlock' }} Map
   </div>
   <div
