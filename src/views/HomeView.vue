@@ -100,26 +100,21 @@ const intMarg = computed(() => {
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-columns: 100% 10px;
-  grid-template-rows: 80vh auto;
-  @media (width <= 900px) {
-    grid-template-rows: 100vh auto;
-  }
+  grid-template-rows: 85vh auto;
   gap: 4em 0px;
   @media (width <= 900px) {
+    grid-template-rows: 90svh auto;
     gap: 55vh 0px;
   }
   justify-items: start;
   align-items: center;
   z-index: 2;
-  /* padding: 0 1em; */
-  /* padding-left: 1em; */
 }
 
 .snapper {
   /* width: 10px; */
   height: 90px;
   /* background-color: blue; */
-  /* margin-right: 10px; */
   scroll-snap-align: center;
   @media (width <= 900px) {
     scroll-snap-align: end;
@@ -133,8 +128,6 @@ const intMarg = computed(() => {
   align-self: flex-start;
   /* height: min(100%, calc(100vh - 4rem - 50vh)); */
   height: 100%;
-  /* width: 100%; */
-  /* background-color: rgba(83, 112, 102, 0.288); */
   scroll-snap-align: start;
   z-index: 2;
 }
@@ -158,7 +151,7 @@ const intMarg = computed(() => {
     padding-top: 4em;
     padding: 0;
     justify-content: end;
-    height: 95vh;
+    height: 90svh;
     /* margin-bottom: 1200vh; */
   }
   /* padding: 0px 10vw; */
@@ -173,7 +166,7 @@ const intMarg = computed(() => {
 
   animation:
     hover 3s ease-in-out infinite alternate,
-    fadeOut 5s forwards ease-in-out 10s;
+    fadeOut 5s forwards ease-in-out 15s;
 }
 
 @keyframes hover {
