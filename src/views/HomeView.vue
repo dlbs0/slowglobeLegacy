@@ -4,7 +4,14 @@ import { useWindowSize } from '@vueuse/core'
 import { vIntersectionObserver } from '@vueuse/components'
 import { computed, onBeforeMount, onUnmounted } from 'vue'
 import PolaroidPicture from '@/components/PolaroidPicture.vue'
-import { setMapSpin, showGlobe, showOverviews, useMapInteractive, zoomToId } from '@/functions/map'
+import {
+  setMapSpin,
+  showExtraTripDetail,
+  showGlobe,
+  showOverviews,
+  useMapInteractive,
+  zoomToId
+} from '@/functions/map'
 import { allTrips } from '@/trips/allTrips'
 import { useRouter } from 'vue-router'
 
@@ -17,6 +24,7 @@ onBeforeMount(() => {
   setMapInteractive(false)
   setMapSpin(true)
   showOverviews(true)
+  showExtraTripDetail(false)
 })
 
 onUnmounted(() => {

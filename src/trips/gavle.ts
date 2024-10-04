@@ -5220,7 +5220,8 @@ export const gavle: Trip = {
           type: 'Feature',
           properties: {
             type: 'walk',
-            minzoom: 13
+            minzoom: 11,
+            overview: false
           }
         }
       ]

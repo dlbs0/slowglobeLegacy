@@ -3,6 +3,7 @@ import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
+import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { gavle } from '@/trips/gavle'
 
@@ -27,6 +28,7 @@ const tripId = 'gavle'
       I made it onto the full train with a few minutes to warm up before we left.
     </SGText>
     <SGMapCutout :fit-bounds-geometry="gavle.geography.detail?.features[0]" />
+    <SGShowExtraDetail />
     <SGText>
       On the train, I had a look at what exciting things there would be to do when I got there.
       Gävle is famous for the Gävlebocken, a giant goat made from straw, but it's a Christmas
@@ -66,6 +68,7 @@ const tripId = 'gavle'
         {
           href: '/images/gavle/20240930_140125.jpg',
           coords: [17.179046755903336, 60.678043775561555]
+          // thumbnail: '/images/gavle/DSC_0270.jpg'
         },
         '/images/gavle/DSC_0261.jpg',
         '/images/gavle/DSC_0299.jpg',

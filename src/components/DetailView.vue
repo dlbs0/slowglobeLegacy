@@ -95,6 +95,7 @@ img {
 import {
   setMapSpin,
   showArticleStart,
+  showExtraTripDetail,
   showOverviews,
   showTracks,
   useMapInteractive
@@ -121,6 +122,9 @@ const router = useRouter()
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting && router.currentRoute.value.name == props.trip) {
     showArticleStart(props.trip ?? '')
+    showExtraTripDetail(false)
+  } else {
+    // showExtraTripDetail(true)
   }
 }
 

@@ -98,11 +98,13 @@ export function showArticleStart(id: string) {
   const trip = getTripById(id)
   if (!trip) return
 
+  const zoom = 12
+
   map.easeTo({
     center: trip.geography.overview.center,
     duration: firstLoad ? 10 : 3000,
     pitch: 0,
-    zoom: 12,
+    zoom,
     padding: { left: 0, right: 0, top: 0, bottom: height.value * 0.25 }
   })
   firstLoad = false
@@ -206,7 +208,7 @@ function addLayersAndSources() {
       'icon-image': 'diamond',
       'icon-size': 1
     },
-    paint: { 'icon-halo-color': 'rgba(255, 255, 255, 0.8)', 'icon-halo-width': 20 }
+    paint: { 'icon-halo-color': 'rgba(255, 255, 255, 0.8)', 'icon-halo-width': 2 }
   })
 
   map.addSource('overview-tracks', {
@@ -247,7 +249,7 @@ function addLayersAndSources() {
     filter: [
       'all',
       ['==', ['get', 'type'], 'walk'],
-      ['case', ['has', 'minzoom'], ['>=', ['zoom'], ['get', 'minzoom']], true]
+      ['case', ['has', 'overview'], ['==', true, ['get', 'overview']], true]
     ]
   })
   map.addLayer({
@@ -289,6 +291,17 @@ function addLayersAndSources() {
       'icon-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0, 7, 1, 12, 0]
     }
   })
+}
+
+export function showExtraTripDetail(val: boolean) {
+  if (!map) return
+  if (!map.getLayer('detail-tracks-walk')) return
+  const filter = map.getFilter('detail-tracks-walk')
+  console.log('filter:', filter)
+  if (!filter || !filter[2] || !filter[2][2] || typeof filter[2][2][1] != 'boolean') return
+  filter[2][2][1] = !val
+  map?.setFilter('detail-tracks-walk', filter)
+  console.log('set:', filter, val)
 }
 
 export function showOverviews(value: boolean) {

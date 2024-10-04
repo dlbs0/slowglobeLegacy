@@ -311,7 +311,8 @@ export const bracke: Trip = {
           },
           type: 'Feature',
           properties: {
-            type: 'walk'
+            type: 'walk',
+            overview: false
           }
         },
         {
@@ -2782,7 +2783,8 @@ export const bracke: Trip = {
           id: '8ebcafab-d2f5-46aa-ab9b-a736d16e7a73',
           type: 'Feature',
           properties: {
-            type: 'walk'
+            type: 'walk',
+            overview: false
           }
         }
       ]

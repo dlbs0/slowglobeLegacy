@@ -3,14 +3,17 @@ import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
+import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { bracke } from '@/trips/bracke'
 import { featureCollection, point } from '@turf/turf'
+
+const tripId = 'bracke'
 </script>
 
 <template>
-  <DetailView trip="bracke">
-    <SGHeader byline="Bräcke, Sweden" date="2024-09-22">To Buy a Bike in Bräcke</SGHeader>
+  <DetailView :trip="tripId">
+    <SGHeader :id="tripId">To Buy a Bike in Bräcke</SGHeader>
     <SGText>
       I needed a bike.
       <br />
@@ -38,6 +41,7 @@ import { featureCollection, point } from '@turf/turf'
       by Sunday. And so Sunday, just after lunch, I found myself walking to the station on a lovely
       crisp Autumn day.
     </SGText>
+    <SGShowExtraDetail />
 
     <SGImages
       :addPhotosToMap="true"

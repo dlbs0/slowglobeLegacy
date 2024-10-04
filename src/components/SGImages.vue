@@ -21,6 +21,7 @@ import { Gallery, Item } from 'vue-preview-imgs'
 interface Img {
   href: string
   coords?: [number, number]
+  thumbnail?: string
 }
 
 const target = ref(null)
