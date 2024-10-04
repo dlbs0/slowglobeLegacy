@@ -205,7 +205,8 @@ function addLayersAndSources() {
     layout: {
       'icon-image': 'diamond',
       'icon-size': 1
-    }
+    },
+    paint: { 'icon-halo-color': 'rgba(255, 255, 255, 0.8)', 'icon-halo-width': 20 }
   })
 
   map.addSource('overview-tracks', {
@@ -242,7 +243,12 @@ function addLayersAndSources() {
     source: 'detail-tracks',
     layout: { 'line-join': 'none' },
     paint: { 'line-width': 10, 'line-pattern': 'pattern-dot', 'line-color': 'rgb(110, 25, 25)' },
-    filter: ['==', 'type', 'walk']
+    // filter: ['==', 'type', 'walk']
+    filter: [
+      'all',
+      ['==', ['get', 'type'], 'walk'],
+      ['case', ['has', 'minzoom'], ['>=', ['zoom'], ['get', 'minzoom']], true]
+    ]
   })
   map.addLayer({
     id: 'detail-tracks-train',

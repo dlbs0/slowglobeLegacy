@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { fitBounds, useMapInteractive } from '@/functions/map'
+import { fitBounds, getMap, useMapInteractive } from '@/functions/map'
 import type { Feature, FeatureCollection } from 'geojson'
 import { featureCollection } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
@@ -22,6 +22,8 @@ const { setMapInteractive, mapInteractive } = useMapInteractive()
 
 const props = defineProps<{
   fitBoundsGeometry?: FeatureCollection | Feature
+  center?: [number, number]
+  zoom?: number
   pitch?: number
 }>()
 
@@ -44,6 +46,13 @@ function onIntersectionObserver([
         },
         props.pitch ?? 0
       )
+    } else if (props.center && props.zoom) {
+      getMap()?.flyTo({
+        center: props.center,
+        zoom: props.zoom,
+        pitch: props.pitch ?? 0,
+        duration: 2000
+      })
     }
   }
 }
