@@ -40,6 +40,17 @@ export function useMap() {
         'star-intensity': 0.0
       }) // Set the default atmosphere style
       addLayersAndSources()
+      // console.log(map?.getConfig('basemap'))
+      // map?.setConfig('basemap', {
+      //   theme: 'default',
+      //   showPlaceLabels: false,
+      //   showRoadLabels: false,
+      //   showPointOfInterestLabels: false,
+      //   showTransitLabels: false,
+      //   show3dObjects: true,
+      //   lightPreset: 'dawn',
+      //   font: 'DIN Pro'
+      // })
     })
     map.on('moveend', () => {
       if (mapShouldSpin.value) spinGlobe()

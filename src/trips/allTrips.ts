@@ -1,4 +1,5 @@
 import { bracke } from './bracke'
+import { gavle } from './gavle'
 
 export interface Trip {
   id: string
@@ -46,4 +47,14 @@ export function getTripById(id: string) {
   return allTrips.find((trip) => trip.id === id)
 }
 
-export const allTrips: Trip[] = [bracke, sundsvall, greatOceanRoad]
+export function getTripHeaderInfoById(id: string) {
+  const trip = getTripById(id)
+  if (!trip) {
+    return { locationText: '', date: '', headerImage: '' }
+  }
+
+  const { locationText, date, headerImage } = trip
+  return { locationText, date, headerImage }
+}
+
+export const allTrips: Trip[] = [gavle, bracke, sundsvall, greatOceanRoad]

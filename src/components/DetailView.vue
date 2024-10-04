@@ -82,7 +82,7 @@ onMounted(() => {
   setMapInteractive(false)
   setMapSpin(false)
   showOverviews(false)
-  showTracks('bracke')
+  showTracks(props.trip ?? '')
   showArticleStart(props.trip ?? '')
 })
 const router = useRouter()

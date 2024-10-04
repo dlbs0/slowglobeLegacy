@@ -5,11 +5,11 @@
     <div class="titleRow">
       <div class="above">
         <div class="byline">
-          {{ byline }}
+          {{ locationText }}
         </div>
         <div class="date">{{ date }}</div>
       </div>
-      <img src="/images/20240922_172726-2.jpg" />
+      <img :src="headerImage" />
     </div>
     <h1>
       <slot></slot>
@@ -71,8 +71,10 @@ img {
 </style>
 
 <script setup lang="ts">
-defineProps({
-  byline: String,
-  date: String
+import { getTripHeaderInfoById } from '@/trips/allTrips'
+
+const props = defineProps({
+  id: String
 })
+const { locationText, date, headerImage } = getTripHeaderInfoById(props.id ?? '')
 </script>

@@ -41,6 +41,11 @@ const router = createRouter({
       path: '/trip/bracke',
       name: 'bracke',
       component: () => import('../views/trips/TripBracke.vue')
+    },
+    {
+      path: '/trip/gavle',
+      name: 'gavle',
+      component: () => import('../views/trips/TripGavle.vue')
     }
     // {
     //   path: '/trip/:id',
