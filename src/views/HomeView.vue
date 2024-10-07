@@ -121,7 +121,8 @@ const intMarg = computed(() => {
 }
 
 .snapper {
-  /* width: 10px; */
+  translate: -100px 0;
+  width: 1px;
   height: 90px;
   /* background-color: blue; */
   scroll-snap-align: center;
