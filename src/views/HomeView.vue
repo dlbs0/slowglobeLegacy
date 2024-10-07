@@ -123,14 +123,19 @@ const intMarg = computed(() => {
   translate: -100px 0;
   width: 1px;
   height: 90px;
-  /* background-color: blue; */
+  background-color: blue;
   scroll-snap-align: center;
   @media (width <= 900px) {
     scroll-snap-align: end;
     height: 100%;
+    @supports (-webkit-touch-callout: none) {
+      scroll-snap-align: center;
+      /* CSS specific to iOS devices */
+      height: 100dvh;
+    }
   }
   scroll-snap-stop: always;
-  z-index: -20;
+  z-index: 20;
 }
 
 .mapSpacer {

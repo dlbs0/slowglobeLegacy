@@ -24,6 +24,9 @@ html {
   @media (width <= 900px) {
     /* scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px); */
     scroll-padding-bottom: calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
+    @supports (-webkit-touch-callout: none) {
+      scroll-padding-bottom: none;
+    }
   }
 }
 

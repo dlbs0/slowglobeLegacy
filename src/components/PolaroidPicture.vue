@@ -46,9 +46,12 @@ defineProps({
     color: inherit;
   }
   @media (width <= 900px) {
-    /* … */
     padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
     transform: none !important;
+    @supports (-webkit-touch-callout: none) {
+      padding-bottom: calc((100vw - (var(--polaroid-width) * 1.12)) / 2);
+      align-self: end;
+    }
   }
   padding: 0px 10vw;
 }
