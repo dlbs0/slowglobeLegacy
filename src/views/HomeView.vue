@@ -112,7 +112,6 @@ const intMarg = computed(() => {
   gap: 4em 0px;
   @media (width <= 900px) {
     grid-template-rows: 90svh auto;
-    grid-template-rows: 90vh auto;
     gap: 55vh 0px;
   }
   justify-items: start;
@@ -162,7 +161,6 @@ const intMarg = computed(() => {
     padding: 0;
     justify-content: end;
     height: 90svh;
-    height: 90vh;
     /* margin-bottom: 1200vh; */
   }
   /* padding: 0px 10vw; */
@@ -178,6 +176,8 @@ const intMarg = computed(() => {
   animation:
     hover 3s ease-in-out infinite alternate,
     fadeOut 5s forwards ease-in-out 15s;
+
+  animation: hover 3s ease-in-out infinite alternate;
 }
 
 @keyframes hover {
