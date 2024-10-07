@@ -161,6 +161,7 @@ const intMarg = computed(() => {
     padding: 0;
     justify-content: end;
     height: 90svh;
+    height: 90vh;
     /* margin-bottom: 1200vh; */
   }
   /* padding: 0px 10vw; */
