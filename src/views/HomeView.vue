@@ -112,6 +112,7 @@ const intMarg = computed(() => {
   gap: 4em 0px;
   @media (width <= 900px) {
     grid-template-rows: 90svh auto;
+    grid-template-rows: 90vh auto;
     gap: 55vh 0px;
   }
   justify-items: start;
