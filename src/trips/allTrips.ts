@@ -15,10 +15,12 @@ export interface TripGeographyOverview {
   zoom: number
 }
 
+import sundsvallImage from '@/assets/images/other/20240906_112409.jpg?w=300&gallery'
+
 const sundsvall: Trip = {
   id: 'sundsvall',
   name: 'Sundsvall',
-  headerImage: '/images/20240906_112409.jpg',
+  headerImage: sundsvallImage,
   date: '2024-09-06',
   locationText: 'Sundsvall, Sweden',
   geography: {
@@ -29,10 +31,12 @@ const sundsvall: Trip = {
   }
 }
 
+import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg?w=300&gallery'
+
 const greatOceanRoad: Trip = {
   id: 'great-ocean-road',
   name: 'Great Ocean Road',
-  headerImage: '/images/20240922_172726-2.jpg',
+  headerImage: greatOceanRoadImage,
   date: '2024-09-06',
   locationText: 'Adelaide - Melbourne, Australia',
   geography: {

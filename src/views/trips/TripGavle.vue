@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import SGImages from '@/components/SGImages.vue'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
-import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
@@ -13,6 +13,7 @@ const tripId = 'gavle'
 <template>
   <DetailView :trip="tripId">
     <SGHeader :id="tripId">A Monday in Gävle</SGHeader>
+
     <SGText>
       Another week, another train trip to acquire items from strangers.
       <br />
@@ -50,50 +51,38 @@ const tripId = 'gavle'
       <br />
     </SGText>
     <SGMapCutout :fit-bounds-geometry="gavle.geography.detail?.features[1]" />
-    <!-- <SGMapCutout
-      :fit-bounds-geometry="
-        featureCollection([
-          point([17.179866272796776, 60.68079257583379]),
-          point([17.17173505418336, 60.67952802154804]),
-          point([17.179046755903336, 60.678043775561555]),
-          point([17.167597825628537, 60.68211539870141]),
-          point([17.18401294442797, 60.67574761846086])
-        ])
-      "
-    /> -->
 
     <SGImages
       :add-photos-to-map="true"
       :list="[
         {
-          href: '/images/gavle/20240930_140125.jpg',
+          img: '20240930_140125.jpg',
           coords: [17.179046755903336, 60.678043775561555]
-          // thumbnail: '/images/gavle/DSC_0270.jpg'
         },
-        '/images/gavle/DSC_0261.jpg',
-        '/images/gavle/DSC_0299.jpg',
-        '/images/gavle/DSC_0286.jpg',
-        '/images/gavle/DSC_0270.jpg',
-        '/images/gavle/DSC_0281.jpg',
-        '/images/gavle/DSC_0267.jpg',
-        '/images/gavle/DSC_0297.jpg',
+        'DSC_0261.jpg',
+        'DSC_0299.jpg',
+        'DSC_0286.jpg',
+        'DSC_0270.jpg',
+        'DSC_0281.jpg',
+        'DSC_0267.jpg',
+        'DSC_0297.jpg',
         {
-          href: '/images/gavle/20240930_100123.jpg',
+          img: '20240930_100123.jpg',
           coords: [17.141058822578366, 60.67739343466307]
         },
         {
-          href: '/images/gavle/DSC_0170.jpg',
+          img: 'DSC_0170.jpg',
           coords: [17.179866272796776, 60.68079257583379]
         },
-        '/images/gavle/DSC_0183.jpg',
-        '/images/gavle/DSC_0157.jpg',
-        '/images/gavle/DSC_0198.jpg',
-        '/images/gavle/DSC_0215.jpg',
+        'DSC_0183.jpg',
+        'DSC_0157.jpg',
+        'DSC_0198.jpg',
+        'DSC_0215.jpg',
         {
-          href: '/images/gavle/DSC_0229.jpg',
+          img: 'DSC_0229.jpg',
           coords: [17.17173505418336, 60.67952802154804]
         },
-        '/images/gavle/DSC_0116.jpg'
+        'DSC_0116.jpg'
       ]"
     ></SGImages>
     <SGText>
@@ -106,17 +95,16 @@ const tripId = 'gavle'
       :add-photos-to-map="true"
       :list="[
         {
-          href: '/images/gavle/20240930_145153.jpg',
+          img: '20240930_145153.jpg',
           coords: [17.15019202295648, 60.67429377366447]
         },
-        '/images/gavle/20240930_143101.jpg',
+        '20240930_143101.jpg',
         {
-          href: '/images/gavle/20240930_145641.jpg',
+          img: '20240930_145641.jpg',
           coords: [17.14950866889892, 60.67287024882222]
         }
       ]"
     ></SGImages>
-    <!-- <SGMapCutout :center="[17.15019202295648, 60.67429377366447]" :zoom="17"></SGMapCutout> -->
     <SGMapCutout
       :center="[17.14993156983021, 60.673195058808204]"
       :zoom="16.5"
@@ -137,9 +125,7 @@ const tripId = 'gavle'
       was delayed a little so I could take a break halfway through and put them down.
       <br />
     </SGText>
-    <SGImages
-      :list="['/images/gavle/20240930_160947.jpg', '/images/gavle/20240930_154613.jpg']"
-    ></SGImages>
+    <SGImages :list="['20240930_160947.jpg', '20240930_154613.jpg']"></SGImages>
     <SGText>
       <br />Luckily when I arrived back in Sundsvall, I was saved from having to carry them home by
       Ebba and Paula picking me up after their bulb buying trip to the nursery.
@@ -147,6 +133,6 @@ const tripId = 'gavle'
       <br />I thoroughly enjoyed my time in Gävle. It's a beautiful town on the river, with some
       incredible old buildings and lots of history. I'll have to go back soon, but maybe not on a
       Monday.
-    </SGText></DetailView
-  >
+    </SGText>
+  </DetailView>
 </template>

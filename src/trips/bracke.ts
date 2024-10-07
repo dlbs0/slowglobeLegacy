@@ -1,9 +1,11 @@
 import type { Trip } from './allTrips'
+import imgUrl from '@/assets/images/bracke/20240922_162227.jpg?w=300&gallery'
+
 // signal.eu.org/osm/#locs=62.750236,15.417418;62.386411,17.315204
 export const bracke: Trip = {
   id: 'bracke',
   name: 'To buy a bike in Bracke',
-  headerImage: '/images/bracke/20240922_162227.jpg',
+  headerImage: imgUrl,
   date: '2024-09-22',
   locationText: 'Bräcke, Sweden',
   geography: {

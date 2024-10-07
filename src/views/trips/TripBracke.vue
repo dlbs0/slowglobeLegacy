@@ -47,11 +47,11 @@ const tripId = 'bracke'
       :addPhotosToMap="true"
       :list="[
         {
-          href: '/images/bracke/20240912_092320.jpg',
+          img: '20240912_092320.jpg',
           coords: [17.30491637358277, 62.39231737278283]
         },
         {
-          href: '/images/bracke/20240922_134006.jpg',
+          img: '20240922_134006.jpg',
           coords: [17.3124174738977, 62.39050823971086]
         }
       ]"
@@ -85,17 +85,17 @@ const tripId = 'bracke'
       :add-photos-to-map="true"
       :list="[
         {
-          href: '/images/bracke/20240922_161623.jpg',
+          img: '20240922_161623.jpg',
           coords: [15.41796956604836, 62.7499712815856]
         },
-        '/images/bracke/20240922_162336.jpg',
+        '20240922_162336.jpg',
         {
-          href: '/images/bracke/20240922_162029.jpg',
+          img: '20240922_162029.jpg',
           coords: [15.419971930896901, 62.75265443913532]
         },
-        '/images/bracke/20240922_162652.jpg',
+        '20240922_162652.jpg',
         {
-          href: '/images/bracke/20240922_163258.jpg',
+          img: '20240922_163258.jpg',
           coords: [15.42889978328157, 62.75658631423672]
         }
       ]"
@@ -112,9 +112,7 @@ const tripId = 'bracke'
       down the hill to the lake where I beat the train by seconds. After my earlier bus experiences,
       I enjoyed the newfound luxury of the train all the way home.
     </SGText>
-    <SGImages
-      :list="['/images/bracke/20240922_172726-3.jpg', '/images/bracke/20240922_162227.jpg']"
-    />
+    <SGImages :list="['20240922_172726-3.jpg', '20240922_162227.jpg']" />
   </DetailView>
 </template>
 

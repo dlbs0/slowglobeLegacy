@@ -1,56 +1,69 @@
-<template>
-  <div class="container">
-    <div class="gallery-container" ref="target">
-      <Gallery
-        :list="
-          images.length ? images : props.list?.map((i) => (typeof i == 'string' ? { href: i } : i))
-        "
-        :id="'gallery-' + randomId"
-      />
-    </div>
-  </div>
-</template>
-
 <script setup lang="ts">
+import { allTripImages, fullPathLookup } from '@/functions/images'
 import { getMap } from '@/functions/map'
-import { useIntersectionObserver } from '@vueuse/core'
+import { asyncComputed, useIntersectionObserver } from '@vueuse/core'
 import mapboxgl, { Marker } from 'mapbox-gl'
-import { onMounted, onUnmounted, ref, type Ref } from 'vue'
-import { Gallery, Item } from 'vue-preview-imgs'
+import { computed, onUnmounted, ref } from 'vue'
+import { Gallery } from 'vue-preview-imgs'
 
 interface Img {
-  href: string
+  img: string
   coords?: [number, number]
-  thumbnail?: string
 }
 
-const target = ref(null)
-const randomId = Math.random().toString(36).substring(7)
-const props = defineProps({
-  list: Array<Img | string>,
-  addPhotosToMap: Boolean || undefined
+const props = defineProps<{
+  list: Array<string | Img>
+  addPhotosToMap?: boolean
+}>()
+
+const imageList = computed(() =>
+  (props.list ?? []).map((i) => {
+    return {
+      module: allTripImages[fullPathLookup[typeof i == 'string' ? i : i.img]],
+      coords: typeof i == 'string' ? undefined : i?.coords
+    }
+  })
+)
+
+const galleryImages = asyncComputed(async () => {
+  if (!imageList.value) return []
+  const output: Array<{
+    href: string
+    width: number
+    height: number
+    thumbnail: string
+    coords?: [number, number]
+  }> = []
+  for (const path in imageList.value) {
+    const mod = await imageList.value[path].module()
+    const coords = imageList.value[path].coords
+    const { width, height } = mod[1]
+    output.push({ href: mod[1].src, width, height, thumbnail: mod[0].src, coords })
+  }
+  return output
 })
+
+const target = ref(null)
 let markers: Marker[] = []
-const images: Ref<Item[]> = ref([])
 
 if (props.addPhotosToMap) {
   useIntersectionObserver(target, ([{ isIntersecting }]) => {
-    if (isIntersecting && props.list) {
-      for (const marker of props.list) {
+    if (isIntersecting && galleryImages.value) {
+      for (const entry of galleryImages.value) {
         // Create a DOM element for each marker.
-        if (typeof marker == 'string' || !marker.coords) continue
+        if (!entry.coords) continue
         const el = document.createElement('div')
 
         el.className = 'photoMarker'
 
         const img = document.createElement('img')
-        img.src = marker.href
+        img.src = entry.thumbnail
         el.appendChild(img)
 
         // Add markers to the map.
         const map = getMap()
         if (!map) continue
-        const m = new mapboxgl.Marker(el).setLngLat(marker.coords).addTo(map)
+        const m = new mapboxgl.Marker(el).setLngLat(entry.coords).addTo(map)
         markers.push(m)
       }
     } else {
@@ -68,45 +81,21 @@ function removeAllMarkers() {
   }
 }
 
-onMounted(() => {
-  if (!props.list) return
-  const tempImages = [
-    ...props.list.map((i) => ({ href: typeof i == 'string' ? i : i.href, height: 0, width: 0 }))
-  ]
-  // console.log('images mounted')
-  // list the children of the gallery
-  const gallery = document.getElementById('gallery-' + randomId)
-  // console.log('gallery:', gallery)
-  if (!gallery) return
-  const children = gallery.children
-  // console.log('children:', children)
-  for (let i = 0; i < children.length; i++) {
-    const child = children[i]
-    // console.log('child:', child)
-
-    if (!child) continue
-    const image = child.querySelector('img')
-    if (!image) continue
-    // console.log('image:', image, image.naturalWidth, image.naturalHeight)
-
-    image.addEventListener('load', function () {
-      tempImages[i].width = image.naturalWidth
-      tempImages[i].height = image.naturalHeight
-      images.value = [...tempImages]
-    })
-  }
-
-  images.value = tempImages
-})
-
 onUnmounted(() => {
   removeAllMarkers()
 })
 </script>
 
+<template>
+  <div class="container">
+    <div class="gallery-container" ref="target">
+      <Gallery :list="galleryImages" />
+    </div>
+  </div>
+</template>
+
 <style scoped>
 .container {
-  /* background-color: var(--article-background-color); */
   z-index: 2;
   position: relative;
 }

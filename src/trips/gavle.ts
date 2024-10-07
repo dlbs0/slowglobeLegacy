@@ -1,9 +1,11 @@
 import type { Trip } from './allTrips'
+import imgUrl from '@/assets/images/gavle/DSC_0241.jpg?w=300&gallery'
 
 export const gavle: Trip = {
   id: 'gavle',
   name: 'A Monday in Gavle',
-  headerImage: '/images/gavle/DSC_0241.jpg',
+  headerImage: imgUrl,
+  // headerImage: '/images/gavle/DSC_0241.jpg',
   date: '2024-09-30',
   locationText: 'Gavle, Sweden',
   geography: {
