@@ -9,7 +9,7 @@
         </div>
         <div class="date">{{ date }}</div>
       </div>
-      <img :src="headerImage" />
+      <PostageStamp :image="headerImage" />
     </div>
     <h1>
       <slot></slot>
@@ -26,23 +26,6 @@
   -webkit-mask: var(--mask);
   mask: var(--mask);
   padding-top: 3em;
-}
-img {
-  display: inline-block;
-  height: 5.5em;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  /* mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
-  mask-size: 944px 604px; */
-}
-img {
-  --r: 4px; /* control the radius of the circles */
-  padding: calc(2 * var(--r));
-  filter: grayscale(0.6) drop-shadow(0 0 1px #0005) drop-shadow(0 0 1px #0005);
-  background:
-    radial-gradient(var(--r), #0000 98%, #fbf9e2) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) /
-      calc(3 * var(--r)) calc(3 * var(--r)),
-    linear-gradient(#fbf9e2 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
 }
 
 .titleRow {
@@ -72,6 +55,7 @@ img {
 
 <script setup lang="ts">
 import { getTripHeaderInfoById } from '@/trips/allTrips'
+import PostageStamp from './PostageStamp.vue'
 
 const props = defineProps({
   id: String

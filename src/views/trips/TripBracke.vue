@@ -112,7 +112,7 @@ const tripId = 'bracke'
       down the hill to the lake where I beat the train by seconds. After my earlier bus experiences,
       I enjoyed the newfound luxury of the train all the way home.
     </SGText>
-    <SGImages :list="['20240922_172726-3.jpg', '20240922_162227.jpg']" />
+    <SGImages :list="['20240922_162227.jpg', '20240922_172726-3.jpg']" />
   </DetailView>
 </template>
 
