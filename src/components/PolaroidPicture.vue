@@ -99,7 +99,8 @@ defineProps({
   position: relative;
   display: inline-block;
   aspect-ratio: 1/1;
-  width: 100%;
+  /* width: 100%; */
+  width: inherit;
 
   background: #eee;
   overflow: hidden;
