@@ -58,7 +58,6 @@ const intMarg = computed(() => {
 </script>
 
 <template>
-  <!-- <div class="main" ref="elz"> -->
   <div class="polaroidGrid">
     <div
       class="mapSpacer"
@@ -76,7 +75,6 @@ const intMarg = computed(() => {
         :caption="i.name"
         :link="`/trip/${i.id}`"
       ></PolaroidPicture>
-      <!-- <div></div> -->
 
       <div
         class="snapper"
@@ -85,30 +83,18 @@ const intMarg = computed(() => {
       ></div>
     </template>
     <div class="mapSpacer halfHeight"></div>
-    <!-- </div> -->
   </div>
 </template>
 
 <style></style>
 
 <style scoped>
-.main {
-  /* scroll-snap-type: y mandatory;
-  height: calc(100vh - 4rem);
-  overflow-y: scroll;
-  overflow-x: hidden;
-  scroll-padding: calc((100vh - 4rem) / 2-1);
-  @media (width <= 900px) {
-    scroll-padding: calc((100vh - (var(--polaroid-width) * 1.362 / 2)) - 4em - 1px);
-  }
-  z-index: 20; */
-}
-
 .polaroidGrid {
+  --desktop-pol-peek: 75vh;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-columns: 100% 10px;
-  grid-template-rows: 85vh auto;
+  grid-template-rows: var(--desktop-pol-peek) auto;
   gap: 4em 0px;
   @media (width <= 900px) {
     grid-template-rows: 90svh auto;
@@ -140,9 +126,10 @@ const intMarg = computed(() => {
 
 .mapSpacer {
   align-self: flex-start;
-  /* height: min(100%, calc(100vh - 4rem - 50vh)); */
+  translate: -100px 0;
+  width: 1px;
   height: 100%;
-  scroll-snap-align: start;
+  scroll-snap-align: end;
   z-index: 2;
 }
 .halfHeight {
@@ -154,33 +141,27 @@ const intMarg = computed(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: calc(((var(--polaroid-width) * 1.362)));
   width: var(--polaroid-width);
-  padding: calc(var(--polaroid-width) * 0.056);
-  /* width: 100%; */
+  height: unset;
+  translate: none;
   @media (width <= 900px) {
-    /* … */
-    /* padding: 0px calc((100vw - (var(--polaroid-width) * 1.12)) / 2); */
+    height: 100%;
     width: 100%;
     padding-top: 4em;
     padding: 0;
     justify-content: end;
-    height: 90svh;
-    /* margin-bottom: 1200vh; */
   }
-  /* padding: 0px 10vw; */
   padding: 0px 10vw;
-  padding-top: 4em;
+  padding-top: calc(50vh - 4em);
 
   font-family: 'Reenie Beanie', 'Courier New', Courier, monospace;
+  line-height: 2em;
   font-size: 2em;
+  scroll-snap-align: none;
 
-  /* scroll-margin-top: 4em; */
-  scroll-margin-block-start: 4em;
-
-  animation:
+  /* animation:
     hover 3s ease-in-out infinite alternate,
-    fadeOut 5s forwards ease-in-out 15s;
+    fadeOut 5s forwards ease-in-out 15s; */
 
   animation: hover 3s ease-in-out infinite alternate;
 }
