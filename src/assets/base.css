@@ -61,6 +61,11 @@ h1 {
   z-index: 2;
 }
 
-.mapboxgl-ctrl-logo {
-  display: none !important;
+.mapboxgl-ctrl {
+  .mapboxgl-ctrl-logo {
+    display: none !important;
+  }
+}
+.mapboxgl-ctrl-attrib-button {
+  opacity: 0.5;
 }

@@ -27,7 +27,12 @@ export function useMap() {
       projection: 'globe', // display the map as a 3D globe
       attributionControl: false
       // antialias: true
-    })
+    }).addControl(
+      new mapboxgl.AttributionControl({
+        compact: true
+        // customAttribution: 'Map design by me'
+      })
+    )
 
     map.on('style.load', () => {
       console.log('style loaded')
