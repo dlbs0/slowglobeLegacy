@@ -19,6 +19,7 @@ defineProps({
 <style scoped>
 .postage-stamp-container {
   display: inline-block;
+  position: relative;
 
   background-color: white;
   --r: 4px; /* control the radius of the circles */
