@@ -176,7 +176,7 @@ export function fitBounds(
   const bounds = bbox(geography)
   // console.log('bounds:', bounds)
   if (!bounds || bounds.length != 4) return
-  map.fitBounds(bounds, { padding, pitch })
+  map.fitBounds(bounds, { padding, pitch, duration: 2000 })
 }
 
 export function cancelMovement() {

@@ -1,4 +1,5 @@
 import { bracke } from './bracke'
+import { flinders } from './flindersHike'
 import { gavle } from './gavle'
 
 export interface Trip {
@@ -61,4 +62,4 @@ export function getTripHeaderInfoById(id: string) {
   return { locationText, date, headerImage }
 }
 
-export const allTrips: Trip[] = [gavle, bracke, sundsvall, greatOceanRoad]
+export const allTrips: Trip[] = [gavle, bracke, sundsvall, greatOceanRoad, flinders]
