@@ -28,6 +28,11 @@ html {
       scroll-padding-bottom: none;
     }
   }
+  --scrollbarBG: rgb(255 218 214);
+  --thumbBG: rgb(119 86 83);
+
+  scrollbar-width: thin;
+  scrollbar-color: var(--thumbBG) var(--scrollbarBG);
 }
 
 body {

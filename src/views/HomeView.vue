@@ -59,6 +59,7 @@ const intMarg = computed(() => {
 </script>
 
 <template>
+  <!-- When scroll animation has better browser support, look at this https://scroll-driven-animations.style/demos/stacking-cards/css/ -->
   <div class="polaroidGrid">
     <div
       class="mapSpacer"
