@@ -53,7 +53,7 @@ img {
 }
 .postage-stamp {
   background-color: black;
-  mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
+  /* mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png'); */
   mask-image: url('/images/stampWavesEdit.png');
   /* mask-size: 944px 604px; */
   mask-size: 1000px 563px;
