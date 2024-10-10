@@ -38,6 +38,14 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
+      path: '/convert',
+      name: 'convert',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/ConversionView.vue')
+    },
+    {
       path: '/trip/bracke',
       name: 'bracke',
       component: () => import('../views/trips/TripBracke.vue')
@@ -46,6 +54,11 @@ const router = createRouter({
       path: '/trip/gavle',
       name: 'gavle',
       component: () => import('../views/trips/TripGavle.vue')
+    },
+    {
+      path: '/trip/flinders',
+      name: 'flinders',
+      component: () => import('../views/trips/TripFlinders.vue')
     }
     // {
     //   path: '/trip/:id',
