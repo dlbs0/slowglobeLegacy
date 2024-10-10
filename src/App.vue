@@ -11,10 +11,12 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
 </script>
 
 <template>
-  <header>
+  <header class="header">
+    <div class="headerBanner">SLOW</div>
     <div class="wrapper">
       <RouterLink to="/"> SG </RouterLink>
     </div>
+    <div class="headerBanner">GLOBE</div>
   </header>
   <main>
     <!-- <RouterView /> -->
@@ -81,17 +83,30 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
 
 <style scoped>
 header {
-  max-height: 4rem;
-  position: sticky;
+  position: relative;
   top: 0;
   left: 0;
   display: flex;
   justify-content: center;
   text-align: center;
   z-index: 100;
+  background-color: var(--header-background-color);
+}
+
+.headerBanner {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 0 0.4em;
+  border-radius: 0 0 0.2em 0.2em;
+  color: rgb(110, 25, 25);
+  color: var(--primary);
 }
 .wrapper {
   background-color: var(--header-background-color);
+  max-height: 4rem;
+  position: sticky;
+  top: 0;
+  left: 0;
   z-index: 100;
   width: min-content;
   font-size: 3.5rem;
