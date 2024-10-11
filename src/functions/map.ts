@@ -199,6 +199,10 @@ function addLayersAndSources() {
     if (error) throw error
     if (!map?.hasImage('pattern-dot') && image) map?.addImage('pattern-dot', image, { sdf: true })
   })
+  map.loadImage('/images/locArrow.png', (error, image) => {
+    if (error) throw error
+    if (!map?.hasImage('loc-arrow') && image) map?.addImage('loc-arrow', image, { sdf: true })
+  })
 
   map.addSource('centers', {
     type: 'geojson',
