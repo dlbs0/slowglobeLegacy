@@ -5,8 +5,11 @@
 
   <input type="file" accept=".gpx" />
   <button @click="onConvert">Convert</button>
+  <br />
+  <input type="text" v-model="geoJsonStringVersion" />
+  <button @click="copy()">Copy Output</button>
 
-  geoJsonVersion: {{ geoJsonVersion }}
+  <!-- geoJsonVersion: {{ geoJsonVersion }} -->
   <br />
   <br />
   <br />
@@ -16,6 +19,7 @@
 <script setup lang="ts">
 import { computed, ref, type Ref } from 'vue'
 import { gpx } from '@tmcw/togeojson'
+import { useClipboard } from '@vueuse/core'
 
 const gpxText: Ref<string> = ref('')
 
@@ -44,4 +48,14 @@ const geoJsonVersion = computed(() => {
     return ''
   }
 })
+
+const geoJsonStringVersion = computed(() => {
+  try {
+    return JSON.stringify(geoJsonVersion.value, null, 2)
+  } catch (e) {
+    console.warn('gpx parse error', e)
+    return ''
+  }
+})
+const { copy, copied, isSupported } = useClipboard({ source: geoJsonStringVersion })
 </script>
