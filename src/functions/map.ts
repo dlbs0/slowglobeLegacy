@@ -2,7 +2,11 @@ import { allTrips, getTripById } from '@/trips/allTrips'
 import { bbox, featureCollection, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
 import type { Feature, FeatureCollection } from 'geojson'
-import mapboxgl, { GeoJSONSource, type StyleImageInterface } from 'mapbox-gl'
+import mapboxgl, {
+  GeoJSONSource,
+  type RasterLayerSpecification,
+  type StyleImageInterface
+} from 'mapbox-gl'
 import { onMounted, readonly, ref } from 'vue'
 
 let map: null | mapboxgl.Map = null
@@ -25,8 +29,8 @@ export function useMap() {
       center: [130, 0], // starting position [lng, lat]
       zoom: 1.5, // starting zoom
       projection: 'globe', // display the map as a 3D globe
-      attributionControl: false
-      // antialias: true
+      attributionControl: false,
+      antialias: true
     }).addControl(
       new mapboxgl.AttributionControl({
         compact: true
@@ -159,6 +163,20 @@ export function showTracks(id: string) {
 
   const tracksSource = map.getSource('detail-tracks') as GeoJSONSource
   tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+}
+
+export function addHikingLayers(visible: boolean) {
+  const map = getMap()
+  if (!map) return
+  const coolLayers = ['mapbox-satellite', 'hillshade', 'contour', 'contour-labels']
+  // const coolLayers = ['hillshade', 'contour', 'contour-labels']
+
+  coolLayers.forEach((layer) => {
+    const lay = map.getLayer(layer) as RasterLayerSpecification
+    if (lay) {
+      map.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none')
+    }
+  })
 }
 
 export function fitBounds(
