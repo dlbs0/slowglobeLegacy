@@ -18,7 +18,6 @@ const intMarg = '-45% 0px -45% 0px'
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting) {
     const val = props.reverse ? false : true
-    console.log('val:', val)
     showExtraTripDetail(val)
   }
 }
