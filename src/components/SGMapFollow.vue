@@ -93,14 +93,14 @@ const preScrollProgress = computed(() => {
   return ratio
 })
 
-function generateFrame() {
+function generateFrame(time: number) {
   if (!shouldAnimate.value) return
 
   const map = getMap()
   if (!map) return
   //animate from the fit bounds frame down to the start of the follow camera section
   if (preScrollProgress.value > 0 && preScrollProgress.value < 1) {
-    doPreScrollAnimation()
+    doPreScrollAnimation(time)
   }
   if (scrollProgress.value === percentShown) {
     requestAnimationFrame(generateFrame)
@@ -277,7 +277,24 @@ function getProgress(perc: number, end?: number, start?: number) {
   return ((end ?? 0) - (start ?? 0)) * perc + (start ?? 0)
 }
 
-function doPreScrollAnimation() {
+let targetPreScroll = { val: 0, time: 0 }
+let currentPreScroll = 0
+
+function doPreScrollAnimation(currentTime: number) {
+  if (preScrollProgress.value !== targetPreScroll.val) {
+    targetPreScroll.val = preScrollProgress.value
+    targetPreScroll.time = currentTime
+  }
+
+  const easingTime = 10000
+  let timeToGo = targetPreScroll.time + easingTime - currentTime
+  if (timeToGo < 0) timeToGo = 0
+  console.log('timeToGo:', timeToGo)
+  const percentToGo = targetPreScroll.val - currentPreScroll
+
+  const displayProgress = targetPreScroll.val - percentToGo * (1 - timeToGo / easingTime)
+  console.log('displayProgress:', displayProgress)
+
   const map = getMap()
   if (!map) return
   const intCamCent: {
@@ -306,30 +323,23 @@ function doPreScrollAnimation() {
     zoom: followZoom,
     bearing: camBearing
   }
-  const currentPitch = getProgress(
-    preScrollProgress.value,
-    endCamera.pitch,
-    initialCameraPosition.pitch
-  )
-  const currentZoom = getProgress(
-    preScrollProgress.value,
-    endCamera.zoom,
-    initialCameraPosition.zoom
-  )
+  const currentPitch = getProgress(displayProgress, endCamera.pitch, initialCameraPosition.pitch)
+  const currentZoom = getProgress(displayProgress, endCamera.zoom, initialCameraPosition.zoom)
   const currentBearing = getProgress(
-    preScrollProgress.value,
+    displayProgress,
     endCamera.bearing,
     initialCameraPosition.bearing
   )
 
-  const currentLat = getProgress(preScrollProgress.value, endCamera.center.lat, intCamCent.lat)
-  const currentLng = getProgress(preScrollProgress.value, endCamera.center.lng, intCamCent.lng)
+  const currentLat = getProgress(displayProgress, endCamera.center.lat, intCamCent.lat)
+  const currentLng = getProgress(displayProgress, endCamera.center.lng, intCamCent.lng)
   map.jumpTo({
     center: { lat: currentLat, lng: currentLng },
     pitch: currentPitch,
     zoom: currentZoom,
     bearing: currentBearing
   })
+  currentPreScroll = displayProgress
 }
 
 function onTopBoundsFrame([{ isIntersecting }]: IntersectionObserverEntry[]) {
