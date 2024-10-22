@@ -52,7 +52,7 @@ const props = defineProps<{
   showTime?: boolean
 }>()
 
-const followPitch = 70
+const followPitch = 10
 const followZoom = 14.5
 
 let fullGeometry: Feature<LineString>
@@ -386,6 +386,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
         layout: {
           'icon-image': 'loc-arrow',
           'icon-size': 1,
+
           'icon-allow-overlap': true,
           'icon-ignore-placement': true,
           // 'icon-rotate': 90,
@@ -397,6 +398,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
           // 'symbol-placement': 'point'
         },
         paint: {
+          'icon-opacity': 0.5
           // 'icon-color': '#aa8c53',
           // 'icon-halo-width': 5,
           // 'icon-halo-color': '#721817',
@@ -443,6 +445,25 @@ onMounted(() => {
     if (props.follow) {
       followCameraLine = bezierSpline(simplify(fullGeometry, { tolerance: 0.005 }))
       followCameraLineLength = length(followCameraLine)
+      const map = getMap()
+      if (!map) return
+      if (!map.getSource('fcam' + randomId)) {
+        map.addSource('fcam' + randomId, {
+          type: 'geojson',
+          data: featureCollection([followCameraLine])
+        })
+      }
+      if (!map.getLayer('fcam' + randomId)) {
+        map.addLayer({
+          id: 'fcam' + randomId,
+          type: 'line',
+          source: 'fcam' + randomId,
+          paint: {
+            'line-color': 'rgb(10, 255, 25)',
+            'line-width': 8
+          }
+        })
+      }
     }
   }
 })
