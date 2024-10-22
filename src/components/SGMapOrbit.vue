@@ -13,14 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { addHikingLayers, fitBounds, getMap, useMapInteractive } from '@/functions/map'
-import type { Feature, FeatureCollection } from 'geojson'
+import { useHikingLayers, getMap, useMapInteractive } from '@/functions/map'
 import { featureCollection, point } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
-import { useWindowSize } from '@vueuse/core'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, watch } from 'vue'
 import type { GeoJSONSource } from 'mapbox-gl'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
+const { showHikingLayers } = useHikingLayers()
 
 const props = defineProps<{
   center: [number, number]
@@ -34,46 +33,66 @@ let initialBearing = -99
 
 function generateFrame(timestamp: number) {
   if (!shouldAnimate.value) return
+  if (mapInteractive.value) return
 
   const map = getMap()
   if (!map) return
   if (initialBearing === -99) initialBearing = timestamp - map.getBearing() * 100
-  //   map.rotateTo(map.getBearing() + 0.1, { duration: 0 })
+
+  const desiredPitch = props.pitch ?? 0
+  const currentPitch = map.getPitch()
+  let newPitch = currentPitch
+  if (Math.abs(desiredPitch - currentPitch) > 1) {
+    if (desiredPitch > currentPitch) {
+      newPitch = currentPitch + 0.2
+    } else {
+      newPitch = currentPitch - 0.2
+    }
+    map.setPitch(newPitch)
+  }
+
   map.rotateTo(((timestamp - initialBearing) / 100) % 360, { duration: 0 })
-  // Request the next frame of the animation.
+
   requestAnimationFrame(generateFrame)
 }
 
-function onIntersectionObserver([
-  { isIntersecting, target, rootBounds }
-]: IntersectionObserverEntry[]) {
+watch(mapInteractive, () => {
+  if (!mapInteractive.value) flyToCenter()
+})
+
+function flyToCenter() {
+  if (props.center) {
+    initialBearing = -99
+    if (!shouldAnimate.value) return
+    const map = getMap()
+    if (!map) return
+    map.flyTo({
+      center: props.center,
+      zoom: props.zoom ?? 12,
+      pitch: props.pitch ? 5 : 0,
+      bearing: map.getBearing(),
+      // duration: 2000,
+      speed: 1,
+      easing: (t) => {
+        return t
+      }
+    })
+    map.once('moveend', () => {
+      requestAnimationFrame(generateFrame)
+    })
+    const dotSource = map.getSource(randomId + 'location') as GeoJSONSource
+    dotSource?.setData(featureCollection([point(props.center)]))
+  }
+}
+
+function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting) {
-    console.log('isIntersecting:', isIntersecting)
-    addHikingLayers(true)
-    showLocation(true)
     shouldAnimate.value = true
-    if (props.center) {
-      const map = getMap()
-      if (!map) return
-      map.flyTo({
-        center: props.center,
-        zoom: props.zoom ?? 12,
-        pitch: props.pitch ?? 0,
-        bearing: map.getBearing(),
-        // speed: 0.5,
-        duration: 2000,
-        easing: (t) => {
-          return t
-        }
-      })
-      const dotSource = map.getSource(randomId + 'location') as GeoJSONSource
-      dotSource?.setData(featureCollection([point(props.center)]))
-      map.once('moveend', () => {
-        requestAnimationFrame(generateFrame)
-      })
-    }
+    flyToCenter()
+    showHikingLayers(true)
+    showLocation(true)
   } else {
-    addHikingLayers(false)
+    showHikingLayers(false)
     showLocation(false)
     shouldAnimate.value = false
     initialBearing = -99
@@ -111,7 +130,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  addHikingLayers(false)
+  showHikingLayers(false)
   const map = getMap()
   if (map) {
     if (map.getLayer(randomId + 'location')) map.removeLayer(randomId + 'location')

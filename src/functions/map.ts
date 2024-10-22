@@ -13,6 +13,7 @@ let map: null | mapboxgl.Map = null
 const mapShouldSpin = ref(false)
 const mapInteractive = ref(false)
 let firstLoad = true
+const hikingLayersVisible = ref(false)
 
 const { width, height } = useWindowSize()
 
@@ -165,18 +166,22 @@ export function showTracks(id: string) {
   tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
 }
 
-export function addHikingLayers(visible: boolean) {
-  const map = getMap()
-  if (!map) return
-  const coolLayers = ['mapbox-satellite', 'hillshade', 'contour', 'contour-labels']
-  // const coolLayers = ['hillshade', 'contour', 'contour-labels']
+export function useHikingLayers() {
+  function showHikingLayers(visible: boolean) {
+    const map = getMap()
+    if (!map) return
+    const coolLayers = ['mapbox-satellite', 'hillshade', 'contour', 'contour-labels']
+    hikingLayersVisible.value = visible
 
-  coolLayers.forEach((layer) => {
-    const lay = map.getLayer(layer) as RasterLayerSpecification
-    if (lay) {
-      map.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none')
-    }
-  })
+    coolLayers.forEach((layer) => {
+      const lay = map.getLayer(layer) as RasterLayerSpecification
+      if (lay) {
+        map.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none')
+      }
+    })
+  }
+
+  return { visible: readonly(hikingLayersVisible), showHikingLayers }
 }
 
 export function fitBounds(

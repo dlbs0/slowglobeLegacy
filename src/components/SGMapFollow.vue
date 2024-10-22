@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-import { addHikingLayers, fitBounds, getMap, useMapInteractive } from '@/functions/map'
+import { useHikingLayers, fitBounds, getMap, useMapInteractive } from '@/functions/map'
 import type { Feature, LineString, Position } from 'geojson'
 import {
   bbox,
@@ -41,6 +41,7 @@ import { addMinutes, differenceInMinutes, parseISO } from 'date-fns'
 import { findClosestFrame } from '@/functions/timeSearch'
 import { formatInTimeZone } from 'date-fns-tz'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
+const { showHikingLayers } = useHikingLayers()
 
 const props = defineProps<{
   geometry?: Feature<LineString>
@@ -406,9 +407,9 @@ useIntersectionObserver(
   ([{ isIntersecting }]) => {
     if (isIntersecting) {
       showLocationArrow(true)
-      addHikingLayers(true)
+      showHikingLayers(true)
     } else {
-      addHikingLayers(false)
+      showHikingLayers(false)
       showLocationArrow(false)
     }
   },
@@ -443,7 +444,8 @@ onUnmounted(() => {
     if (map.getLayer(randomId + 'locArrow')) map.removeLayer(randomId + 'locArrow')
   }
   showLocationArrow(false)
-  addHikingLayers(false)
+  showHikingLayers(false)
+  shouldAnimate.value = false
 })
 </script>
 
