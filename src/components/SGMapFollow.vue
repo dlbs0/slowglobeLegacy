@@ -36,7 +36,7 @@ import {
 import { vIntersectionObserver } from '@vueuse/components'
 import { useElementBounding, useIntersectionObserver, useWindowSize } from '@vueuse/core'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import type { CameraOptions, GeoJSONSource, RasterLayerSpecification } from 'mapbox-gl'
+import type { CameraOptions, GeoJSONSource } from 'mapbox-gl'
 import { addMinutes, differenceInMinutes, parseISO } from 'date-fns'
 import { findClosestFrame } from '@/functions/timeSearch'
 import { formatInTimeZone } from 'date-fns-tz'
@@ -49,6 +49,7 @@ const props = defineProps<{
   overview?: boolean
   overviewPitch?: number
   useTime?: boolean
+  showTime?: boolean
 }>()
 
 const followPitch = 70
@@ -243,7 +244,7 @@ function getForwardBearing(
 function getPercGeom(geom: Feature<LineString>, perc: number) {
   let progress = perc
   if (
-    props.useTime &&
+    (props.useTime || props.showTime) &&
     fullGeometry?.properties?.coordinateProperties?.times &&
     Array.isArray(fullGeometry?.properties?.coordinateProperties?.times)
   ) {
@@ -254,13 +255,16 @@ function getPercGeom(geom: Feature<LineString>, perc: number) {
     const dateDiff = differenceInMinutes(lastDate, firstDate)
     const progressDate = addMinutes(firstDate, perc * dateDiff)
     currentTime.value = formatInTimeZone(progressDate, 'Australia/Adelaide', 'HH:mm')
-    const coordIndexAtTime = findClosestFrame(timeArray, progressDate)
-    const coord = geom.geometry.coordinates[coordIndexAtTime]
 
-    // /find distance along line to coord, which will give us percentage distance travelled
-    const progressLine = lineSlice(geom.geometry.coordinates[0], coord, geom)
-    const progressLineLength = length(progressLine)
-    progress = progressLineLength / fullGeometryDistance
+    if (props.useTime) {
+      const coordIndexAtTime = findClosestFrame(timeArray, progressDate)
+      const coord = geom.geometry.coordinates[coordIndexAtTime]
+
+      // /find distance along line to coord, which will give us percentage distance travelled
+      const progressLine = lineSlice(geom.geometry.coordinates[0], coord, geom)
+      const progressLineLength = length(progressLine)
+      progress = progressLineLength / fullGeometryDistance
+    }
   }
   const pos = getForwardBearing(geom, fullGeometryDistance, progress)
   currentCoord = { lng: pos.location[0], lat: pos.location[1] }
@@ -335,14 +339,14 @@ function doPreScrollAnimation() {
 
 function onTopBoundsFrame([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting) {
-    fitBounds(fullGeometry, undefined, props.overviewPitch ?? 60)
+    fitBounds(fullGeometry, undefined, props.overviewPitch ?? 0)
     const map = getMap()
     if (!map) return
     const bounds = bbox(fullGeometry)
     if (!bounds || bounds.length != 4) return
     Object.assign(
       initialCameraPosition,
-      map.cameraForBounds(bounds, { padding: 20, pitch: props.overviewPitch ?? 60 })
+      map.cameraForBounds(bounds, { padding: 20, pitch: props.overviewPitch ?? 0 })
     )
   }
 }
@@ -383,13 +387,20 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
           'icon-image': 'loc-arrow',
           'icon-size': 1,
           'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
+          // 'icon-rotate': 90,
           'icon-rotate': ['get', 'bearing'],
+          // 'icon-pitch-alignment': 'viewport',
+          // 'icon-pitch-alignment': 'map',
           'icon-rotation-alignment': 'map'
+          // 'icon-rotation-alignment': 'viewport',
+          // 'symbol-placement': 'point'
         },
         paint: {
-          'icon-color': '#aa8c53',
-          'icon-halo-width': 5,
-          'icon-halo-color': '#721817'
+          // 'icon-color': '#aa8c53',
+          // 'icon-halo-width': 5,
+          // 'icon-halo-color': '#721817',
+          // 'icon-halo-blur': 0
         }
       })
     }
@@ -466,7 +477,7 @@ onUnmounted(() => {
   z-index: 10;
 }
 .mapCutout {
-  height: max(350vh, 300px);
+  height: max(300vh, 300px);
   min-width: 200px;
   background-color: transparent;
   padding: 0;
@@ -478,7 +489,7 @@ onUnmounted(() => {
 }
 
 .boundsFrame {
-  height: 60vh;
+  height: 90vh;
 }
 
 .timeBox {
