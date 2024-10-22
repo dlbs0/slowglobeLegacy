@@ -214,17 +214,22 @@ export function setMapSpin(value: boolean) {
 
 function addLayersAndSources() {
   if (!map) return
-  map.loadImage('/images/diamond.png', (error, image) => {
-    if (error) throw error
-    if (!map?.hasImage('diamond') && image) map?.addImage('diamond', image)
-  })
-  map.loadImage('/images/circle.png', (error, image) => {
-    if (error) throw error
-    if (!map?.hasImage('pattern-dot') && image) map?.addImage('pattern-dot', image, { sdf: true })
-  })
-  map.loadImage('/images/locArrow.png', (error, image) => {
-    if (error) throw error
-    if (!map?.hasImage('loc-arrow') && image) map?.addImage('loc-arrow', image, { sdf: true })
+
+  const images: [string, string, boolean?][] = [
+    ['diamond', 'diamond.png'],
+    ['pattern-dot', 'circle.png'],
+    ['loc-arrow', 'locArrow.png'],
+    ['campsite', 'campsite.png'],
+    ['mountain', 'mountain.png'],
+    ['picnic', 'picnic-site.png'],
+    ['flag', 'racetrack.png']
+  ]
+  images.forEach((image) => {
+    map?.loadImage('/images/' + image[1], (error, imageData) => {
+      if (error) throw error
+      if (!map?.hasImage(image[0]) && imageData)
+        map?.addImage(image[0], imageData, { sdf: image[2] })
+    })
   })
 
   map.addSource('centers', {
@@ -265,12 +270,6 @@ function addLayersAndSources() {
     data: featureCollection([])
   })
 
-  // map.addLayer({
-  //   id: 'detail-tracks',
-  //   type: 'line',
-  //   source: 'detail-tracks',
-  //   paint: { 'line-color': 'rgb(110, 25, 25)', 'line-width': 4 }
-  // })
   const lineBaseWidth = 6
   map.addLayer({
     id: 'detail-tracks-walk',
@@ -403,6 +402,26 @@ function addLayersAndSources() {
     },
     filter: ['==', 'type', 'train']
   })
+  map.addLayer({
+    id: 'detail-points',
+    type: 'symbol',
+    source: 'detail-tracks',
+    layout: {
+      'icon-image': ['get', 'icon'],
+      'icon-size': 1,
+      'text-anchor': 'left',
+      'text-radial-offset': 0.75,
+      'text-field': ['get', 'name'],
+      'text-font': ['Crimson Italic', 'Open Sans Regular', 'Arial Unicode MS Regular']
+    },
+    paint: {
+      'text-color': 'rgb(66, 10, 17)',
+      'text-halo-color': 'rgba(255,255,255, 0.6)',
+      'text-halo-width': 1.5,
+      'text-translate': [0, 2]
+    },
+    filter: ['has', 'icon']
+  })
 
   map.addImage('pulsing-dot', new pulsingDot(), { pixelRatio: 2 })
 
@@ -425,13 +444,15 @@ function addLayersAndSources() {
 
 export function showExtraTripDetail(val: boolean) {
   if (!map) return
-  if (!map.getLayer('detail-tracks-walk')) return
-  const filter = map.getFilter('detail-tracks-walk')
-  console.log('filter:', filter)
-  if (!filter || !filter[2] || !filter[2][2] || typeof filter[2][2][1] != 'boolean') return
-  filter[2][2][1] = !val
-  map?.setFilter('detail-tracks-walk', filter)
-  console.log('set:', filter, val)
+  if (map.getLayer('detail-tracks-walk')) {
+    const filter = map.getFilter('detail-tracks-walk')
+    if (!filter || !filter[2] || !filter[2][2] || typeof filter[2][2][1] != 'boolean') return
+    filter[2][2][1] = !val
+    map?.setFilter('detail-tracks-walk', filter)
+  }
+  if (map.getLayer('detail-points')) {
+    map?.setLayoutProperty('detail-points', 'visibility', val ? 'visible' : 'none')
+  }
 }
 
 export function showOverviews(value: boolean) {
@@ -448,7 +469,12 @@ export function showOverviews(value: boolean) {
     } else map?.setLayoutProperty(layer, 'visibility', value ? 'visible' : 'none')
   })
 
-  const detailLayers = ['detail-tracks-walk', 'detail-tracks-train', 'detail-tracks-train-dashes']
+  const detailLayers = [
+    'detail-tracks-walk',
+    'detail-tracks-train',
+    'detail-tracks-train-dashes',
+    'detail-points'
+  ]
   detailLayers.forEach((layer) => {
     const lay = map?.getLayer(layer)
     if (!lay) {
