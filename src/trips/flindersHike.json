@@ -14019,13 +14019,18 @@
     },
     {
       "type": "Feature",
-      "properties": { "icon": "mountain", "name": "Dicks Knob" },
+      "properties": { "icon": "mountain", "name": "Dick Nob" },
       "geometry": { "type": "Point", "coordinates": [138.54336937019718, -31.579173755075864] }
     },
     {
       "type": "Feature",
       "properties": { "icon": "campsite", "name": "A flat spot for the night" },
       "geometry": { "type": "Point", "coordinates": [138.55509757062828, -31.54049517864646] }
+    },
+    {
+      "type": "Feature",
+      "properties": { "icon": "mountain", "name": "Tanderra Saddle" },
+      "geometry": { "type": "Point", "coordinates": [138.559453463177, -31.50759201900274] }
     },
     {
       "type": "Feature",

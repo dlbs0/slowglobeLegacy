@@ -30,8 +30,8 @@ export function useMap() {
       center: [130, 0], // starting position [lng, lat]
       zoom: 1.5, // starting zoom
       projection: 'globe', // display the map as a 3D globe
-      attributionControl: false,
-      antialias: true
+      attributionControl: false
+      // antialias: true
     }).addControl(
       new mapboxgl.AttributionControl({
         compact: true
@@ -100,7 +100,15 @@ function spinGlobe() {
   center.lng += distancePerSecond
   // Smoothly animate the map over one second.
   // When this animation is complete, it calls a 'moveend' event.
-  map.easeTo({ center, duration: 1000, easing: (n) => n, zoom: 1.5, pitch: 0, padding: 0 })
+  map.easeTo({
+    center,
+    duration: 1000,
+    easing: (n) => n,
+    zoom: 1.5,
+    pitch: 0,
+    padding: 0,
+    bearing: 0
+  })
 }
 
 export function showArticleStart(id: string) {
@@ -126,6 +134,7 @@ export function showGlobe() {
     center: [map.getCenter().lng, 0], // starting position [lng, lat]
     zoom: 1.5, // starting zoom    duration: 2000,
     pitch: 0,
+    bearing: 0,
     duration: 3000,
     padding: { left: 0, right: 0, top: 0, bottom: 0 }
   })

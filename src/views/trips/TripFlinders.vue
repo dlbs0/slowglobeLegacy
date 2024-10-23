@@ -23,7 +23,13 @@ const tripId = 'flinders'
 
     <SGText>The good old Flonders Rongers </SGText>
     <SGShowExtraDetail />
-    <SGMapFollow :geometry="dayOneGeom" :follow="true" :use-time="false" :show-time="true" />
+    <SGMapFollow
+      :geometry="dayOneGeom"
+      :follow="true"
+      :use-time="false"
+      :show-time="true"
+      :follow-pitch="70"
+    />
     <SGText>
       Flonders Rongers
       <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />

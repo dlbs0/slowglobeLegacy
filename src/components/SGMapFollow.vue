@@ -1,6 +1,6 @@
 <template>
   <div class="startSeg"></div>
-  <div ref="entireComponent">
+  <div ref="entireComponent" class="entireComponent">
     <div class="mapIntToggle" @click="setMapInteractive(!mapInteractive)">
       <iconify-icon v-if="mapInteractive" icon="material-symbols:lock" inline></iconify-icon>
       <iconify-icon v-else icon="material-symbols:lock-open" inline></iconify-icon>
@@ -21,25 +21,13 @@
 
 <script setup lang="ts">
 import { useHikingLayers, fitBounds, getMap, useMapInteractive } from '@/functions/map'
-import type { Feature, LineString, Position } from 'geojson'
-import {
-  bbox,
-  bearing,
-  bezierSpline,
-  featureCollection,
-  length,
-  lineSlice,
-  lineSliceAlong,
-  point,
-  simplify
-} from '@turf/turf'
+import type { Feature, LineString } from 'geojson'
+import { bbox, bezierSpline, featureCollection, length, point, simplify } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
 import { useElementBounding, useIntersectionObserver, useWindowSize } from '@vueuse/core'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import type { CameraOptions, GeoJSONSource } from 'mapbox-gl'
-import { addMinutes, differenceInMinutes, parseISO } from 'date-fns'
-import { findClosestFrame } from '@/functions/timeSearch'
-import { formatInTimeZone } from 'date-fns-tz'
+import { type CameraOptions, type GeoJSONSource } from 'mapbox-gl'
+import { getCameraForCameraOptions, getPercGeom, llLikeToObject } from '@/functions/geometryHelpers'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
 const { showHikingLayers } = useHikingLayers()
 
@@ -50,24 +38,24 @@ const props = defineProps<{
   overviewPitch?: number
   useTime?: boolean
   showTime?: boolean
+  followPitch?: number
+  followZoom?: number
 }>()
 
-const followPitch = 10
-const followZoom = 14.5
+const fPitch = props.followPitch ?? 60
+const fZoom = props.followZoom ?? 14.5
 
 let fullGeometry: Feature<LineString>
-let fullGeometryDistance = 0
 let percentShown = 0
 let shouldAnimate = ref(false)
 const currentTime = ref('')
-let currentCoord = { lat: 0, lng: 0 }
-let currentBearing = 0
 let followCameraLine: Feature<LineString>
 let followCameraLineLength = 0
 let cameraPos = { lat: 0, lng: 0 }
 let camBearing = 0
 
 const initialCameraPosition: CameraOptions = {}
+let perScrollFinalCameraPosition: { lng: number; lat: number; bearing: number } | null = null
 
 const randomId = Math.random().toString(36).slice(2)
 
@@ -95,8 +83,12 @@ const preScrollProgress = computed(() => {
   return ratio
 })
 
-function generateFrame() {
+function generateFrame(time: number) {
   if (!shouldAnimate.value) return
+  if (mapInteractive.value) {
+    requestAnimationFrame(generateFrame)
+    return
+  }
 
   const map = getMap()
   if (!map) return
@@ -104,30 +96,51 @@ function generateFrame() {
   if (preScrollProgress.value > 0 && preScrollProgress.value < 1) {
     doPreScrollAnimation()
   }
-  if (scrollProgress.value === percentShown) {
+  let perc = scrollProgress.value
+  const autoMode = false
+  if (autoMode) {
+    const period = 10000
+    perc = (time % period) / period
+  }
+
+  if (perc === percentShown) {
     requestAnimationFrame(generateFrame)
     return
   }
-  const geom = getPercGeom(fullGeometry, scrollProgress.value)
+  const results = getPercGeom(fullGeometry, perc, {
+    useTime: props.useTime,
+    showTime: props.showTime,
+    follow: { shouldFollow: props.follow, followCameraLine, followCameraLineLength }
+  })
+  if (results.progressTime) currentTime.value = results.progressTime
+  if (results.camPos) cameraPos = { lat: results.camPos[1], lng: results.camPos[0] }
+  if (results.camBearing) camBearing = results.camBearing
   const source = map.getSource(randomId + 'Follow') as GeoJSONSource
   if (source) {
-    source.setData(geom)
+    // Could use line-progress here instead, see https://docs.mapbox.com/mapbox-gl-js/example/query-terrain-elevation/
+    // map.setPaintProperty(randomId + 'follow-tracks', 'line-gradient', [  'step',  ['line-progress'],  'red',  perc,  'rgba(255, 0, 0, 0)'])
+    source.setData(results.progressLine)
   }
-  percentShown = scrollProgress.value
-  if (scrollProgress.value > 0 && scrollProgress.value < 1) {
-    if (props.follow)
-      map.jumpTo({ center: cameraPos, pitch: followPitch, zoom: followZoom, bearing: camBearing })
-  }
-  if (props.follow) {
-    const locArrowSource = map.getSource(randomId + 'locArrow') as GeoJSONSource
-    if (locArrowSource) {
-      locArrowSource.setData(
-        featureCollection([
-          point([currentCoord.lng, currentCoord.lat], { bearing: currentBearing })
-        ])
-      )
+  percentShown = perc
+  if (perc >= 0 && perc < 1) {
+    if (props.follow) {
+      const camera = getCameraForCameraOptions({
+        center: cameraPos,
+        pitch: fPitch,
+        zoom: fZoom,
+        bearing: camBearing
+      })
+
+      if (camera) map.setFreeCameraOptions(camera)
     }
   }
+  const locArrowSource = map.getSource(randomId + 'locArrow') as GeoJSONSource
+  if (locArrowSource && results.progressPosition && results.progressBearing) {
+    locArrowSource.setData(
+      featureCollection([point(results.progressPosition, { bearing: results.progressBearing })])
+    )
+  }
+
   setLighting()
   requestAnimationFrame(generateFrame)
 }
@@ -209,75 +222,6 @@ function setLighting() {
   // }
 }
 
-function getForwardBearing(
-  geom: Feature<LineString>,
-  lineLength: number,
-  progress: number
-): {
-  bearing: number
-  location: Position
-  progressLine: Feature<LineString>
-} {
-  const currentPosLine = lineSliceAlong(
-    geom,
-    0,
-    Math.min(Math.max((progress - 0) * lineLength, 0.001), lineLength)
-  )
-  const forwardPosLine = lineSliceAlong(
-    geom,
-    0,
-    Math.min(Math.max((progress + 0.01) * lineLength, 0.001), lineLength)
-  )
-  const currPos =
-    currentPosLine.geometry.coordinates[currentPosLine.geometry.coordinates.length - 1]
-  const forwardPos =
-    forwardPosLine.geometry.coordinates[forwardPosLine.geometry.coordinates.length - 1]
-  const forwardBearing = bearing(currPos, forwardPos)
-
-  return {
-    bearing: forwardBearing,
-    location: currPos,
-    progressLine: currentPosLine
-  }
-}
-
-function getPercGeom(geom: Feature<LineString>, perc: number) {
-  let progress = perc
-  if (
-    (props.useTime || props.showTime) &&
-    fullGeometry?.properties?.coordinateProperties?.times &&
-    Array.isArray(fullGeometry?.properties?.coordinateProperties?.times)
-  ) {
-    const timeArray = geom?.properties?.coordinateProperties?.times
-    if (!timeArray) return geom
-    const firstDate = parseISO(timeArray[0])
-    const lastDate = parseISO(timeArray[timeArray.length - 1])
-    const dateDiff = differenceInMinutes(lastDate, firstDate)
-    const progressDate = addMinutes(firstDate, perc * dateDiff)
-    currentTime.value = formatInTimeZone(progressDate, 'Australia/Adelaide', 'HH:mm')
-
-    if (props.useTime) {
-      const coordIndexAtTime = findClosestFrame(timeArray, progressDate)
-      const coord = geom.geometry.coordinates[coordIndexAtTime]
-
-      // /find distance along line to coord, which will give us percentage distance travelled
-      const progressLine = lineSlice(geom.geometry.coordinates[0], coord, geom)
-      const progressLineLength = length(progressLine)
-      progress = progressLineLength / fullGeometryDistance
-    }
-  }
-  const pos = getForwardBearing(geom, fullGeometryDistance, progress)
-  currentCoord = { lng: pos.location[0], lat: pos.location[1] }
-  currentBearing = pos.bearing
-
-  if (props.follow) {
-    const camera = getForwardBearing(followCameraLine, followCameraLineLength, progress - 0.001)
-    cameraPos = { lat: camera.location[1], lng: camera.location[0] }
-    camBearing = camera.bearing
-  }
-
-  return pos.progressLine
-}
 function getProgress(perc: number, end?: number, start?: number) {
   return ((end ?? 0) - (start ?? 0)) * perc + (start ?? 0)
 }
@@ -285,16 +229,7 @@ function getProgress(perc: number, end?: number, start?: number) {
 function doPreScrollAnimation() {
   const map = getMap()
   if (!map) return
-  const intCamCent: {
-    lat: number
-    lng: number
-  } = (initialCameraPosition.center as {
-    lat: number
-    lng: number
-  }) ?? {
-    lat: 0,
-    lng: 0
-  }
+  const intCamCent = llLikeToObject(initialCameraPosition.center)
   if (intCamCent.lat === 0 && intCamCent.lng === 0) {
     Object.assign(initialCameraPosition, {
       center: map.getCenter(),
@@ -304,36 +239,35 @@ function doPreScrollAnimation() {
     })
   }
 
-  getPercGeom(fullGeometry, 0)
-  const endCamera = {
-    center: cameraPos,
-    pitch: followPitch,
-    zoom: followZoom,
-    bearing: camBearing
+  if (perScrollFinalCameraPosition == null) {
+    const result = getPercGeom(fullGeometry, 0, {
+      follow: { shouldFollow: true, followCameraLine, followCameraLineLength }
+    })
+    if (result.camPos && result.camBearing)
+      perScrollFinalCameraPosition = {
+        lat: result.camPos[1],
+        lng: result.camPos[0],
+        bearing: result.camBearing
+      }
   }
-  const currentPitch = getProgress(
-    preScrollProgress.value,
-    endCamera.pitch,
-    initialCameraPosition.pitch
-  )
-  const currentZoom = getProgress(
-    preScrollProgress.value,
-    endCamera.zoom,
-    initialCameraPosition.zoom
-  )
-  const currentBearing = getProgress(
-    preScrollProgress.value,
-    endCamera.bearing,
+  if (perScrollFinalCameraPosition == null) return
+  const perc = preScrollProgress.value
+
+  const easedPitch = getProgress(perc, fPitch, initialCameraPosition.pitch)
+  const easedZoom = getProgress(perc, fZoom, initialCameraPosition.zoom)
+  const easedBearing = getProgress(
+    perc,
+    perScrollFinalCameraPosition.bearing,
     initialCameraPosition.bearing
   )
+  const easedLat = getProgress(perc, perScrollFinalCameraPosition.lat, intCamCent.lat)
+  const easedLng = getProgress(perc, perScrollFinalCameraPosition.lng, intCamCent.lng)
 
-  const currentLat = getProgress(preScrollProgress.value, endCamera.center.lat, intCamCent.lat)
-  const currentLng = getProgress(preScrollProgress.value, endCamera.center.lng, intCamCent.lng)
   map.jumpTo({
-    center: { lat: currentLat, lng: currentLng },
-    pitch: currentPitch,
-    zoom: currentZoom,
-    bearing: currentBearing
+    center: { lat: easedLat, lng: easedLng },
+    pitch: easedPitch,
+    zoom: easedZoom,
+    bearing: easedBearing
   })
 }
 
@@ -358,6 +292,8 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
     if (!map.getSource(randomId + 'Follow')) {
       map.addSource(randomId + 'Follow', {
         type: 'geojson',
+        // lineMetrics: true,
+        // data: featureCollection([fullGeometry])
         data: featureCollection([])
       })
     }
@@ -398,7 +334,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
           // 'symbol-placement': 'point'
         },
         paint: {
-          'icon-opacity': 0.5
+          // 'icon-opacity': 0.5
           // 'icon-color': '#aa8c53',
           // 'icon-halo-width': 5,
           // 'icon-halo-color': '#721817',
@@ -409,12 +345,11 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
     shouldAnimate.value = true
     requestAnimationFrame(generateFrame)
   } else {
-    generateFrame()
+    requestAnimationFrame(generateFrame)
     shouldAnimate.value = false
   }
 }
 
-// if (props.overview) {
 useIntersectionObserver(
   entireComponent,
   ([{ isIntersecting }]) => {
@@ -428,7 +363,6 @@ useIntersectionObserver(
   },
   { rootMargin: '-50% 0px -45% 0px' }
 )
-// }
 
 function showLocationArrow(visible: boolean) {
   const map = getMap()
@@ -441,29 +375,32 @@ function showLocationArrow(visible: boolean) {
 onMounted(() => {
   if (props.geometry) {
     fullGeometry = props.geometry
-    fullGeometryDistance = length(fullGeometry)
     if (props.follow) {
-      followCameraLine = bezierSpline(simplify(fullGeometry, { tolerance: 0.005 }))
+      followCameraLine = bezierSpline(simplify(fullGeometry, { tolerance: 0.005 }), {
+        resolution: 100000,
+        sharpness: 0.5
+      })
       followCameraLineLength = length(followCameraLine)
-      const map = getMap()
-      if (!map) return
-      if (!map.getSource('fcam' + randomId)) {
-        map.addSource('fcam' + randomId, {
-          type: 'geojson',
-          data: featureCollection([followCameraLine])
-        })
-      }
-      if (!map.getLayer('fcam' + randomId)) {
-        map.addLayer({
-          id: 'fcam' + randomId,
-          type: 'line',
-          source: 'fcam' + randomId,
-          paint: {
-            'line-color': 'rgb(10, 255, 25)',
-            'line-width': 8
-          }
-        })
-      }
+      // const map = getMap()
+      // if (!map) return
+      // map.setTerrain(null)
+      // if (!map.getSource('fcam' + randomId)) {
+      //   map.addSource('fcam' + randomId, {
+      //     type: 'geojson',
+      //     data: featureCollection([followCameraLine])
+      //   })
+      // }
+      // if (!map.getLayer('fcam' + randomId)) {
+      //   map.addLayer({
+      //     id: 'fcam' + randomId,
+      //     type: 'line',
+      //     source: 'fcam' + randomId,
+      //     paint: {
+      //       'line-color': 'rgb(10, 255, 25)',
+      //       'line-width': 8
+      //     }
+      //   })
+      // }
     }
   }
 })
@@ -510,7 +447,14 @@ onUnmounted(() => {
 }
 
 .boundsFrame {
-  height: 90vh;
+  background-color: transparent;
+  height: 60vh;
+}
+
+.entireComponent {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
 }
 
 .timeBox {
@@ -534,7 +478,7 @@ onUnmounted(() => {
 
   width: max-content;
   position: sticky;
-  top: 4em;
+  top: 5em;
 
   right: 0em;
   @media (width <= 900px) {
