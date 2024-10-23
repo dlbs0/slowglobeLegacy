@@ -40,6 +40,7 @@ const props = defineProps<{
   showTime?: boolean
   followPitch?: number
   followZoom?: number
+  noSatelite?: boolean
 }>()
 
 const fPitch = props.followPitch ?? 60
@@ -355,7 +356,7 @@ useIntersectionObserver(
   ([{ isIntersecting }]) => {
     if (isIntersecting) {
       showLocationArrow(true)
-      showHikingLayers(true)
+      if (props.noSatelite !== true) showHikingLayers(true)
     } else {
       showHikingLayers(false)
       showLocationArrow(false)

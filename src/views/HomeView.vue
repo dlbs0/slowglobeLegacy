@@ -115,7 +115,7 @@ const intMarg = computed(() => {
             aria-label="Mapbox homepage"
           ></a
           >, style is based on Standard, with some modifications to reduce clutter. Forgive my
-          cartography skills.
+          cartography skills, mapmaking is hard.
         </div>
         <br />
         Written in Vue, Vite, Typescript, using the Mapbox, VueUse, PhotoSwipe and vite-imagetools

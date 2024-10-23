@@ -34,8 +34,8 @@ export function useMap() {
       // antialias: true
     }).addControl(
       new mapboxgl.AttributionControl({
-        compact: true
-        // customAttribution: 'Map design by me'
+        compact: true,
+        customAttribution: 'dlbs'
       })
     )
 
@@ -123,6 +123,7 @@ export function showArticleStart(id: string) {
     duration: firstLoad ? 10 : 3000,
     pitch: 0,
     zoom,
+    bearing: 0,
     padding: { left: 0, right: 0, top: 0, bottom: height.value * 0.25 }
   })
   firstLoad = false
@@ -156,6 +157,7 @@ export function zoomToId(id: string) {
     zoom: zoom,
     duration: 2000,
     pitch: 50,
+    bearing: 0,
     padding: { left: leftPadding, right: 0, top: 0, bottom: bottomPadding }
   })
   const dotSource = map.getSource('dot-point') as GeoJSONSource
@@ -204,11 +206,9 @@ export function fitBounds(
   pitch: number = 0
 ) {
   if (!map) return
-  // console.log('geography:', geography)
   const bounds = bbox(geography)
-  // console.log('bounds:', bounds)
   if (!bounds || bounds.length != 4) return
-  map.fitBounds(bounds, { padding, pitch, duration: 2000 })
+  map.fitBounds(bounds, { padding, pitch, speed: 1 })
 }
 
 export function cancelMovement() {
