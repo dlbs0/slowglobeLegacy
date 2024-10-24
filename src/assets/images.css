@@ -27,6 +27,7 @@
   object-fit: cover;
   border-radius: 0.5em;
   object-position: 50% 50%;
+  image-orientation: from-image;
 }
 
 .photoMarker {
