@@ -14034,7 +14034,7 @@
     },
     {
       "type": "Feature",
-      "properties": { "icon": "flag", "name": "End of the day for some of us" },
+      "properties": { "icon": "flag", "name": "End of the hike for some of us" },
       "geometry": { "type": "Point", "coordinates": [138.6066462705785, -31.527023829839443] }
     },
     {

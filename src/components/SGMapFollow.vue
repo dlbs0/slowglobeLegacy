@@ -6,15 +6,15 @@
       <iconify-icon v-else icon="material-symbols:lock-open" inline></iconify-icon>
       {{ mapInteractive ? 'Lock' : 'Unlock' }} Map
     </div>
-    <div v-if="currentTime != ''" class="timeBox">
-      <iconify-icon icon="mdi:clock" inline></iconify-icon> {{ currentTime }}
-    </div>
     <div
       v-if="overview"
       class="mapCutout boundsFrame"
       v-intersection-observer="[onTopBoundsFrame, { rootMargin: '-45% 0px -45% 0px' }]"
     ></div>
     <div class="mapCutout" v-intersection-observer="onIntersectionObserver" ref="el"></div>
+    <div v-if="currentTime != ''" class="timeBox">
+      <iconify-icon icon="mdi:clock" inline></iconify-icon> {{ currentTime }}
+    </div>
   </div>
   <div class="endSeg"></div>
 </template>
@@ -461,8 +461,13 @@ onUnmounted(() => {
 .timeBox {
   width: max-content;
   position: sticky;
-  top: calc(100vh - 4em);
+  /* top: calc(100vh - 12em); */
+  bottom: 1em;
+  margin-bottom: 1em;
   right: 0em;
+  @media (width <= 900px) {
+    right: 1em;
+  }
   margin-left: auto;
   border-radius: 0.25em;
 
