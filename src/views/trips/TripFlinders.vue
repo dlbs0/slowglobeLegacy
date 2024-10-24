@@ -80,6 +80,7 @@ const tripId = 'flinders'
       :use-time="false"
       :show-time="true"
       :follow-pitch="70"
+      :overview="true"
     />
     <SGImages
       :list="[
@@ -108,7 +109,12 @@ const tripId = 'flinders'
       Matt and Brodie’s path was rather more vertical than ours, with some more rockfall, though we
       did have to contend with entire rockfaces covered in wallaby droppings.
     </SGText>
-    <SGMapOrbit :center="[138.54336937019718, -31.579173755075864]" :zoom="15" :pitch="70" />
+    <SGMapOrbit
+      :center="[138.54336937019718, -31.579173755075864]"
+      :zoom="15"
+      :pitch="70"
+      :hide-marker="true"
+    />
     <SGImages
       :list="[
         '20240712_155334.jpg',

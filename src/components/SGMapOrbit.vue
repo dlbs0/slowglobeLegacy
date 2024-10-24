@@ -25,11 +25,13 @@ const props = defineProps<{
   center: [number, number]
   zoom?: number
   pitch?: number
+  hideMarker?: boolean
 }>()
 
 const randomId = Math.random().toString(36).slice(2)
 const shouldAnimate = ref(false)
 let initialBearing = -99
+let lastTimestamp = 0
 
 function generateFrame(timestamp: number) {
   if (!shouldAnimate.value) return
@@ -37,22 +39,28 @@ function generateFrame(timestamp: number) {
 
   const map = getMap()
   if (!map) return
-  if (initialBearing === -99) initialBearing = timestamp - map.getBearing() * 100
+  if (initialBearing === -99) {
+    initialBearing = timestamp - map.getBearing() * 100
+    lastTimestamp = 0
+  }
 
   const desiredPitch = props.pitch ?? 0
   const currentPitch = map.getPitch()
   let newPitch = currentPitch
   if (Math.abs(desiredPitch - currentPitch) > 1) {
+    if (lastTimestamp == 0) lastTimestamp = timestamp
+    const degsPs = 25
+    const degs = (degsPs * (timestamp - lastTimestamp)) / 1000
     if (desiredPitch > currentPitch) {
-      newPitch = currentPitch + 0.2
+      newPitch = currentPitch + degs
     } else {
-      newPitch = currentPitch - 0.2
+      newPitch = currentPitch - degs
     }
     map.setPitch(newPitch)
   }
 
   map.rotateTo(((timestamp - initialBearing) / 100) % 360, { duration: 0 })
-
+  lastTimestamp = timestamp
   requestAnimationFrame(generateFrame)
 }
 
@@ -109,7 +117,7 @@ function showLocation(visible: boolean) {
 
 onMounted(() => {
   const map = getMap()
-  if (map) {
+  if (map && props.hideMarker !== true) {
     if (!map.getSource(randomId + 'location'))
       map.addSource(randomId + 'location', {
         type: 'geojson',
