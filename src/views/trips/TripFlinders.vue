@@ -48,25 +48,26 @@ const tripId = 'flinders'
       of gear, for various stages and people, that incredibly all made it where they needed to go.
       <br />
       <br />
-      A few days before the trip, the forecast was not looking great for flying with low visibility
-      right where we would be, and with no improvement the night before, the call was made to drive
-      up, which meant an early start the next morning, and a long drive.
+      A few days before the trip, the forecast was not looking great for flying, with low visibility
+      right where we would be travelling through. With no improvement the night before, the call was
+      made to drive up, which meant an early start the next morning, and a long drive ahead of us.
       <br />
       <br />
       We made it to Hawker by lunchtime, where we met up with Akira and Irina who'd driven up from
       Lincoln, and ate our hiking-style wrap-based cucumber and salami lunch in the park. We were
-      under a bit of time pressure, we needed to be hiking by 1:00pm at the latest to have any
+      under a bit of time pressure; we needed to be hiking by 1:00pm at the latest to have any
       chance of making it to camp before dark, so we set off again quickly, this time in convoy.
       <br />
       <br />
       We left the highway onto Moralana Gorge road, where we stopped immediately in front of a
       bullet riddled road closed sign. There’d been a lot of rainfall recently, and the road was
       subject to flooding. The road closure was a bit of a surprise, it had been closed in the lead
-      up to our hike, but had been open for the last two days, at least according the website, which
-      due to the lack of service wasn’t a useful crosschecking tool at the time. While we were
+      up to our hike, but had been open for the last two days. Well, at least according the website,
+      which due to the lack of service wasn’t a useful crosschecking tool at the time. While we were
       pretty confident that we’d be able to get through with the 4WD, our 2WD support car had to be
-      able to get through in order to pick up the other car, and the sign saying shooting was active
-      in the area, made us want to get some confirmation.
+      able to get through in order to pick up the other car (did I mention this hike was
+      logistically ambitious?), and the sign saying shooting was active in the area, made us want to
+      get some confirmation.
       <br />
       <br />
       So off to Rawnsley Park station we went, which is where we initially planned to fly into.
