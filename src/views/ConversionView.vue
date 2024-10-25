@@ -20,7 +20,7 @@
 import { computed, onMounted, ref, watch, type Ref } from 'vue'
 import { gpx, kml } from '@tmcw/togeojson'
 import { useClipboard } from '@vueuse/core'
-import { fitBounds, getMap } from '@/functions/map'
+import { getMap } from '@/functions/map'
 import { center, featureCollection } from '@turf/turf'
 import type { GeoJSONSource } from 'mapbox-gl'
 import type { FeatureCollection } from 'geojson'
@@ -104,5 +104,5 @@ const geoJsonStringVersion = computed(() => {
     return ''
   }
 })
-const { copy, copied, isSupported } = useClipboard({ source: geoJsonStringVersion })
+const { copy } = useClipboard({ source: geoJsonStringVersion })
 </script>

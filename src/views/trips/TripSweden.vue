@@ -6,7 +6,6 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { sweden } from '@/trips/sweden'
-import SGMapFollow from '@/components/SGMapFollow.vue'
 
 // Flight data from https://www.flightaware.com/live/flight/THA466/history/20240905/0340Z/YMML/VTBS/tracklog
 

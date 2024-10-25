@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView, useRoute } from 'vue-router'
 import { useMap } from '@/functions/map'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 const route = useRoute()
 
 const { interactive } = useMap()
