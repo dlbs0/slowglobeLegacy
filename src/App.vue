@@ -89,6 +89,8 @@ header {
   justify-content: center;
   text-align: center;
   z-index: 100;
+  max-width: fit-content;
+  margin: 0 auto;
 }
 .wrapper {
   background-color: var(--header-background-color);
