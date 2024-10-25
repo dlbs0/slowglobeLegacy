@@ -58,6 +58,11 @@ const router = createRouter({
       component: () => import('../views/trips/TripGavle.vue')
     },
     {
+      path: '/trip/sweden',
+      name: 'sweden',
+      component: () => import('../views/trips/TripSweden.vue')
+    },
+    {
       path: '/trip/flinders',
       name: 'flinders',
       component: () => import('../views/trips/TripFlinders.vue')

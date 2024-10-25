@@ -16,23 +16,8 @@ export interface TripGeographyOverview {
   zoom: number
 }
 
-import sundsvallImage from '@/assets/images/other/20240906_112409.jpg?w=600&gallery'
-
-export const sundsvall: Trip = {
-  id: 'sundsvall',
-  name: 'Sundsvall',
-  headerImage: sundsvallImage,
-  date: '2024-09-06',
-  locationText: 'Sundsvall, Sweden',
-  geography: {
-    overview: {
-      center: [17.9, 62.4],
-      zoom: 6
-    }
-  }
-}
-
 import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
+import { sweden } from './sweden'
 
 export const greatOceanRoad: Trip = {
   id: 'great-ocean-road',
@@ -62,4 +47,4 @@ export function getTripHeaderInfoById(id: string) {
   return { locationText, date, headerImage }
 }
 
-export const allTrips: Trip[] = [gavle, bracke, sundsvall, greatOceanRoad, flinders]
+export const allTrips: Trip[] = [gavle, bracke, sweden, greatOceanRoad, flinders]
