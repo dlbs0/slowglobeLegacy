@@ -1,5 +1,5 @@
 import type { Trip } from './allTrips'
-import imgUrl from '@/assets/images/bracke/20240922_162227.jpg?w=600&gallery'
+import imgUrl from '@/assets/images/flinders/20240712_141222-2.jpg?w=600&gallery'
 import type { FeatureCollection } from 'geojson'
 import flindersGeo from '@/trips/flindersHike.json'
 

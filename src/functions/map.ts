@@ -226,9 +226,11 @@ function addLayersAndSources() {
 
   const images: [string, string, boolean?][] = [
     ['diamond', 'diamond.png'],
-    ['pattern-dot', 'circle.png'],
+    ['pattern-dot', 'dot.png'],
     ['loc-arrow', 'locArrow.png'],
     ['campsite', 'campsite.png'],
+    ['target', 'target.png'],
+    ['plane', 'plane.png'],
     ['mountain', 'mountain.png'],
     ['picnic', 'picnic-site.png'],
     ['flag', 'racetrack.png']
@@ -287,6 +289,7 @@ function addLayersAndSources() {
     layout: { 'line-join': 'none' },
     paint: {
       // 'line-width': 10,
+      'line-occlusion-opacity': 0.5,
       'line-pattern': 'pattern-dot',
       'line-color': 'rgb(110, 25, 25)',
       'line-width': [
@@ -383,7 +386,6 @@ function addLayersAndSources() {
         lineBaseWidth * 2
       ]
     },
-    // filter: ['==', 'type', 'walk']
     filter: [
       'all',
       ['==', ['get', 'type'], 'walk'],
@@ -410,6 +412,48 @@ function addLayersAndSources() {
       'line-dasharray': [0, 2, 2]
     },
     filter: ['==', 'type', 'train']
+  })
+  map.addLayer({
+    id: 'detail-tracks-flight-yellow',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      'line-color': '#aa8c53',
+      'line-width': 3
+    },
+    filter: ['==', 'type', 'flight']
+  })
+  map.addLayer({
+    id: 'detail-tracks-flight',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      'line-color': 'rgb(110, 25, 25)',
+      'line-width': 1.5,
+      'line-gap-width': 3
+    },
+    filter: ['==', 'type', 'flight']
+  })
+  map.addLayer({
+    id: 'detail-tracks-flight-icon',
+    type: 'symbol',
+    source: 'detail-tracks',
+    paint: { 'text-color': '#fff', 'text-translate': [0, 0], 'icon-translate': [0, 0] },
+    layout: {
+      'symbol-placement': 'line',
+      'icon-image': 'plane',
+      'icon-rotate': 90,
+
+      'icon-anchor': 'bottom',
+      // 'text-field': ['get', 'name'],
+      // 'text-font': ['Crimson Bold', 'Open Sans Regular', 'Arial Unicode MS Regular'],
+      // 'text-anchor': 'left',
+      // 'text-size': 12,
+      // 'symbol-spacing': 50
+      'symbol-spacing': ['interpolate', ['linear'], ['zoom'], 5, 50, 10, 200]
+      // 'text-radial-offset': 2
+    },
+    filter: ['==', 'type', 'flight']
   })
   map.addLayer({
     id: 'detail-points',
@@ -482,7 +526,10 @@ export function showOverviews(value: boolean) {
     'detail-tracks-walk',
     'detail-tracks-train',
     'detail-tracks-train-dashes',
-    'detail-points'
+    'detail-points',
+    'detail-tracks-flight',
+    'detail-tracks-flight-yellow',
+    'detail-tracks-flight-icon'
   ]
   detailLayers.forEach((layer) => {
     const lay = map?.getLayer(layer)
