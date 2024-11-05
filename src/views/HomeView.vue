@@ -181,19 +181,20 @@ const intMarg = computed(() => {
   translate: -100px 0;
   width: 1px;
   height: 90px;
-  background-color: blue;
   scroll-snap-align: center;
   @media (width <= 900px) {
     scroll-snap-align: end;
     height: 100%;
     @supports (-webkit-touch-callout: none) {
       /* CSS specific to iOS devices */
+      background-color: blue;
       scroll-snap-align: start;
       height: 100vh;
+      z-index: 20;
     }
   }
   scroll-snap-stop: always;
-  z-index: 20;
+  z-index: -20;
 }
 
 .mapSpacer {
@@ -217,6 +218,9 @@ const intMarg = computed(() => {
   width: var(--polaroid-width);
   height: unset;
   translate: none;
+  padding: 0px 10vw;
+  padding-top: calc(50vh - 4em);
+
   @media (width <= 900px) {
     height: 100%;
     width: 100%;
@@ -224,8 +228,6 @@ const intMarg = computed(() => {
     padding: 0;
     justify-content: end;
   }
-  padding: 0px 10vw;
-  padding-top: calc(50vh - 4em);
 
   font-family: 'Reenie Beanie', 'Courier New', Courier, monospace;
   line-height: 2em;
