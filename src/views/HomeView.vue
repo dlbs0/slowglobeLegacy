@@ -187,8 +187,8 @@ const intMarg = computed(() => {
     scroll-snap-align: end;
     height: 100%;
     @supports (-webkit-touch-callout: none) {
-      scroll-snap-align: end;
       /* CSS specific to iOS devices */
+      scroll-snap-align: start;
       height: 100vh;
     }
   }
