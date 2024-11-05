@@ -131,9 +131,9 @@ const intMarg = computed(() => {
 
 <style scoped>
 .attributionContainer {
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
-  scroll-snap-align: end;
+  scroll-snap-align: start;
   z-index: 4;
   width: 100%;
   color: var(--md-sys-color-on-surface);
