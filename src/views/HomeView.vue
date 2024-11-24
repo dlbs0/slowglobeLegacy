@@ -134,7 +134,7 @@ const intMarg = computed(() => {
   min-height: 100vh;
   position: relative;
   scroll-snap-align: start;
-  z-index: 4;
+  z-index: 110;
   width: 100%;
   color: var(--md-sys-color-on-surface);
   background-color: var(--md-sys-color-surface);
@@ -219,12 +219,11 @@ const intMarg = computed(() => {
   height: unset;
   translate: none;
   padding: 0px 10vw;
-  padding-top: calc(50vh - 4em);
+  padding-top: calc(50vh - 2em);
 
   @media (width <= 900px) {
     height: 100%;
     width: 100%;
-    padding-top: 4em;
     padding: 0;
     justify-content: end;
   }

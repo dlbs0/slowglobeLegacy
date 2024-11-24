@@ -12,12 +12,11 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
 
 <template>
   <header>
-    <div class="wrapper">
-      <RouterLink to="/"> SG </RouterLink>
-    </div>
+    <RouterLink to="/">
+      <img src="/images/logoStamp.svg" />
+    </RouterLink>
   </header>
   <main>
-    <!-- <RouterView /> -->
     <div class="map" id="backmap"></div>
     <router-view v-slot="{ Component, route }">
       <Transition :name="transitionName" mode="out-in">
@@ -81,32 +80,23 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
 
 <style scoped>
 header {
-  max-height: 4rem;
-  position: sticky;
+  position: fixed;
   top: 0;
+  right: 0;
   left: 0;
-  display: flex;
-  justify-content: center;
-  text-align: center;
   z-index: 100;
-  max-width: fit-content;
   margin: 0 auto;
-}
-.wrapper {
-  background-color: var(--header-background-color);
-  z-index: 100;
   width: min-content;
-  font-size: 3.5rem;
-  font-weight: 700;
-  padding: 0 0.4em;
-  border-radius: 0 0 0.2em 0.2em;
-  color: rgb(110, 25, 25);
-  color: var(--primary);
-  a {
-    text-decoration: none;
-    color: inherit;
+
+  img {
+    padding-top: 1em;
+    width: 4rem;
+    transition: width 0.5s ease;
+    width: v-bind('shouldScrollSnap ?  "7rem":"4rem"');
+    filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.4));
   }
 }
+
 .router-link-active {
   text-decoration: none;
 }
