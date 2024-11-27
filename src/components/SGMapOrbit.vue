@@ -17,7 +17,7 @@ import { useHikingLayers, getMap, useMapInteractive } from '@/functions/map'
 import { featureCollection, point } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
-import type { GeoJSONSource } from 'mapbox-gl'
+import { LngLat, type GeoJSONSource } from 'mapbox-gl'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
 const { showHikingLayers } = useHikingLayers()
 
@@ -59,8 +59,10 @@ function generateFrame(timestamp: number) {
     }
     map.setPitch(newPitch)
   }
+  const nb = ((timestamp - initialBearing) / 100) % 360
 
-  map.rotateTo(((timestamp - initialBearing) / 100) % 360, { duration: 0 })
+  map.jumpTo({ center: LngLat.convert(props.center), zoom: props.zoom ?? 12, bearing: nb })
+  // map.rotateTo(((timestamp - initialBearing) / 100) % 360, { duration: 0 })
   lastTimestamp = timestamp
   requestAnimationFrame(generateFrame)
 }
@@ -75,12 +77,18 @@ function flyToCenter() {
     if (!shouldAnimate.value) return
     const map = getMap()
     if (!map) return
+
+    const mapCenterDistance = map.getCenter().distanceTo(LngLat.convert(props.center))
+    const shouldFlyToCenter = mapCenterDistance > 10
+    let pitch
+    if (shouldFlyToCenter) pitch = props.pitch ? 5 : 0
+    else pitch = props.pitch ?? 0
+
     map.flyTo({
       center: props.center,
       zoom: props.zoom ?? 12,
-      pitch: props.pitch ? 5 : 0,
+      pitch,
       bearing: map.getBearing(),
-      // duration: 2000,
       speed: 1,
       easing: (t) => {
         return t
