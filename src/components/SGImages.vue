@@ -3,12 +3,13 @@ import { allTripImages, fullPathLookup } from '@/functions/images'
 import { getMap } from '@/functions/map'
 import { asyncComputed, useIntersectionObserver } from '@vueuse/core'
 import mapboxgl, { Marker } from 'mapbox-gl'
-import { computed, onUnmounted, ref } from 'vue'
-import { Gallery } from 'vue-preview-imgs'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { Gallery, setGallery, Item } from 'vue-preview-imgs'
 
 interface Img {
   img: string
   coords?: [number, number]
+  caption?: string
 }
 
 const props = defineProps<{
@@ -20,7 +21,8 @@ const imageList = computed(() =>
   (props.list ?? []).map((i) => {
     return {
       module: allTripImages[fullPathLookup[typeof i == 'string' ? i : i.img]],
-      coords: typeof i == 'string' ? undefined : i?.coords
+      coords: typeof i == 'string' ? undefined : i?.coords,
+      caption: typeof i == 'string' ? undefined : i?.caption
     }
   })
 )
@@ -33,12 +35,21 @@ const galleryImages = asyncComputed(async () => {
     height: number
     thumbnail: string
     coords?: [number, number]
+    caption: string
   }> = []
   for (const path in imageList.value) {
     const mod = await imageList.value[path].module()
     const coords = imageList.value[path].coords
+    const caption = imageList.value[path]?.caption ?? ''
     const { width, height } = mod[1]
-    output.push({ href: mod[1].src, width, height, thumbnail: mod[0].src, coords })
+    output.push({
+      href: mod[1].src,
+      width,
+      height,
+      thumbnail: mod[0].src,
+      coords,
+      caption
+    })
   }
   return output
 })
@@ -89,7 +100,12 @@ onUnmounted(() => {
 <template>
   <div class="container">
     <div class="gallery-container" ref="target">
-      <Gallery :list="galleryImages" />
+      <!-- <Gallery :list="galleryImages" /> -->
+      <Gallery>
+        <template v-for="item in galleryImages" :key="item.href">
+          <Item v-bind="item" :title="item.caption" />
+        </template>
+      </Gallery>
     </div>
   </div>
 </template>

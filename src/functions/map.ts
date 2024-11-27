@@ -414,6 +414,29 @@ function addLayersAndSources() {
     filter: ['==', 'type', 'train']
   })
   map.addLayer({
+    id: 'detail-tracks-bus',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      // 'line-color': '#aa8c53',
+      'line-color': 'rgb(110, 25, 25)',
+      'line-width': 6
+    },
+    filter: ['==', 'type', 'bus']
+  })
+  map.addLayer({
+    id: 'detail-tracks-bus-dashes',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      'line-color': '#aa8c53',
+      // 'line-color': 'rgb(110, 25, 25)',
+      'line-width': 4
+      // 'line-dasharray': [0, 2, 4]
+    },
+    filter: ['==', 'type', 'bus']
+  })
+  map.addLayer({
     id: 'detail-tracks-flight-yellow',
     type: 'line',
     source: 'detail-tracks',
@@ -526,6 +549,8 @@ export function showOverviews(value: boolean) {
     'detail-tracks-walk',
     'detail-tracks-train',
     'detail-tracks-train-dashes',
+    'detail-tracks-bus',
+    'detail-tracks-bus-dashes',
     'detail-points',
     'detail-tracks-flight',
     'detail-tracks-flight-yellow',

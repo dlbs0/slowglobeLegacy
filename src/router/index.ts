@@ -48,6 +48,11 @@ const router = createRouter({
       component: () => import('../views/PointSelectView.vue')
     },
     {
+      path: '/trip/ljusdal',
+      name: 'ljusdal',
+      component: () => import('../views/trips/TripLjusdal.vue')
+    },
+    {
       path: '/trip/bracke',
       name: 'bracke',
       component: () => import('../views/trips/TripBracke.vue')
