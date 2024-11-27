@@ -156,7 +156,7 @@ const intMarg = computed(() => {
 
 .name {
   color: var(--primary);
-  font-family: 'Libre Caslon Display', serif;
+  font-family: 'Libre Caslon Text', serif;
   font-weight: 600;
   font-size: 2em;
 }

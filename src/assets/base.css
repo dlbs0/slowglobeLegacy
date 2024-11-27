@@ -46,7 +46,8 @@ body {
 }
 
 h1 {
-  font-family: 'Libre Caslon Display', serif;
+  /* font-family: 'Libre Caslon Display', serif; */
+  font-family: 'Libre Caslon Text', serif;
   color: var(--primary);
   font-optical-sizing: auto;
   font-weight: 600;
