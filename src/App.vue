@@ -20,7 +20,7 @@ const transitionName = computed(() => (route.path === '/' ? 'slide' : 'up'))
     <div class="map" id="backmap"></div>
     <router-view v-slot="{ Component, route }">
       <Transition :name="transitionName" mode="out-in">
-        <div :key="route.name" class="test">
+        <div :key="route.name">
           <component :is="Component" :key="route.path"></component>
         </div>
       </Transition>
