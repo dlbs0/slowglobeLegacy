@@ -115,6 +115,7 @@ const tripId = 'flinders'
       :zoom="15"
       :pitch="70"
       :hide-marker="true"
+      :satellite="true"
     />
     <SGImages
       :list="[

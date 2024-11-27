@@ -8,7 +8,7 @@ export const ljusdal: Trip = {
   name: 'A graphic lunch in Ljusdal',
   headerImage: imgUrl,
   // headerImage: '/images/gavle/DSC_0241.jpg',
-  date: '2024-11-27',
+  date: '2024-11-26',
   locationText: 'Ljusdal, Sweden',
   geography: {
     overview: {

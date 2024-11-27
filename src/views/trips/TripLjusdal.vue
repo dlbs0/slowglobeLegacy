@@ -6,6 +6,7 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { ljusdal } from '@/trips/ljusdal'
+import SGMapOrbit from '@/components/SGMapOrbit.vue'
 
 const tripId = 'ljusdal'
 </script>
@@ -59,25 +60,30 @@ const tripId = 'ljusdal'
       which is a creamy chive filled side dish that you either dip or spread onto your pizza. It's
       not bad, but possibly unnecessary on what was an excellent meal.
     </SGText>
-    <SGMapCutout :center="[17.10789360017543, 61.726987298161816]" :zoom="15.5" />
     <SGText>
       On my way home I had an hour to kill in Hudiksvall, which is a very cute seaside city all
       dressed up for Christmas. I got a chance to wander the town city, complete with canal and
       lake, lovely pastel old buildings, and of course the mandatory church on the hill.
     </SGText>
+    <!-- <SGMapCutout :center="[17.10789360017543, 61.726987298161816]" :zoom="15.5" :pitch="60" /> -->
+    <SGMapOrbit :center="[17.10789360017543, 61.726987298161816]" :zoom="15.5" :pitch="60" />
     <SGImages
       :list="[
-        '20241126_142457.jpg',
+        { img: '20241126_142457.jpg', coords: [17.107931996545744, 61.726869336238025] },
         '20241126_142952.jpg',
-        '20241126_144215.jpg',
+        { img: '20241126_144215.jpg', coords: [17.106549455633626, 61.72819503851662] },
         '20241126_142642.jpg',
-        '20241126_143343.jpg',
-        { img: '20241126_143643.jpg', caption: 'Beware the killer robots (if you\'re grass)' },
+        { img: '20241126_143343.jpg', coords: [17.109817945289592, 61.72868861469257] },
         '20241126_143558.jpg',
-        '20241126_144102.jpg'
+        '20241126_144102.jpg',
+        { img: '20241126_143643.jpg', caption: 'Beware the killer robots (if you\'re grass)' }
       ]"
+      :add-photos-to-map="true"
     />
     <SGText>
+      Beware the killer robots (if you're grass).
+      <br />
+      <br />
       I've been really enjoying my marketplace interactions. People warned me that the Swedes could
       be quite reserved and insular, but I've found the opposite to be true. Everyone I've met has
       invited me in for a chat or a drink. It's just a pity that they've all been hours away.

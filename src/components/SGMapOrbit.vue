@@ -26,6 +26,7 @@ const props = defineProps<{
   zoom?: number
   pitch?: number
   hideMarker?: boolean
+  satellite?: boolean
 }>()
 
 const randomId = Math.random().toString(36).slice(2)
@@ -97,7 +98,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
   if (isIntersecting) {
     shouldAnimate.value = true
     flyToCenter()
-    showHikingLayers(true)
+    if (props.satellite) showHikingLayers(true)
     showLocation(true)
   } else {
     showHikingLayers(false)
