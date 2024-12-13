@@ -9,6 +9,7 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import type { Feature, LineString } from 'geojson'
 import SGMapOrbit from '@/components/SGMapOrbit.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
+import SGDayBreak from '@/components/SGDayBreak.vue'
 
 const dayOneGeom = flinders.geography.detail?.features[0] as Feature<LineString>
 const dayTwoGeom = flinders.geography.detail?.features[1] as Feature<LineString>
@@ -152,18 +153,75 @@ const tripId = 'flinders'
         'PXL_20240712_104235784.MP.jpg'
       ]"
     ></SGImages>
-    <SGText> St Mary's Peak </SGText>
-    <SGText> Flonders Rongers </SGText>
-    <SGMapCutout :fit-bounds-geometry="flinders.geography.detail" :pitch="0" />
-    <SGText> Flonders Rongers </SGText>
-    <SGText> Flonders Rongers </SGText>
+    <SGDayBreak />
+    <SGText>
+      The night was cold. Some of us were better prepared for that than others. Brodie, still
+      working out his hammock setup, felt it the most with a restless night, as too did Irina on a
+      half length sleeping mat. When the suns rays started to slightly bring the temperature up,
+      many of us took advantage of it too get some more comfortable sleep.
+      <br />
+      <br />
+      As a result, we broke camp rather later than initially planned, but well rested. The goal
+      today was to climb up and over Tanderra Saddle, and make our way down to Wilpena Pound, where
+      the more sensible hikers would stay, while the silly ones continued on to camp at Wilcolo
+      Campsite.
+    </SGText>
+    <SGMapCutout :fit-bounds-geometry="flinders.geography.detail?.features[1]" />
+    <SGText>
+      <br />
+      <br />
+      The walk up to the saddle was relatively uneventful, easily making it to the top for lunch.
+      The chopper pilot back at Rawnsley Station may have been right to question our direction of
+      travel, as all the views were behind us again. The views at lunch, however, were excellent and
+      all around us. We ate well, knowing we had a resupply a few hours away.
+    </SGText>
+    <SGImages
+      :list="[
+        'PXL_20240712_224012445.jpg',
+        'PXL_20240713_005906686.MP.jpg',
+        '20240713_103459.jpg',
+        '20240713_121635.jpg',
+        'PXL_20240713_024713364.jpg',
+        'PXL_20240713_032554555.jpg',
+        '20240713_130444.jpg',
+        '20240713_130515.jpg',
+        '20240713_130522.jpg'
+      ]"
+    ></SGImages>
+    <SGText>
+      Unfortunately, it took us a few more hours than expected to reach the resupply. Progress down
+      the steep and rocky hillside was slow and technical, and it wasn't until we were back on flat
+      ground that we were confident we'd get in on time. The landscape in the park was always
+      changing; now in the shadow of the pound, we were walking through creek beds, trees were
+      covered in lichen, and the air was noticeably cooler.
+      <br />
+      <br />
+      We met up with Mum and Rick at the Wilpena Campground just as they were getting settled in,
+      and we had about 20 minutes of chaos before we needed to be walking again to make our
+      campsite. We resupplied, dropped off, refilled, caught up, tried to explain the plan, and
+      increased our daily scroggin budget in a hectic rush, sure we were forgetting something. We
+      somehow managed to convince Brodie to keep walking/limping, and set off at best pace for our
+      campsite, arriving just before last light yet again.
+    </SGText>
     <SGMapFollow
       :geometry="dayTwoGeom"
       :follow="true"
-      :overview="true"
+      :overview="false"
       :use-time="false"
       :show-time="true"
     />
+    <SGImages
+      :list="[
+        'PXL_20240713_035650511.MP.jpg',
+        '20240713_135537.jpg',
+        'PXL_20240713_053804412.jpg',
+        'PXL_20240713_071414475.jpg',
+        '20240713_171357.jpg'
+      ]"
+    ></SGImages>
+    <SGDayBreak />
+
+    <SGText> We woke to the most beautiful morning light on the side of the range. </SGText>
     <SGMapFollow :geometry="dayThreeGeom" :follow="false" :overview="true" :use-time="true" />
     <SGMapFollow :geometry="dayFourGeom" :follow="true" :overview="true" :use-time="false" />
   </DetailView>
