@@ -82,6 +82,7 @@ import {
   showExtraTripDetail,
   showOverviews,
   showTracks,
+  useHikingLayers,
   useMapInteractive
 } from '@/functions/map'
 import { getTripHeaderInfoById } from '@/trips/allTrips'
@@ -94,6 +95,7 @@ const props = defineProps({
   trip: String
 })
 const { setMapInteractive } = useMapInteractive()
+const { showHikingLayers } = useHikingLayers()
 
 onMounted(() => {
   setMapInteractive(false)
@@ -108,6 +110,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
   if (isIntersecting && router.currentRoute.value.name == props.trip) {
     showArticleStart(props.trip ?? '')
     showExtraTripDetail(false)
+    showHikingLayers(false)
   } else {
     // showExtraTripDetail(true)
   }

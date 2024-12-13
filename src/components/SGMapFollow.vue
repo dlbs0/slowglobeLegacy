@@ -40,7 +40,7 @@ const props = defineProps<{
   showTime?: boolean
   followPitch?: number
   followZoom?: number
-  noSatelite?: boolean
+  noSatellite?: boolean
 }>()
 
 const fPitch = props.followPitch ?? 60
@@ -356,9 +356,9 @@ useIntersectionObserver(
   ([{ isIntersecting }]) => {
     if (isIntersecting) {
       showLocationArrow(true)
-      if (props.noSatelite !== true) showHikingLayers(true)
+      showHikingLayers(props.noSatellite !== true)
     } else {
-      showHikingLayers(false)
+      // showHikingLayers(false)
       showLocationArrow(false)
     }
   },
@@ -414,7 +414,7 @@ onUnmounted(() => {
     if (map.getLayer(randomId + 'locArrow')) map.removeLayer(randomId + 'locArrow')
   }
   showLocationArrow(false)
-  showHikingLayers(false)
+  // showHikingLayers(false)
   shouldAnimate.value = false
 })
 </script>

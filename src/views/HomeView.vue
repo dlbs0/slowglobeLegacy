@@ -9,6 +9,7 @@ import {
   showExtraTripDetail,
   showGlobe,
   showOverviews,
+  useHikingLayers,
   useMapInteractive,
   zoomToId
 } from '@/functions/map'
@@ -16,12 +17,14 @@ import { allTrips } from '@/trips/allTrips'
 import { useRouter } from 'vue-router'
 import PostageStamp from '@/components/PostageStamp.vue'
 
+const { showHikingLayers } = useHikingLayers()
 const { setMapInteractive } = useMapInteractive()
 
 const router = useRouter()
 
 onBeforeMount(() => {
   showGlobe()
+  showHikingLayers(false)
   setMapInteractive(false)
   setMapSpin(true)
   showOverviews(true)

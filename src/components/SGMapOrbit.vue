@@ -106,10 +106,10 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
   if (isIntersecting) {
     shouldAnimate.value = true
     flyToCenter()
-    if (props.satellite) showHikingLayers(true)
+    showHikingLayers(props.satellite ?? false)
     showLocation(true)
   } else {
-    showHikingLayers(false)
+    // showHikingLayers(false, randomId)
     showLocation(false)
     shouldAnimate.value = false
     initialBearing = -99
@@ -147,7 +147,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  showHikingLayers(false)
+  // showHikingLayers(false)
   const map = getMap()
   if (map) {
     if (map.getLayer(randomId + 'location')) map.removeLayer(randomId + 'location')

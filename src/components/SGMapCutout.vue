@@ -13,12 +13,13 @@
 </template>
 
 <script setup lang="ts">
-import { fitBounds, getMap, useMapInteractive } from '@/functions/map'
+import { fitBounds, getMap, useHikingLayers, useMapInteractive } from '@/functions/map'
 import type { Feature, FeatureCollection } from 'geojson'
 import { featureCollection } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
 import { useWindowSize } from '@vueuse/core'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
+const { showHikingLayers } = useHikingLayers()
 
 const props = defineProps<{
   fitBoundsGeometry?: FeatureCollection | Feature
@@ -29,11 +30,9 @@ const props = defineProps<{
 
 const { height } = useWindowSize()
 
-function onIntersectionObserver([
-  { isIntersecting, target, rootBounds }
-]: IntersectionObserverEntry[]) {
+function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting) {
-    console.log('target.id:', target.id, rootBounds)
+    showHikingLayers(false)
     if (props.fitBoundsGeometry) {
       const vh = height.value * 0.2
       fitBounds(
