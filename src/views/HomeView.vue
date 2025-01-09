@@ -59,6 +59,39 @@ const intMarg = computed(() => {
   }
   return '-45% 0px -45% 0px'
 })
+
+function showNotification() {
+  function renderNotif() {
+    const notification = new Notification('A new entry was posted on Slow Globe', {
+      body: 'A graphic lunch in Ljusdal',
+      badge: 'https://explore.danielbirchsmith.com/images/logoStamp.svg',
+      icon: 'https://explore.danielbirchsmith.com/images/logoStamp.svg',
+      image:
+        'https://api.mapbox.com/styles/v1/dlbs0/cm5phtqcr00h301rz8au80wkk/static/17.5955,62.4376,4.89,0/300x200@2x?access_token=pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
+      // 'https://api.mapbox.com/styles/v1/dlbs0/cm5pf7vuc00h801plejusddml/static/16.1065,61.8373,9,0/300x200?access_token=pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
+      // 'https://api.mapbox.com/styles/v1/mapbox/outdoors-v12/static/16.0991,61.8265,9,0/300x200?access_token=pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
+    })
+  }
+  if (!('Notification' in window)) {
+    // Check if the browser supports notifications
+    alert('This browser does not support desktop notification')
+  } else if (Notification.permission === 'granted') {
+    // Check whether notification permissions have already been granted;
+    // if so, create a notification
+    renderNotif()
+  } else if (Notification.permission !== 'denied') {
+    // We need to ask the user for permission
+    Notification.requestPermission().then((permission) => {
+      // If the user accepts, let's create a notification
+      if (permission === 'granted') {
+        renderNotif()
+      }
+    })
+  }
+
+  // At last, if the user has denied notifications, and you
+  // want to be respectful there is no need to bother them anymore.
+}
 </script>
 
 <template>
@@ -72,6 +105,9 @@ const intMarg = computed(() => {
       Scroll Down
       <br />
       <iconify-icon icon="guidance:down-arrow"></iconify-icon>
+      <button @click="showNotification">
+        <iconify-icon icon="mdi:bell"></iconify-icon> Notifications
+      </button>
     </div>
     <div class="mapSpacer"></div>
     <template v-for="i in allTrips" :key="i">
