@@ -66,6 +66,7 @@ function showNotification() {
       body: 'A graphic lunch in Ljusdal',
       badge: 'https://explore.danielbirchsmith.com/images/logoStamp.svg',
       icon: 'https://explore.danielbirchsmith.com/images/logoStamp.svg',
+      //@ts-expect-error doesn't know about this yet
       image:
         'https://api.mapbox.com/styles/v1/dlbs0/cm5phtqcr00h301rz8au80wkk/static/17.5955,62.4376,4.89,0/300x200@2x?access_token=pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
       // 'https://api.mapbox.com/styles/v1/dlbs0/cm5pf7vuc00h801plejusddml/static/16.1065,61.8373,9,0/300x200?access_token=pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
