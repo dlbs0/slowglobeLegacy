@@ -158,7 +158,7 @@ const tripId = 'flinders'
       The night was cold. Some of us were better prepared for that than others. Brodie, still
       working out his hammock setup, felt it the most with a restless night, as too did Irina on a
       half length sleeping mat. When the suns rays started to slightly bring the temperature up,
-      many of us took advantage of it too get some more comfortable sleep.
+      many of us took advantage of it to get some more comfortable sleep.
       <br />
       <br />
       As a result, we broke camp rather later than initially planned, but well rested. The goal
