@@ -99,13 +99,15 @@ header {
   padding: 0 0.4em;
   border-radius: 0 0 0.2em 0.2em;
   color: rgb(110, 25, 25);
-  color: var(--primary);
+  color: var(--primary) !important;
   a {
     text-decoration: none;
     color: inherit;
+    color: var(--primary) !important;
   }
 }
 .router-link-active {
+  color: var(--primary) !important;
   text-decoration: none;
 }
 .map {

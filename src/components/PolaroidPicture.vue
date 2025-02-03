@@ -136,5 +136,8 @@ defineProps({
   bottom: 5px;
   padding: 5px 5px;
   margin: 0;
+  text-decoration: none;
+  color: inherit;
+  color: var(--text-heading-color);
 }
 </style>
