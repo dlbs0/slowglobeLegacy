@@ -7,7 +7,7 @@ export const flinders: Trip = {
   id: 'flinders',
   name: 'Hiking the Flinders Ranges',
   headerImage: imgUrl,
-  date: '2024-07-222',
+  date: '2024-07-22',
   locationText: 'Flinders Ranges, South Australia',
   geography: {
     overview: {

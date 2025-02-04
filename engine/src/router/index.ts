@@ -50,27 +50,27 @@ const router = createRouter({
     {
       path: '/trip/ljusdal',
       name: 'ljusdal',
-      component: () => import('../views/trips/TripLjusdal.vue')
+      component: () => import('~/ljusdal/TripLjusdal.vue')
     },
     {
       path: '/trip/bracke',
       name: 'bracke',
-      component: () => import('../views/trips/TripBracke.vue')
+      component: () => import('~/bracke/TripBracke.vue')
     },
     {
       path: '/trip/gavle',
       name: 'gavle',
-      component: () => import('../views/trips/TripGavle.vue')
+      component: () => import('~/gavle/TripGavle.vue')
     },
     {
       path: '/trip/sweden',
       name: 'sweden',
-      component: () => import('../views/trips/TripSweden.vue')
+      component: () => import('~/sweden/TripSweden.vue')
     },
     {
       path: '/trip/flinders',
       name: 'flinders',
-      component: () => import('../views/trips/TripFlinders.vue')
+      component: () => import('~/flinders/TripFlinders.vue')
     }
     // {
     //   path: '/trip/:id',

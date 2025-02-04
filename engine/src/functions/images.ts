@@ -1,6 +1,6 @@
 import type { ImageModules } from './classes'
 
-export const allTripImages = import.meta.glob('@/assets/images/**/*.jpg', {
+export const allTripImages = import.meta.glob('~/**/images/*.jpg', {
   query: {
     w: '400;',
     // h: '300;',

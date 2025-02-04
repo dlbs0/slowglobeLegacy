@@ -5,7 +5,7 @@ import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
-import { bracke } from '@/trips/bracke'
+import { bracke } from './bracke'
 import { featureCollection, point } from '@turf/turf'
 
 const tripId = 'bracke'
