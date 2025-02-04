@@ -1,6 +1,6 @@
-import type { Trip } from './allTrips'
-import sundsvallImage from '@/assets/images/sweden/20240906_112409.jpg?w=600&gallery'
-import swedenGeo from '@/trips/sweden.json'
+import type { Trip } from '@/trips/allTrips'
+import sundsvallImage from './images/20240906_112409.jpg?w=600&gallery'
+import swedenGeo from './sweden.json'
 import type { FeatureCollection } from 'geojson'
 
 // signal.eu.org/osm/#locs=62.750236,15.417418;62.386411,17.315204

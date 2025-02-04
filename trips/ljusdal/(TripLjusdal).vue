@@ -5,7 +5,7 @@ import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
-import { ljusdal } from '@/trips/ljusdal'
+import { ljusdal } from './ljusdal'
 import SGMapOrbit from '@/components/SGMapOrbit.vue'
 
 const tripId = 'ljusdal'

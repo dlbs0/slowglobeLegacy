@@ -5,7 +5,7 @@ import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
-import { gavle } from '@/trips/gavle'
+import { gavle } from './gavle'
 
 const tripId = 'gavle'
 </script>

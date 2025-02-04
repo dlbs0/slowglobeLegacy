@@ -1,6 +1,8 @@
-import { bracke } from './bracke'
-import { flinders } from './flindersHike'
-import { gavle } from './gavle'
+import { bracke } from '~/bracke/bracke'
+import { flinders } from '~/flinders/flindersHike'
+import { gavle } from '~/gavle/gavle'
+import { sweden } from '~/sweden/sweden'
+import { ljusdal } from '~/ljusdal/ljusdal'
 
 export interface Trip {
   id: string
@@ -16,9 +18,7 @@ export interface TripGeographyOverview {
   zoom: number
 }
 
-import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
-import { sweden } from './sweden'
-import { ljusdal } from './ljusdal'
+import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg'
 
 export const greatOceanRoad: Trip = {
   id: 'great-ocean-road',

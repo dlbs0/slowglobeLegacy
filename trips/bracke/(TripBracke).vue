@@ -6,7 +6,7 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { bracke } from './bracke'
-import { featureCollection, point } from '@turf/turf'
+import { dFeatureCollection, dPoint } from '@/functions/classes'
 
 const tripId = 'bracke'
 </script>
@@ -59,9 +59,9 @@ const tripId = 'bracke'
     <!-- <SGMapCutout :fit-bounds-geometry="bracke.geography.detail?.features[0]" /> -->
     <SGMapCutout
       :fit-bounds-geometry="
-        featureCollection([
-          point([17.300041770187057, 62.393583266996245]),
-          point([17.316135024206655, 62.38844209644947])
+        dFeatureCollection([
+          dPoint([17.300041770187057, 62.393583266996245]),
+          dPoint([17.316135024206655, 62.38844209644947])
         ])
       "
     />

@@ -1,5 +1,5 @@
-import type { Trip } from './allTrips'
-import imgUrl from '@/assets/images/gavle/DSC_0241.jpg?w=600&gallery'
+import type { Trip } from '@/trips/allTrips'
+import imgUrl from './images/DSC_0241.jpg?w=600&gallery'
 
 export const gavle: Trip = {
   id: 'gavle',

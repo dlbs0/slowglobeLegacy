@@ -8,3 +8,8 @@ export type ImageModules = Record<
     }[]
   >
 >
+
+
+import { featureCollection, point } from '@turf/turf'
+export const dFeatureCollection = featureCollection
+export const dPoint= point

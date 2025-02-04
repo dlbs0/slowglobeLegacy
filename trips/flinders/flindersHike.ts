@@ -1,7 +1,7 @@
-import type { Trip } from './allTrips'
-import imgUrl from '@/assets/images/flinders/20240712_141222-2.jpg?w=600&gallery'
+import type { Trip } from '@/trips/allTrips'
+import imgUrl from './images/20240712_141222-2.jpg?w=600&gallery'
 import type { FeatureCollection } from 'geojson'
-import flindersGeo from '@/trips/flindersHike.json'
+import flindersGeo from './flindersHike.json'
 
 export const flinders: Trip = {
   id: 'flinders',
