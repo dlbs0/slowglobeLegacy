@@ -16,7 +16,7 @@ export default defineConfig({
       // '@': fileURLToPath(new URL('./src', import.meta.url)),
       // '~': fileURLToPath(new URL('../trips', import.meta.url)),
       '~': resolve(dirname, '../trips'),
-      '@': resolve(dirname, './src'),
+      '@': resolve(dirname, '../engine/src'),
     }
   },
   build:{outDir: '../dist', emptyOutDir: true},

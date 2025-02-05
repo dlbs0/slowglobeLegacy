@@ -4,24 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" -- && vite-bundle-visualizer",
-    "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build --force",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
-  },
-  "dependencies": {
-    "vue": "^3.4.29"
-  },
-  "devDependencies": {
-    "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.16.14",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "@vue/tsconfig": "^0.5.1",
-    "vite": "^5.4.9",
-    "vue-tsc": "^2.1.6",    "unplugin-vue-router": "^0.11.2",
-    "vite-imagetools": "^7.0.4",    "@types/geojson": "^7946.0.14"
   }
 }
