@@ -7,6 +7,10 @@
     "nightwatch.conf.*",
     "playwright.config.*",
     "./typed-router.d.ts"
+    // "../trips/**/*",
+    // "../trips/**/*.vue",
+    // "./src/**/*",
+    // "./src/**/*.vue"
   ],
   "compilerOptions": {
     "composite": true,

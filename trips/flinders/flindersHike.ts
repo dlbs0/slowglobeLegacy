@@ -1,6 +1,5 @@
 import type { Trip } from '@/trips/allTrips'
 import imgUrl from './images/20240712_141222-2.jpg?w=600&gallery'
-import type { FeatureCollection } from 'geojson'
 import flindersGeo from './flindersHike.json'
 
 export const flinders: Trip = {
@@ -14,6 +13,6 @@ export const flinders: Trip = {
       center: [138.5445785243, -31.5794543736],
       zoom: 7
     },
-    detail: flindersGeo as FeatureCollection
+    detail: flindersGeo as any
   }
 }

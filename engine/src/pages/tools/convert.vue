@@ -1,15 +1,18 @@
 <template>
-  <h1>Convert GPX to timestamped geojson</h1>
+  <div class="inFront">
 
-  <p>Upload GPX file</p>
-
-  gpx: <input type="file" accept=".gpx, .kml" /> <button @click="onConvert">Convert</button>
-  {{ fileType }}
+    <h1>Convert GPX or (KML) to timestamped geojson</h1>
+    
+    <p>Upload GPX/KML file</p>
+    
+    gpx: <input type="file" accept=".gpx, .kml" /> <button @click="onConvert">Convert</button>
+    {{ fileType }}
   <br />
   <input type="text" v-model="geoJsonStringVersion" />
   <button @click="copy()">Copy Output</button>
-
+  
   <!-- geoJsonVersion: {{ geoJsonVersion }} -->
+</div>
   <br />
   <br />
   <br />
@@ -20,13 +23,16 @@
 import { computed, onMounted, ref, watch, type Ref } from 'vue'
 import { gpx, kml } from '@tmcw/togeojson'
 import { useClipboard } from '@vueuse/core'
-import { getMap } from '@/functions/map'
+import { getMap, useMapInteractive } from '@/functions/map'
 import { center, featureCollection } from '@turf/turf'
 import type { GeoJSONSource } from 'mapbox-gl'
 import type { FeatureCollection } from 'geojson'
 
 const gpxText: Ref<string> = ref('')
 const fileType: Ref<string> = ref('')
+
+  const {setMapInteractive}= useMapInteractive()
+  setMapInteractive(true)
 
 // Read the input file when the convert button is clicked
 
@@ -106,3 +112,10 @@ const geoJsonStringVersion = computed(() => {
 })
 const { copy } = useClipboard({ source: geoJsonStringVersion })
 </script>
+
+<style scoped>
+.inFront{
+  position: relative;
+  z-index: 2;
+}
+</style>

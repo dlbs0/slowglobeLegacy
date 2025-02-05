@@ -1,15 +1,17 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "experimentalDecorators": true,
-    "useDefineForClassFields": true,
-    "module": "esnext",
-    "resolveJsonModule": true,
-    "baseUrl": "../engine/src",
-    "allowJs": true,
-    "checkJs": true,
-    "isolatedModules": true,
-    "moduleResolution": "node"
-  },
-  "include": ["**/*.d.ts", "**/*.ts", "**/*.vue", "./**/*.vue", "**/*.js"]
+    "files": [],
+    "references": [
+      {
+        "path": "./tsconfig.node.json"
+      },
+      {
+        "path": "./tsconfig.app.json"
+      }
+      ,{
+"path": "../engine"
 }
+      ],"compilerOptions": {
+          "composite": true,}
+          
+  }
+  
