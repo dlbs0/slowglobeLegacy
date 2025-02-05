@@ -4,6 +4,7 @@ import { flinders } from '~/flinders/flindersHike'
 import { gavle } from '~/gavle/gavle'
 import { sweden } from '~/sweden/sweden'
 import { ljusdal } from '~/ljusdal/ljusdal'
+import { germanGigs } from '~/germanGigs/germanGigs'
 
 export interface Trip {
   id: string
@@ -47,4 +48,12 @@ export function getTripHeaderInfoById(id: string) {
   return { locationText, date, headerImage }
 }
 
-export const allTrips: Trip[] = [ljusdal, gavle, bracke, sweden, greatOceanRoad, flinders]
+export const allTrips: Trip[] = [
+  germanGigs,
+  ljusdal,
+  gavle,
+  bracke,
+  sweden,
+  greatOceanRoad,
+  flinders
+]

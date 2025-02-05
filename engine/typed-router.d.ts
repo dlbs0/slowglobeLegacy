@@ -25,9 +25,9 @@ declare module 'vue-router/auto-routes' {
     '/trip/bracke/(TripBracke)': RouteRecordInfo<'/trip/bracke/(TripBracke)', '/trip/bracke', Record<never, never>, Record<never, never>>,
     '/trip/flinders/(TripFlinders)': RouteRecordInfo<'/trip/flinders/(TripFlinders)', '/trip/flinders', Record<never, never>, Record<never, never>>,
     '/trip/gavle/(TripGavle)': RouteRecordInfo<'/trip/gavle/(TripGavle)', '/trip/gavle', Record<never, never>, Record<never, never>>,
+    '/trip/germanGigs/(TripGermangigs)': RouteRecordInfo<'/trip/germanGigs/(TripGermangigs)', '/trip/germanGigs', Record<never, never>, Record<never, never>>,
     '/trip/ljusdal/(TripLjusdal)': RouteRecordInfo<'/trip/ljusdal/(TripLjusdal)', '/trip/ljusdal', Record<never, never>, Record<never, never>>,
     '/trip/personalComponents/AboutDetail': RouteRecordInfo<'/trip/personalComponents/AboutDetail', '/trip/personalComponents/AboutDetail', Record<never, never>, Record<never, never>>,
     '/trip/sweden/(TripSweden)': RouteRecordInfo<'/trip/sweden/(TripSweden)', '/trip/sweden', Record<never, never>, Record<never, never>>,
-    '/trip/test/(TripTest)': RouteRecordInfo<'/trip/test/(TripTest)', '/trip/test', Record<never, never>, Record<never, never>>,
   }
 }
