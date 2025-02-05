@@ -16,7 +16,6 @@
   "dependencies": {
     "@tmcw/togeojson": "^5.8.1",
     "@turf/turf": "^7.1.0",
-    "@types/geojson": "^7946.0.14",
     "@vueuse/components": "^11.1.0",
     "@vueuse/core": "^11.1.0",
     "date-fns": "^4.1.0",
@@ -24,20 +23,12 @@
     "iconify-icon": "^2.1.0",
     "mapbox-gl": "^3.7.0",
     "pinia": "^2.2.4",
-    "vue": "^3.4.29",
     "vue-preview-imgs": "^2.0.1",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.10.4",
-    "@vue/eslint-config-prettier": "^9.0.0",
-    "@vue/eslint-config-typescript": "^13.0.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-vue": "^9.29.1",
     "npm-run-all2": "^6.2.6",
     "patch-package": "^8.0.0",
-    "prettier": "^3.3.3",
-    "typescript": "~5.4.0",
     "unplugin-vue-router": "^0.11.2",
     "vite-bundle-visualizer": "^1.2.1",
     "vite-imagetools": "^7.0.4"
