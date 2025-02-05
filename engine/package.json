@@ -9,28 +9,28 @@
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path ../.gitignore",
     "format": "prettier --write src/",
     "postinstall": "patch-package"
   },
   "dependencies": {
     "@tmcw/togeojson": "^5.8.1",
-    "@turf/turf": "^7.1.0",
-    "@vueuse/components": "^11.1.0",
+    "@turf/turf": "^7.2.0",
+    "@vueuse/components": "^11.3.0",
     "@vueuse/core": "^11.1.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "iconify-icon": "^2.1.0",
-    "mapbox-gl": "^3.7.0",
-    "pinia": "^2.2.4",
+    "iconify-icon": "^2.3.0",
+    "mapbox-gl": "^3.9.4",
+    "pinia": "^2.3.1",
     "vue-preview-imgs": "^2.0.1",
-    "vue-router": "^4.4.5"
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "npm-run-all2": "^6.2.6",
     "patch-package": "^8.0.0",
     "unplugin-vue-router": "^0.11.2",
     "vite-bundle-visualizer": "^1.2.1",
-    "vite-imagetools": "^7.0.4"
+    "vite-imagetools": "^7.0.5"
   }
 }

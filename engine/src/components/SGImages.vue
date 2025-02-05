@@ -3,8 +3,8 @@ import { allTripImages, fullPathLookup } from '@/functions/images'
 import { getMap } from '@/functions/map'
 import { asyncComputed, useIntersectionObserver } from '@vueuse/core'
 import mapboxgl, { Marker } from 'mapbox-gl'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { Gallery, setGallery, Item } from 'vue-preview-imgs'
+import { computed, onUnmounted, ref } from 'vue'
+import { Gallery, Item } from 'vue-preview-imgs'
 
 interface Img {
   img: string

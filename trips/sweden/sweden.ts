@@ -15,6 +15,5 @@ export const sweden: Trip = {
       zoom: 6
     },
     detail: swedenGeo as any
-
   }
 }

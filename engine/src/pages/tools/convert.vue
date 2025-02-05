@@ -1,18 +1,17 @@
 <template>
   <div class="inFront">
-
     <h1>Convert GPX or (KML) to timestamped geojson</h1>
-    
+
     <p>Upload GPX/KML file</p>
-    
+
     gpx: <input type="file" accept=".gpx, .kml" /> <button @click="onConvert">Convert</button>
     {{ fileType }}
-  <br />
-  <input type="text" v-model="geoJsonStringVersion" />
-  <button @click="copy()">Copy Output</button>
-  
-  <!-- geoJsonVersion: {{ geoJsonVersion }} -->
-</div>
+    <br />
+    <input type="text" v-model="geoJsonStringVersion" />
+    <button @click="copy()">Copy Output</button>
+
+    <!-- geoJsonVersion: {{ geoJsonVersion }} -->
+  </div>
   <br />
   <br />
   <br />
@@ -31,8 +30,8 @@ import type { FeatureCollection } from 'geojson'
 const gpxText: Ref<string> = ref('')
 const fileType: Ref<string> = ref('')
 
-  const {setMapInteractive}= useMapInteractive()
-  setMapInteractive(true)
+const { setMapInteractive } = useMapInteractive()
+setMapInteractive(true)
 
 // Read the input file when the convert button is clicked
 
@@ -114,7 +113,7 @@ const { copy } = useClipboard({ source: geoJsonStringVersion })
 </script>
 
 <style scoped>
-.inFront{
+.inFront {
   position: relative;
   z-index: 2;
 }

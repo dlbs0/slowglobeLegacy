@@ -1,13 +1,12 @@
-import { fileURLToPath, URL } from 'node:url'
-
+// import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import { imagetools } from 'vite-imagetools'
-import { resolve } from 'path';
-import { realpathSync} from 'fs';
+import { resolve } from 'path'
+import { realpathSync } from 'fs'
 
-const dirname = realpathSync('.');
+const dirname = realpathSync('.')
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,16 +15,15 @@ export default defineConfig({
       // '@': fileURLToPath(new URL('./src', import.meta.url)),
       // '~': fileURLToPath(new URL('../trips', import.meta.url)),
       '~': resolve(dirname, '../trips'),
-      '@': resolve(dirname, './src'),
+      '@': resolve(dirname, './src')
     }
   },
-  build:{outDir: '../dist', emptyOutDir: true},
+  build: { outDir: '../dist', emptyOutDir: true },
   plugins: [
     imagetools(),
     VueRouter({
       /* options */
-      routesFolder: ['src/pages', {src: '../trips', path: 'trip/'}],
-
+      routesFolder: ['src/pages', { src: '../trips', path: 'trip/' }]
     }),
     vue({
       template: {
@@ -34,5 +32,5 @@ export default defineConfig({
         }
       }
     })
-  ],
+  ]
 })

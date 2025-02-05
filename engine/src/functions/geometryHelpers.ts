@@ -3,7 +3,7 @@ import { parseISO, differenceInMinutes, addMinutes } from 'date-fns'
 import { formatInTimeZone } from 'date-fns-tz'
 import type { Feature, LineString, Position } from 'geojson'
 import { findClosestFrame } from './timeSearch'
-import type { CameraOptions, LngLatLike} from 'mapbox-gl'
+import type { CameraOptions, LngLatLike } from 'mapbox-gl'
 import mapboxgl from 'mapbox-gl'
 import { getMap } from './map'
 

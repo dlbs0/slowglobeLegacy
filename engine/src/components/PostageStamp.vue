@@ -29,8 +29,8 @@ defineProps({
 
   /* filter: drop-shadow(0 0 2px #0005); */
   background:
-    radial-gradient(var(--r), #0000 98%, #ffffff) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) /
-      calc(3 * var(--r)) calc(3 * var(--r)),
+    radial-gradient(var(--r), #0000 98%, #ffffff) round calc(-1.5 * var(--r))
+      calc(-1.5 * var(--r)) / calc(3 * var(--r)) calc(3 * var(--r)),
     linear-gradient(#ffffff 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
 }
 
