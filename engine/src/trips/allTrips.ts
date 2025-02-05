@@ -1,3 +1,4 @@
+import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg'
 import { bracke } from '~/bracke/bracke'
 import { flinders } from '~/flinders/flindersHike'
 import { gavle } from '~/gavle/gavle'
@@ -17,8 +18,6 @@ export interface TripGeographyOverview {
   center: [number, number]
   zoom: number
 }
-
-import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg'
 
 export const greatOceanRoad: Trip = {
   id: 'great-ocean-road',

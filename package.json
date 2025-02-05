@@ -2,7 +2,8 @@
   "scripts": {
     "dev": "npm run dev --workspace=engine",
     "build": "npm run build --workspace=engine",
-    "lint": "npm run lint --workspaces"
+    "lint": "npm run lint --workspaces",
+    "create-trip": "npm run create-trip --workspace=engine"
   },
   "workspaces": [
     "trips",
