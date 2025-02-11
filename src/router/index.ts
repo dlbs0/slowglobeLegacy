@@ -71,6 +71,11 @@ const router = createRouter({
       path: '/trip/flinders',
       name: 'flinders',
       component: () => import('../views/trips/TripFlinders.vue')
+    },
+    {
+      path: '/trip/abisko',
+      name: 'abisko',
+      component: () => import('../views/trips/TripAbisko.vue')
     }
     // {
     //   path: '/trip/:id',

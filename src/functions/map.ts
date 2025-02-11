@@ -181,6 +181,7 @@ export function useHikingLayers() {
   function showHikingLayers(visible: boolean) {
     const map = getMap()
     if (!map) return
+    // const coolLayers = ['hillshade', 'contour', 'contour-labels']
     const coolLayers = ['mapbox-satellite', 'hillshade', 'contour', 'contour-labels']
     hikingLayersVisible.value = visible
 
@@ -393,6 +394,17 @@ function addLayersAndSources() {
     ]
   })
   map.addLayer({
+    id: 'detail-tracks-drive',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      // 'line-color': '#aa8c53',
+      'line-color': 'rgb(110, 25, 25)',
+      'line-width': 6
+    },
+    filter: ['==', 'type', 'drive']
+  })
+  map.addLayer({
     id: 'detail-tracks-train',
     type: 'line',
     source: 'detail-tracks',
@@ -547,6 +559,7 @@ export function showOverviews(value: boolean) {
 
   const detailLayers = [
     'detail-tracks-walk',
+    'detail-tracks-drive',
     'detail-tracks-train',
     'detail-tracks-train-dashes',
     'detail-tracks-bus',

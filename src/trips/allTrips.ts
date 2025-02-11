@@ -19,6 +19,7 @@ export interface TripGeographyOverview {
 import greatOceanRoadImage from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
 import { sweden } from './sweden'
 import { ljusdal } from './ljusdal'
+import { abisko } from './abisko'
 
 export const greatOceanRoad: Trip = {
   id: 'great-ocean-road',
@@ -48,4 +49,4 @@ export function getTripHeaderInfoById(id: string) {
   return { locationText, date, headerImage }
 }
 
-export const allTrips: Trip[] = [ljusdal, gavle, bracke, sweden, greatOceanRoad, flinders]
+export const allTrips: Trip[] = [abisko, ljusdal, gavle, bracke, sweden, greatOceanRoad, flinders]
