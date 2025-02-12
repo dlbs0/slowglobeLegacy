@@ -8,6 +8,7 @@ import SGText from '@/components/SGText.vue'
 import { germanGigs } from './germanGigs'
 import BandcampEmbed from '@/components/BandcampEmbed.vue'
 import SpotifyEmbed from '@/components/SpotifyEmbed.vue'
+import SGDayBreak from '@/components/SGDayBreak.vue'
 
 const tripId = 'germanGigs'
 </script>
@@ -37,22 +38,25 @@ const tripId = 'germanGigs'
       <br /> -->
     </SGText>
 
+    <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :feature-indexes="[0]" />
     <SGImages :list="['20250201_095913.jpg', '20250131_184152.jpg']" />
     <SGText>
       The ride was quite comfortable, and while we were delayed by a few hours, it was just long
       enough for us to get a 50% refund and meet the very fun conductor who gave us some free
       breakfast.
       <br />
-      <br />
+      <br />Arriving in Berlin was a concrete shock; leaving the multilevel open train station you
+      are surrounded by brutalist concrete architecture, tall grey squares stretching into the sky
+      and covering the ground. It took some time to properly appreciate, but as we wandered the city
+      and saw the sights it did begin to grow on me.
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :feature-indexes="[0]" />
+    <SGMapCutout
+      :center="[13.373148289091432, 52.522171191747674]"
+      :zoom="16"
+      :pitch="76"
+      :bearing="134"
+    />
     <SGText>
-      Arriving in Berlin was a concrete shock; leaving the multilevel open train station you are
-      surrounded by brutalist concrete architecture, tall grey squares stretching into the sky and
-      covering the ground. It took some time to properly appreciate, but as we wandered the city and
-      saw the sights it did begin to grow on me.
-      <br />
-      <br />
       Berlin being Berlin, pretty soon we found ourselves immersed in the war history of the city.
       We visited the Topography of Terror, a museum built on the site of the old secret police
       headquarters, which did an excellent job at explaining the the human side of the city in the
@@ -120,7 +124,11 @@ const tripId = 'germanGigs'
       We were met at the station by Paula's uncle Peter, with whom we would be staying the week
       with. He drove us to his place, where we collapsed into bed.
     </SGText>
-
+    <SGDayBreak />
+    <SGText>
+      We were met at the station by Paula's uncle Peter, with whom we would be staying the week
+      with. He drove us to his place, where we collapsed into bed.
+    </SGText>
     <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" />
     <SGText>
       <!-- <SpotifyEmbed url="playlist/6VWBc91arnXu6JyqCVAcbr" :small="true" :dark-mode="true" /> -->

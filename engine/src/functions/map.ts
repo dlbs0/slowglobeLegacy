@@ -393,9 +393,23 @@ function addLayersAndSources() {
     ]
   })
   map.addLayer({
+    id: 'detail-tracks-drive',
+    type: 'line',
+    source: 'detail-tracks',
+    paint: {
+      // 'line-color': '#aa8c53',
+      'line-color': 'rgb(110, 25, 25)',
+      'line-width': 6
+    },
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+    filter: ['==', 'type', 'drive']
+  })
+  map.addLayer({
     id: 'detail-tracks-train',
     type: 'line',
     source: 'detail-tracks',
+    layout: { 'line-cap': 'round', 'line-join': 'round' },
+
     paint: {
       'line-color': 'rgb(110, 25, 25)',
       'line-width': 6
@@ -547,6 +561,7 @@ export function showOverviews(value: boolean) {
 
   const detailLayers = [
     'detail-tracks-walk',
+    'detail-tracks-drive',
     'detail-tracks-train',
     'detail-tracks-train-dashes',
     'detail-tracks-bus',

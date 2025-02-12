@@ -26,6 +26,7 @@ const props = defineProps<{
   center?: [number, number]
   zoom?: number
   pitch?: number
+  bearing?: number
   featureIndexes?: number[]
 }>()
 
@@ -42,6 +43,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
         fitGeom.type == 'FeatureCollection'
       ) {
         // take only the features from the fitBoundsGeometry that are in the array at the given indexes
+        // @ts-expect-error we have already checked for the type in the if above
         fitGeom = featureCollection(props.featureIndexes.map((i) => fitGeom?.features[i]))
       }
 
@@ -61,7 +63,8 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
         center: props.center,
         zoom: props.zoom,
         pitch: props.pitch ?? 0,
-        duration: 2000
+        bearing: props.bearing ?? 0,
+        duration: 3000
       })
     }
   }
