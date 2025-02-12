@@ -26,6 +26,7 @@ const props = defineProps<{
   center?: [number, number]
   zoom?: number
   pitch?: number
+  featureIndexes?: number[]
 }>()
 
 const { height } = useWindowSize()
@@ -34,9 +35,19 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
   if (isIntersecting) {
     showHikingLayers(false)
     if (props.fitBoundsGeometry) {
+      let fitGeom = props.fitBoundsGeometry ?? featureCollection([])
+      if (
+        props.featureIndexes &&
+        props.featureIndexes.length > 0 &&
+        fitGeom.type == 'FeatureCollection'
+      ) {
+        // take only the features from the fitBoundsGeometry that are in the array at the given indexes
+        fitGeom = featureCollection(props.featureIndexes.map((i) => fitGeom?.features[i]))
+      }
+
       const vh = height.value * 0.2
       fitBounds(
-        props.fitBoundsGeometry ?? featureCollection([]),
+        fitGeom,
         {
           top: vh,
           bottom: vh,

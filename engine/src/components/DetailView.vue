@@ -107,7 +107,8 @@ onMounted(() => {
 const router = useRouter()
 
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
-  if (isIntersecting && router.currentRoute.value.name == props.trip) {
+  const pathId = router.currentRoute.value.path.split('/')?.[2] ?? ''
+  if (isIntersecting && pathId == props.trip) {
     showArticleStart(props.trip ?? '')
     showExtraTripDetail(false)
     showHikingLayers(false)

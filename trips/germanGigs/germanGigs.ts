@@ -1,5 +1,6 @@
 import type { Trip } from '@/trips/allTrips'
-import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
+import imgUrl from './images/20250131_184152.jpg?w=600&gallery'
+import germanyGeo from './germany.json'
 
 export const germanGigs: Trip = {
   id: 'germanGigs',
@@ -9,8 +10,9 @@ export const germanGigs: Trip = {
   locationText: 'Berlin, Germany',
   geography: {
     overview: {
-      center: [13.392504113856035, 52.48465316811334],
+      center: [13.38905952078278, 52.517102412037445],
       zoom: 7
-    }
+    },
+    detail: germanyGeo as any
   }
 }

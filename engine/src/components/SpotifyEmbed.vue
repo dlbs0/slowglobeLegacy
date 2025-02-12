@@ -1,24 +1,16 @@
 <template>
-  <iframe
-    style="border-radius: 12px"
-    :style="{ height: props.small ? '152px' : '50vh' }"
-    :src="embedSrc"
-    width="100%"
-    frameBorder="0"
-    allowfullscreen="true"
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy"
-  ></iframe>
-
-  <br />
-  <!-- <iframe
-    style="border-radius: 12px; height: 50vh"
-    src="https://open.spotify.com/embed/album/3Bhtlh9Mc1CVNaen3eTEyP?utm_source=generator"
-    width="100%"
-    frameBorder="0"
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-    loading="lazy"
-  ></iframe> -->
+  <div class="card">
+    <iframe
+      style="border-radius: 12px"
+      :style="{ height: props.small ? '152px' : '50vh' }"
+      :src="embedSrc"
+      width="100%"
+      class="bcPlayer"
+      frameBorder="0"
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy"
+    ></iframe>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -38,8 +30,14 @@ const embedSrc = computed(
 
 <style scoped>
 .bcPlayer {
-  display: flex;
+  /* display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: center; */
+  /* margin: 1em 0; */
+}
+.card {
+  position: relative;
+  z-index: 2;
+  color: var(--md-sys-color-on-surface);
 }
 </style>
