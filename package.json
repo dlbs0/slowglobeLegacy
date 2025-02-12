@@ -3,7 +3,8 @@
     "dev": "npm run dev --workspace=engine",
     "build": "npm run build --workspace=engine",
     "lint": "npm run lint --workspaces",
-    "create-trip": "npm run create-trip --workspace=engine"
+    "create-trip": "npm run create-trip --workspace=engine",
+    "postinstall": "patch-package"
   },
   "workspaces": [
     "trips",
@@ -21,6 +22,7 @@
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.1",
+    "patch-package": "^8.0.0",
     "eslint": "^8.57.1",
     "eslint-plugin-vue": "^9.32.0",
     "prettier": "^3.4.2",
