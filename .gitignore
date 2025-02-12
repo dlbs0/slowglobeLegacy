@@ -28,6 +28,6 @@ coverage
 *.sw?
 
 *.tsbuildinfo
-typed-router.d.ts
+engine/typed-router.d.ts
 
 logo/oldVersions
