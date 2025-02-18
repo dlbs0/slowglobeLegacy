@@ -126,8 +126,8 @@ const tripId = 'germanGigs'
     </SGText>
     <SGDayBreak />
     <SGText>
-      We were met at the station by Paula's uncle Peter, with whom we would be staying the week
-      with. He drove us to his place, where we collapsed into bed.
+      We were met at the station by Paula's uncle Peter, with whom we would be and a staying the
+      week with. He drove us to his place, where we collapsed into bed. An few more
     </SGText>
     <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" />
     <SGText>

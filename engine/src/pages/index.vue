@@ -41,11 +41,10 @@ function onIntersectionObserver([
   { isIntersecting, target, rootBounds }
 ]: IntersectionObserverEntry[]) {
   if (isIntersecting && target.id) {
-    if (target.id === 'topOfPage' && router.currentRoute.value.name == 'home') {
+    if (target.id === 'topOfPage' && router.currentRoute.value.name == '/') {
       showGlobe()
       setMapSpin(true)
     } else {
-      console.log('target.id:', target.id, rootBounds)
       zoomToId(target.id)
     }
   }
