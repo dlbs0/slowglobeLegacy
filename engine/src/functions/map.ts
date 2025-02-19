@@ -15,10 +15,8 @@ const hikingLayersVisible = ref(false)
 const { width, height } = useWindowSize()
 
 export function useMap() {
-  console.log('map')
-
   onMounted(() => {
-    console.log('map mounted')
+    // console.log('map mounted')
     mapboxgl.accessToken =
       'pk.eyJ1IjoiZGxiczAiLCJhIjoiY20wdGlpMmc2MHJqaDJsczVtNXRvN2ZneCJ9.47aVkXUGN8JNldnZUjj-nA'
     map = new mapboxgl.Map({
@@ -37,7 +35,7 @@ export function useMap() {
     )
 
     map.on('style.load', () => {
-      console.log('style loaded')
+      // console.log('style loaded')
       map?.setFog({
         range: [0.5, 10],
         'horizon-blend': 0.1,
