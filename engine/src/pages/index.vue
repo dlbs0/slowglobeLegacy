@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import 'mapbox-gl/dist/mapbox-gl.css'
 import { useWindowSize } from '@vueuse/core'
 import { vIntersectionObserver } from '@vueuse/components'
 import { computed, onBeforeMount, onUnmounted } from 'vue'
@@ -37,9 +36,7 @@ onUnmounted(() => {
   showOverviews(false)
 })
 
-function onIntersectionObserver([
-  { isIntersecting, target, rootBounds }
-]: IntersectionObserverEntry[]) {
+function onIntersectionObserver([{ isIntersecting, target }]: IntersectionObserverEntry[]) {
   if (isIntersecting && target.id) {
     if (target.id === 'topOfPage' && router.currentRoute.value.name == '/') {
       showGlobe()

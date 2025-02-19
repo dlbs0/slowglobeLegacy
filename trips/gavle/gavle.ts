@@ -5223,7 +5223,7 @@ export const gavle: Trip = {
           properties: {
             type: 'walk',
             minzoom: 11,
-            overview: false
+            overview: true
           }
         }
       ]

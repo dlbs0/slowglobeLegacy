@@ -15,13 +15,11 @@ const dayOneGeom = flinders.geography.detail?.features[0] as Feature<LineString>
 const dayTwoGeom = flinders.geography.detail?.features[1] as Feature<LineString>
 const dayThreeGeom = flinders.geography.detail?.features[2] as Feature<LineString>
 const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString>
-
-const tripId = 'flinders'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">Hiking the Flinders</SGHeader>
+  <DetailView>
+    <SGHeader>Hiking the Flinders</SGHeader>
 
     <SGText
       >As a last hurrah before we went off to Sweden for the foreseeable future, I thought we should

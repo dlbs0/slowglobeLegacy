@@ -88,12 +88,11 @@ import {
 import { getTripHeaderInfoById } from '@/trips/allTrips'
 import PostageStamp from './PostageStamp.vue'
 import { vIntersectionObserver } from '@vueuse/components'
-import { onMounted } from 'vue'
+import { inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import { tripIdSymbol } from '@/functions/classes'
 
-const props = defineProps({
-  trip: String
-})
+const tripId = inject(tripIdSymbol)
 const { setMapInteractive } = useMapInteractive()
 const { showHikingLayers } = useHikingLayers()
 
@@ -101,15 +100,16 @@ onMounted(() => {
   setMapInteractive(false)
   setMapSpin(false)
   showOverviews(false)
-  showTracks(props.trip ?? '')
-  showArticleStart(props.trip ?? '')
+  showTracks(tripId?.value ?? '')
+  // showArticleStart(props.trip ?? '')
 })
 const router = useRouter()
 
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   const pathId = router.currentRoute.value.path.split('/')?.[2] ?? ''
-  if (isIntersecting && pathId == props.trip) {
-    showArticleStart(props.trip ?? '')
+  if (isIntersecting && pathId == tripId?.value) {
+    showArticleStart(tripId?.value ?? '')
+    showTracks(tripId?.value ?? '')
     showExtraTripDetail(false)
     showHikingLayers(false)
   } else {
@@ -117,5 +117,6 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
   }
 }
 
-const { headerImage } = getTripHeaderInfoById(props.trip ?? '')
+const { headerImage } = getTripHeaderInfoById(tripId?.value ?? '')
+console.log('headerImage:', headerImage)
 </script>

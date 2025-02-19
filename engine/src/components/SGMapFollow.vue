@@ -296,7 +296,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
         // lineMetrics: true,
         // data: featureCollection([fullGeometry])
         data: featureCollection([]),
-        dynamic: true
+        dynamic: false
       })
     }
     if (!map.getLayer(randomId + 'follow-tracks')) {
@@ -314,7 +314,7 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
       map.addSource(randomId + 'locArrow', {
         type: 'geojson',
         data: featureCollection([]),
-        dynamic: true
+        dynamic: false
       })
     }
     if (!map.getLayer(randomId + 'locArrow')) {

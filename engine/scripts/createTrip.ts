@@ -37,13 +37,11 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { ${id} } from './${id}'
-
-const tripId = '${id}'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">${name}</SGHeader>
+  <DetailView>
+    <SGHeader>${name}</SGHeader>
     <SGText>
       Words here.
       <br />

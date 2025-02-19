@@ -56,9 +56,9 @@
 <script setup lang="ts">
 import { getTripHeaderInfoById } from '@/trips/allTrips'
 import PostageStamp from './PostageStamp.vue'
+import { inject } from 'vue'
+import { tripIdSymbol } from '@/functions/classes'
 
-const props = defineProps({
-  id: String
-})
-const { locationText, date, headerImage } = getTripHeaderInfoById(props.id ?? '')
+const tripId = inject(tripIdSymbol)
+const { locationText, date, headerImage } = getTripHeaderInfoById(tripId?.value ?? '')
 </script>

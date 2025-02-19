@@ -6,16 +6,13 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { germanGigs } from './germanGigs'
-import BandcampEmbed from '@/components/BandcampEmbed.vue'
 import SpotifyEmbed from '@/components/SpotifyEmbed.vue'
 import SGDayBreak from '@/components/SGDayBreak.vue'
-
-const tripId = 'germanGigs'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">Three Gigs in Germany</SGHeader>
+  <DetailView>
+    <SGHeader>Three Gigs in Germany</SGHeader>
     <SGText>
       For Christmas last year, my gift to Paula was a pair of concert tickets, which would let us
       see three of our favourite bands. As you've probably guessed from the title of this post, the
@@ -33,12 +30,13 @@ const tripId = 'germanGigs'
       <br />
       We had a brief wander in Stockholm, vaguely looking for food, and realistically looking at
       architecture, before giving up, eating at the station, and boarding our night train to Berlin.
-
-      <!-- <br />
-      <br /> -->
     </SGText>
 
-    <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :feature-indexes="[0]" />
+    <SGMapCutout
+      :fit-bounds-geometry="germanGigs.geography.detail"
+      :feature-indexes="[0]"
+      :reveal="1"
+    />
     <SGImages :list="['20250201_095913.jpg', '20250131_184152.jpg']" />
     <SGText>
       The ride was quite comfortable, and while we were delayed by a few hours, it was just long
@@ -119,7 +117,11 @@ const tripId = 'germanGigs'
       an hour and one minute later than expected (though at 11:34pm), which once again qualified us
       for a partial refund.
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :feature-indexes="[1, 2]" />
+    <SGMapCutout
+      :fit-bounds-geometry="germanGigs.geography.detail"
+      :feature-indexes="[1, 2, 3]"
+      :reveal="{ index: 2, onlyCurrent: true }"
+    />
     <SGText>
       We were met at the station by Paula's uncle Peter, with whom we would be staying the week
       with. He drove us to his place, where we collapsed into bed.
@@ -129,6 +131,7 @@ const tripId = 'germanGigs'
       We were met at the station by Paula's uncle Peter, with whom we would be and a staying the
       week with. He drove us to his place, where we collapsed into bed. An few more
     </SGText>
+    <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :reveal="[3, 4]" />
     <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" />
     <SGText>
       <!-- <SpotifyEmbed url="playlist/6VWBc91arnXu6JyqCVAcbr" :small="true" :dark-mode="true" /> -->

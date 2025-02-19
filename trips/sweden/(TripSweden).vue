@@ -8,13 +8,11 @@ import SGText from '@/components/SGText.vue'
 import { sweden } from './sweden'
 
 // Flight data from https://www.flightaware.com/live/flight/THA466/history/20240905/0340Z/YMML/VTBS/tracklog
-
-const tripId = 'sweden'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">Moving to Sweden</SGHeader>
+  <DetailView>
+    <SGHeader>Moving to Sweden</SGHeader>
     <!-- <SGMapFollow
       :geometry="sweden.geography.detail?.features[5]"
       :follow="true"

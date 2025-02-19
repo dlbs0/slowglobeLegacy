@@ -24590,7 +24590,7 @@
           [13.36989, 52.52498]
         ]
       },
-      "properties": { "name": "Ostkustbanan, Södra stambanan", "type": "train", "order": 0 }
+      "properties": { "name": "Ostkustbanan, Södra stambanan", "type": "train", "order": 1 }
     },
     {
       "type": "Feature",
@@ -27345,7 +27345,7 @@
           [10.00718, 53.55305]
         ]
       },
-      "properties": { "name": "6109, Berlin-Hamburger Bahn", "type": "invisible", "order": 1 }
+      "properties": { "name": "6109, Berlin-Hamburger Bahn", "type": "train", "order": 2 }
     },
     {
       "type": "Feature",
@@ -29663,11 +29663,11 @@
           [10.00718, 53.55305]
         ]
       },
-      "properties": { "name": "2200, Bremen-Hamburg", "type": "train", "order": 1 }
+      "properties": { "name": "2200, Bremen-Hamburg", "type": "train", "order": 2 }
     },
     {
       "type": "Feature",
-      "properties": { "type": "drive", "order": 1 },
+      "properties": { "type": "drive", "order": 2 },
       "geometry": {
         "type": "LineString",
         "coordinates": [
@@ -34020,7 +34020,7 @@
           [6.95878, 50.94312]
         ]
       },
-      "properties": { "name": "2200, 2650", "order": 2, "type": "train" }
+      "properties": { "name": "2200, 2650", "order": 3, "type": "train" }
     },
     {
       "type": "Feature",
@@ -34261,7 +34261,7 @@
         "name": "RYR4772",
         "description": "EDDK - ESSA",
         "type": "flight",
-        "order": 3
+        "order": 4
       }
     }
   ]

@@ -6,13 +6,11 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { gavle } from './gavle'
-
-const tripId = 'gavle'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">A Monday in Gävle</SGHeader>
+  <DetailView>
+    <SGHeader>A Monday in Gävle</SGHeader>
 
     <SGText>
       Another week, another train trip to acquire items from strangers.

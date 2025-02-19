@@ -6,13 +6,11 @@ import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
 import { ljusdal } from './ljusdal'
 import SGMapOrbit from '@/components/SGMapOrbit.vue'
-
-const tripId = 'ljusdal'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">A Graphic Lunch in Ljusdal</SGHeader>
+  <DetailView>
+    <SGHeader>A Graphic Lunch in Ljusdal</SGHeader>
 
     <SGText>
       This is the third and hopefully final marketplace-based trip to a small town in rural Sweden.

@@ -1,5 +1,5 @@
 import { getTripById } from '@/trips/allTrips'
-import { bbox, featureCollection, point } from '@turf/turf'
+import { bbox, featureCollection, featureEach, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
 import type { Feature, FeatureCollection } from 'geojson'
 import mapboxgl, { GeoJSONSource, type RasterLayerSpecification } from 'mapbox-gl'
@@ -110,7 +110,7 @@ export function showArticleStart(id: string) {
 
   const zoom = 12
 
-  map.easeTo({
+  map.flyTo({
     center: trip.geography.overview.center,
     duration: firstLoad ? 10 : 3000,
     pitch: 0,
@@ -159,14 +159,51 @@ export function zoomToId(id: string) {
   firstLoad = false
 }
 
-export function showTracks(id: string) {
+export type Reveal = RevealIndex | number[] | number
+interface RevealIndex {
+  index: number
+  onlyCurrent?: boolean
+}
+
+export function showTracks(id: string, sequence?: Reveal) {
   if (!map) return
   console.log('showTracks', id)
   const trip = getTripById(id)
   if (!trip) return
 
   const tracksSource = map.getSource('detail-tracks') as GeoJSONSource
-  tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+
+  // Handle showing only portions of the full detailled tracks, in a few different formats
+  if (
+    typeof sequence !== 'undefined' &&
+    Array.isArray(trip.geography.detail?.features) &&
+    trip.geography.detail.features.length > 0
+  ) {
+    const output: Feature[] = []
+    featureEach(trip.geography.detail, (currentFeature) => {
+      if (!currentFeature.properties) return
+
+      if (typeof sequence == 'number' && currentFeature.properties.order <= sequence)
+        output.push(currentFeature)
+      else if (Array.isArray(sequence) && sequence.length == 2) {
+        if (
+          currentFeature.properties.order <= sequence[1] &&
+          currentFeature.properties.order >= sequence[0]
+        )
+          output.push(currentFeature)
+      } else if (typeof sequence == 'object' && 'onlyCurrent' in sequence && sequence.onlyCurrent) {
+        if (currentFeature.properties.order == sequence.index) output.push(currentFeature)
+      } else if (
+        typeof sequence == 'object' &&
+        'index' in sequence &&
+        currentFeature.properties.order <= sequence.index
+      )
+        output.push(currentFeature)
+    })
+    tracksSource?.setData(featureCollection(output))
+  } else {
+    tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+  }
 }
 
 export function useHikingLayers() {

@@ -7,13 +7,11 @@ import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { bracke } from './bracke'
 import { dFeatureCollection, dPoint } from '@/functions/classes'
-
-const tripId = 'bracke'
 </script>
 
 <template>
-  <DetailView :trip="tripId">
-    <SGHeader :id="tripId">To Buy a Bike in Bräcke</SGHeader>
+  <DetailView>
+    <SGHeader>To Buy a Bike in Bräcke</SGHeader>
     <SGText>
       I needed a bike.
       <br />

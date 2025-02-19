@@ -13,11 +13,20 @@
 </template>
 
 <script setup lang="ts">
-import { fitBounds, getMap, useHikingLayers, useMapInteractive } from '@/functions/map'
+import {
+  fitBounds,
+  getMap,
+  showTracks,
+  useHikingLayers,
+  useMapInteractive,
+  type Reveal
+} from '@/functions/map'
 import type { Feature, FeatureCollection } from 'geojson'
 import { featureCollection } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
 import { useWindowSize } from '@vueuse/core'
+import { inject } from 'vue'
+import { tripIdSymbol } from '@/functions/classes'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
 const { showHikingLayers } = useHikingLayers()
 
@@ -28,9 +37,11 @@ const props = defineProps<{
   pitch?: number
   bearing?: number
   featureIndexes?: number[]
+  reveal?: Reveal
 }>()
 
 const { height } = useWindowSize()
+const tripId = inject(tripIdSymbol)
 
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting) {
@@ -66,6 +77,10 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
         bearing: props.bearing ?? 0,
         duration: 3000
       })
+    }
+
+    if (props.reveal) {
+      showTracks(tripId?.value ?? '', props.reveal)
     }
   }
 }
