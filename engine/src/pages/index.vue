@@ -11,7 +11,7 @@ import {
   useMapInteractive,
   zoomToId
 } from '@/functions/map'
-import { allTrips } from '@/trips/allTrips'
+import { allTrips } from '~/allTrips'
 import { useRouter } from 'vue-router'
 import AboutDetail from '~/personalComponents/AboutDetail.vue'
 

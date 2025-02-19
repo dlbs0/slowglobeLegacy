@@ -85,7 +85,7 @@ import {
   useMapInteractive,
   type Reveal
 } from '@/functions/map'
-import { getTripHeaderInfoById } from '@/trips/allTrips'
+import { getTripHeaderInfoById } from '~/allTrips'
 import PostageStamp from './PostageStamp.vue'
 import { vIntersectionObserver } from '@vueuse/components'
 import { inject, onMounted } from 'vue'

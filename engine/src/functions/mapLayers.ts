@@ -1,4 +1,4 @@
-import { allTrips } from '@/trips/allTrips'
+import { allTrips } from '~/allTrips'
 import { featureCollection, point } from '@turf/turf'
 import { getMap } from './map'
 import type { StyleImageInterface } from 'mapbox-gl'

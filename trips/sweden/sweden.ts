@@ -1,4 +1,4 @@
-import type { Trip } from '@/trips/allTrips'
+import type { Trip } from '~/allTrips'
 import sundsvallImage from './images/20240906_112409.jpg?w=600&gallery'
 import swedenGeo from './sweden.json'
 

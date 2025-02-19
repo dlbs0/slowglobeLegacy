@@ -1,4 +1,4 @@
-import type { Trip } from '@/trips/allTrips'
+import type { Trip } from '~/allTrips'
 import imgUrl from './images/20241126_143343.jpg?w=600&gallery'
 
 // https://valhalla.openstreetmap.de/directions?profile=car&wps=17.10733830928803%2C61.72452548073263%2C16.099755764007572%2C61.826195357595985

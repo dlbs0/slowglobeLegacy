@@ -13,7 +13,7 @@ rl.question(`Trip ID (used in the url)`, (id) => {
     console.log(`OK ${id}! ${name}`)
     rl.close()
 
-    const typescriptContent = `import type { Trip } from '@/trips/allTrips'
+    const typescriptContent = `import type { Trip } from '~/allTrips'
 import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
 
 export const ${id}: Trip = {

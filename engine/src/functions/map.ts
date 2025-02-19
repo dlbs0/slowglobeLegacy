@@ -1,4 +1,4 @@
-import { getTripById } from '@/trips/allTrips'
+import { getTripById } from '~/allTrips'
 import { bbox, featureCollection, featureEach, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
 import type { Feature, FeatureCollection } from 'geojson'

@@ -1,4 +1,4 @@
-import type { Trip } from '@/trips/allTrips'
+import type { Trip } from '~/allTrips'
 import imgUrl from './images/20250131_184152.jpg?w=600&gallery'
 import germanyGeo from './germany.json'
 
