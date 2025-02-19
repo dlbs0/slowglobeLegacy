@@ -4318,7 +4318,7 @@ export const gavle: Trip = {
               [17.31522, 62.38642]
             ]
           },
-          properties: { name: 'Ostkustbanan, Norralatunneln', type: 'train' }
+          properties: { name: 'Ostkustbanan, Norralatunneln', type: 'train', order: 1 }
         },
         {
           geometry: {
@@ -5223,7 +5223,8 @@ export const gavle: Trip = {
           properties: {
             type: 'walk',
             minzoom: 11,
-            overview: true
+            order: 2
+            // overview: true
           }
         }
       ]

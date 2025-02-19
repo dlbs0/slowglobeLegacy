@@ -3,7 +3,6 @@ import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGImages from '@/components/SGImages.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
-import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { bracke } from './bracke'
 import { dFeatureCollection, dPoint } from '@/functions/classes'
@@ -39,8 +38,6 @@ import { dFeatureCollection, dPoint } from '@/functions/classes'
       by Sunday. And so Sunday, just after lunch, I found myself walking to the station on a lovely
       crisp Autumn day.
     </SGText>
-    <SGShowExtraDetail />
-
     <SGImages
       :addPhotosToMap="true"
       :list="[

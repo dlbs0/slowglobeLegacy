@@ -8,7 +8,6 @@ import SGMapFollow from '@/components/SGMapFollow.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import type { Feature, LineString } from 'geojson'
 import SGMapOrbit from '@/components/SGMapOrbit.vue'
-import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGDayBreak from '@/components/SGDayBreak.vue'
 
 const dayOneGeom = flinders.geography.detail?.features[0] as Feature<LineString>
@@ -18,7 +17,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
 </script>
 
 <template>
-  <DetailView>
+  <DetailView :reveal="'none'">
     <SGHeader>Hiking the Flinders</SGHeader>
 
     <SGText
@@ -31,8 +30,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       have four days hiking through some classic Flinders terrain around St Mary's peak, with a
       shorter option for those who were less excited about four solid days of walking.
     </SGText>
-    <SGShowExtraDetail />
-    <SGMapCutout :fit-bounds-geometry="flinders.geography.detail" :pitch="0" />
+    <SGMapCutout :fit-bounds-geometry="flinders.geography.detail" :pitch="0" :reveal="'all'" />
     <SGText>
       The route we ended up with meant a little bit of doubling back towards the end in order to get
       to a pickup location. Mum and Rick volunteered to be our support car, but wouldn't be there

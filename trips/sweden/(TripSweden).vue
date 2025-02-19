@@ -3,7 +3,6 @@ import SGImages from '@/components/SGImages.vue'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
-import SGShowExtraDetail from '@/components/SGShowExtraDetail.vue'
 import SGText from '@/components/SGText.vue'
 import { sweden } from './sweden'
 
@@ -64,7 +63,6 @@ import { sweden } from './sweden'
       temperatures. House lesson over, we finally had a chance to sleep for as long as we wanted for
       the first time in weeks. It was fun.
     </SGText>
-    <SGShowExtraDetail />
     <SGMapCutout :fit-bounds-geometry="sweden.geography.detail" />
     <SGImages
       :list="[

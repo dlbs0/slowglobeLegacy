@@ -77,7 +77,6 @@ export function useMapInteractive() {
 
 export function setMapSpin(value: boolean) {
   mapShouldSpin.value = value
-  console.log('value:', value)
   if (value) spinGlobe()
 }
 
@@ -159,7 +158,7 @@ export function zoomToId(id: string) {
   firstLoad = false
 }
 
-export type Reveal = RevealIndex | number[] | number
+export type Reveal = RevealIndex | number[] | number | 'none' | 'all'
 interface RevealIndex {
   index: number
   onlyCurrent?: boolean
@@ -167,7 +166,6 @@ interface RevealIndex {
 
 export function showTracks(id: string, sequence?: Reveal) {
   if (!map) return
-  console.log('showTracks', id)
   const trip = getTripById(id)
   if (!trip) return
 
@@ -179,28 +177,39 @@ export function showTracks(id: string, sequence?: Reveal) {
     Array.isArray(trip.geography.detail?.features) &&
     trip.geography.detail.features.length > 0
   ) {
-    const output: Feature[] = []
-    featureEach(trip.geography.detail, (currentFeature) => {
-      if (!currentFeature.properties) return
+    if (sequence == 'all') {
+      tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+    } else if (sequence == 'none') {
+      tracksSource?.setData(featureCollection([]))
+    } else {
+      const output: Feature[] = []
 
-      if (typeof sequence == 'number' && currentFeature.properties.order <= sequence)
-        output.push(currentFeature)
-      else if (Array.isArray(sequence) && sequence.length == 2) {
-        if (
-          currentFeature.properties.order <= sequence[1] &&
-          currentFeature.properties.order >= sequence[0]
+      featureEach(trip.geography.detail, (currentFeature) => {
+        if (!currentFeature.properties) return
+
+        if (typeof sequence == 'number' && currentFeature.properties.order <= sequence)
+          output.push(currentFeature)
+        else if (Array.isArray(sequence) && sequence.length == 2) {
+          if (
+            currentFeature.properties.order <= sequence[1] &&
+            currentFeature.properties.order >= sequence[0]
+          )
+            output.push(currentFeature)
+        } else if (
+          typeof sequence == 'object' &&
+          'onlyCurrent' in sequence &&
+          sequence.onlyCurrent
+        ) {
+          if (currentFeature.properties.order == sequence.index) output.push(currentFeature)
+        } else if (
+          typeof sequence == 'object' &&
+          'index' in sequence &&
+          currentFeature.properties.order <= sequence.index
         )
           output.push(currentFeature)
-      } else if (typeof sequence == 'object' && 'onlyCurrent' in sequence && sequence.onlyCurrent) {
-        if (currentFeature.properties.order == sequence.index) output.push(currentFeature)
-      } else if (
-        typeof sequence == 'object' &&
-        'index' in sequence &&
-        currentFeature.properties.order <= sequence.index
-      )
-        output.push(currentFeature)
-    })
-    tracksSource?.setData(featureCollection(output))
+      })
+      tracksSource?.setData(featureCollection(output))
+    }
   } else {
     tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
   }
@@ -238,19 +247,6 @@ export function fitBounds(
   const bounds = bbox(geography)
   if (!bounds || bounds.length != 4) return
   map.fitBounds(bounds, { padding, pitch, speed: 1 })
-}
-
-export function showExtraTripDetail(val: boolean) {
-  if (!map) return
-  if (map.getLayer('detail-tracks-walk')) {
-    const filter = map.getFilter('detail-tracks-walk')
-    if (!filter || !filter[2] || !filter[2][2] || typeof filter[2][2][1] != 'boolean') return
-    filter[2][2][1] = !val
-    map?.setFilter('detail-tracks-walk', filter)
-  }
-  if (map.getLayer('detail-points')) {
-    map?.setLayoutProperty('detail-points', 'visibility', val ? 'visible' : 'none')
-  }
 }
 
 export function showOverviews(value: boolean) {

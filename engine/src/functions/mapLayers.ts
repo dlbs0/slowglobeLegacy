@@ -3,7 +3,7 @@ import { featureCollection, point } from '@turf/turf'
 import { getMap } from './map'
 import type { StyleImageInterface } from 'mapbox-gl'
 
-export function addLayersAndSources() {
+export async function addLayersAndSources() {
   const map = getMap()
   if (!map) return
 
@@ -18,28 +18,18 @@ export function addLayersAndSources() {
     ['picnic', 'picnic-site.png'],
     ['flag', 'racetrack.png']
   ]
+  const imgPromises: Promise<null>[] = []
   images.forEach((image) => {
-    map?.loadImage('/images/' + image[1], (error, imageData) => {
-      if (error) throw error
-      if (!map?.hasImage(image[0]) && imageData)
-        map?.addImage(image[0], imageData, { sdf: image[2] })
-    })
-  })
-
-  map.addSource('centers', {
-    type: 'geojson',
-    data: featureCollection(allTrips.map((trip) => point(trip.geography.overview.center)))
-  })
-
-  map.addLayer({
-    id: 'centers',
-    type: 'symbol',
-    source: 'centers',
-    layout: {
-      'icon-image': 'diamond',
-      'icon-size': 1
-    },
-    paint: { 'icon-halo-color': 'rgba(255, 255, 255, 0.8)', 'icon-halo-width': 2 }
+    imgPromises.push(
+      new Promise((resolve) => {
+        map?.loadImage('/images/' + image[1], (error, imageData) => {
+          resolve(null)
+          if (error) throw error
+          if (!map?.hasImage(image[0]) && imageData)
+            map?.addImage(image[0], imageData, { sdf: image[2] })
+        })
+      })
+    )
   })
 
   map.addSource('overview-tracks', {
@@ -254,6 +244,10 @@ export function addLayersAndSources() {
     },
     filter: ['==', 'type', 'flight']
   })
+
+  //only load the img layers once all the images have finish loading.
+  await Promise.all(imgPromises)
+
   map.addLayer({
     id: 'detail-tracks-flight-icon',
     type: 'symbol',
@@ -294,6 +288,22 @@ export function addLayersAndSources() {
       'text-translate': [0, 2]
     },
     filter: ['has', 'icon']
+  })
+
+  map.addSource('centers', {
+    type: 'geojson',
+    data: featureCollection(allTrips.map((trip) => point(trip.geography.overview.center)))
+  })
+
+  map.addLayer({
+    id: 'centers',
+    type: 'symbol',
+    source: 'centers',
+    layout: {
+      'icon-image': 'diamond',
+      'icon-size': 1
+    },
+    paint: { 'icon-halo-color': 'rgba(255, 255, 255, 0.8)', 'icon-halo-width': 2 }
   })
 
   map.addImage('pulsing-dot', new pulsingDot(), { pixelRatio: 2 })
@@ -379,3 +389,16 @@ class pulsingDot implements StyleImageInterface {
     return true
   }
 }
+
+//export function showExtraTripDetail(val: boolean) {
+//   if (!map) return
+//   if (map.getLayer('detail-tracks-walk')) {
+//     const filter = map.getFilter('detail-tracks-walk')
+//     if (!filter || !filter[2] || !filter[2][2] || typeof filter[2][2][1] != 'boolean') return
+//     filter[2][2][1] = !val
+//     map?.setFilter('detail-tracks-walk', filter)
+//   }
+//   if (map.getLayer('detail-points')) {
+//     map?.setLayoutProperty('detail-points', 'visibility', val ? 'visible' : 'none')
+//   }
+// }

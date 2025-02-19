@@ -79,11 +79,11 @@
 import {
   setMapSpin,
   showArticleStart,
-  showExtraTripDetail,
   showOverviews,
   showTracks,
   useHikingLayers,
-  useMapInteractive
+  useMapInteractive,
+  type Reveal
 } from '@/functions/map'
 import { getTripHeaderInfoById } from '@/trips/allTrips'
 import PostageStamp from './PostageStamp.vue'
@@ -91,6 +91,10 @@ import { vIntersectionObserver } from '@vueuse/components'
 import { inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { tripIdSymbol } from '@/functions/classes'
+
+const props = defineProps<{
+  reveal?: Reveal
+}>()
 
 const tripId = inject(tripIdSymbol)
 const { setMapInteractive } = useMapInteractive()
@@ -101,7 +105,6 @@ onMounted(() => {
   setMapSpin(false)
   showOverviews(false)
   showTracks(tripId?.value ?? '')
-  // showArticleStart(props.trip ?? '')
 })
 const router = useRouter()
 
@@ -110,13 +113,12 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
   if (isIntersecting && pathId == tripId?.value) {
     showArticleStart(tripId?.value ?? '')
     showTracks(tripId?.value ?? '')
-    showExtraTripDetail(false)
     showHikingLayers(false)
-  } else {
-    // showExtraTripDetail(true)
+    if (props.reveal) {
+      showTracks(tripId?.value ?? '', props.reveal)
+    }
   }
 }
 
 const { headerImage } = getTripHeaderInfoById(tripId?.value ?? '')
-console.log('headerImage:', headerImage)
 </script>
