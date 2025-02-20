@@ -23,12 +23,26 @@ export function getImage(imgName: string) {
   return allTripImages[fullPathLookup[imgName]]
 }
 
-export async function getImageSrc(imgName: string | undefined, thumb = false) {
-  if (!imgName) return ''
-  const img = allTripImages[fullPathLookup[imgName]]
-  if (!img) return ''
-  const ressed = await img()
-  const index = thumb ? 0 : 1
+export const allTripVideos = import.meta.glob('~/**/images/*.m4v', {
+  import: 'default'
+  // query: '?raw'
+})
 
-  return ressed[index].src
-}
+export const fullVideoPathLookup = Object.keys(allTripVideos).reduce(
+  (acc: Record<string, string>, curr) => {
+    const imgName = curr.split('/').pop() as string
+    acc[imgName] = curr
+    return acc
+  },
+  {}
+)
+// export async function getImageSrc(imgName: string | undefined, thumb = false) {
+//   console.log('imgName:', imgName)
+//   if (!imgName) return ''
+//   const img = allTripImages[fullPathLookup[imgName]]
+//   if (!img) return ''
+//   const ressed = await img()
+//   const index = thumb ? 0 : 1
+
+//   return ressed[index].src
+// }

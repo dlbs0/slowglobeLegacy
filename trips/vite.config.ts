@@ -10,6 +10,8 @@ const dirname = realpathSync('.')
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // assetsInclude: ['**/*.m4v'],
+
   resolve: {
     alias: {
       // '@': fileURLToPath(new URL('./src', import.meta.url)),

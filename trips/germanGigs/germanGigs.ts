@@ -1,4 +1,6 @@
 import type { Trip } from '~/allTrips'
+// import imgUrl from './images/20250202_172747-2.jpg?w=600&gallery'
+// import imgUrl from './images/20250203_172153-2.jpg?w=600&gallery'
 import imgUrl from './images/20250131_184152.jpg?w=600&gallery'
 import germanyGeo from './germany.json'
 

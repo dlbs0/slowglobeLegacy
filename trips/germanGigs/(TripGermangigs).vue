@@ -2,17 +2,24 @@
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
 import { germanGigs } from './germanGigs'
 import SpotifyEmbed from '@/components/SpotifyEmbed.vue'
 import SGDayBreak from '@/components/SGDayBreak.vue'
+// import imgUrl from './images/IMG_1942.heic?format=jpg'
 </script>
 
 <template>
   <DetailView>
     <SGHeader>Three Gigs in Germany</SGHeader>
+    <!-- <SGGallery :list="['vid1.m4v']" /> -->
+    <SGGallery :list="['20250201_095913.jpg', '20250131_184152.jpg', 'vid1.m4v']" />
+    <!-- <SGImages :list="['/public/Img1899-1.m4v']" /> -->
     <SGText>
+      <!-- <img src="/public/Img1899-1.m4v" /> -->
+      <!-- <video src="/public/Img1899-1.m4v" controls></video> -->
       For Christmas last year, my gift to Paula was a pair of concert tickets, which would let us
       see three of our favourite bands. As you've probably guessed from the title of this post, the
       catch was that these three gigs would require a bit of travel. But when I found out that "Cory
@@ -31,7 +38,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       architecture, before giving up, eating at the station, and boarding our night train to Berlin.
     </SGText>
 
-    <SGMapCutout
+    <!-- <SGMapCutout
       :fit-bounds-geometry="germanGigs.geography.detail"
       :feature-indexes="[0]"
       :reveal="1"
@@ -77,7 +84,6 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       that showed some range that doesn't appear in any of their recorded material.
     </SGText>
     <SpotifyEmbed url="artist/3nYyLjhw4mYzYfJePsCJYJ" />
-    <!-- <SpotifyEmbed url="track/15zyYQ2m37BDFXuhY8RTNr" :small="true" /> -->
     <SGText>
       Cory Wong is a great guitarist, backed up by possibly the tightest band I've seen. Their
       drummer had incredible stage presence, the full 5-piece horn section was playing harmonies
@@ -130,8 +136,17 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       We were met at the station by Paula's uncle Peter, with whom we would be and a staying the
       week with. He drove us to his place, where we collapsed into bed. An few more
     </SGText>
+    <SGImages
+      :list="[
+        '20250203_172153.jpg',
+        '20250202_172747-2.jpg',
+        '20250206_161201.jpg',
+        '20250206_162916.jpg',
+        'IMG_1942.heic'
+      ]"
+    />
     <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :reveal="[3, 4]" />
-    <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" />
+    <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" /> -->
     <SGText>
       <!-- <SpotifyEmbed url="playlist/6VWBc91arnXu6JyqCVAcbr" :small="true" :dark-mode="true" /> -->
       <br />
