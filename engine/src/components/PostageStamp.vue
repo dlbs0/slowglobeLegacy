@@ -2,6 +2,9 @@
 defineProps({
   image: String
 })
+
+const randomPrices = [2, 4, 5, 8, 10, 15, 20, 25, 30]
+const price = randomPrices[Math.floor(Math.random() * randomPrices.length)]
 </script>
 
 <template>
@@ -9,7 +12,7 @@ defineProps({
   <div class="postage-stamp-container">
     <div class="postage-stamp">
       <img :src="image" />
-      <div class="stamp-price">25¢</div>
+      <div class="stamp-price">{{ price }}¢</div>
       <div class="stamp-price sg">SG</div>
       <!-- <div class="stamp-price sg">SLOW GLOBE</div> -->
     </div>
