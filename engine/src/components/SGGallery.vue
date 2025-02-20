@@ -1,39 +1,42 @@
 <template>
   <div class="container">
-    <div class="gallery-container">
-      <lightgallery
-        :settings="{ speed: 500, plugins: plugins }"
-        :onInit="onInit"
-        :onBeforeSlide="onBeforeSlide"
-      >
-        <template v-for="item in galleryImages" :key="item.href">
-          <a
-            v-if="item.type === 'image'"
-            :data-lg-size="item.size"
-            className="gallery-item"
-            :data-src="item.href"
-          >
-            <img className="img-responsive" :src="item.thumbnail" />
-          </a>
-          <!-- <a href="/images/logoStamp.png" className="gallery-item">
+    <lightgallery
+      :settings="{ speed: 500, plugins: plugins }"
+      :onInit="onInit"
+      :onBeforeSlide="onBeforeSlide"
+    >
+      <template v-for="item in galleryImages" :key="item.href">
+        <a
+          v-if="item.type === 'image'"
+          :data-lg-size="item.size"
+          className="gallery-item"
+          :data-src="item.href"
+        >
+          <img className="img-responsive" :src="item.thumbnail" />
+        </a>
+        <!-- <a href="/images/logoStamp.png" className="gallery-item">
             <img alt="img1" src="/images/logoStamp.png" />
           </a> -->
-          <a
-            v-if="item.type === 'video'"
-            className="gallery-item"
-            data-lg-size="1080-1920"
-            :data-video="getVideoData(item.href)"
-          >
-            <!-- <img width="300" height="100" class="img-responsive" :src="item.href" /> -->
+        <a
+          v-if="item.type === 'video'"
+          className="gallery-item"
+          data-lg-size="1080-1920"
+          :data-video="getVideoData(item.href)"
+        >
+          <!-- <img width="300" height="100" class="img-responsive" :src="item.href" /> -->
+          <div class="vidBox">
+            <!-- <video preload="metadata" loop autoplay muted class="img-responsive gallery-item"> -->
             <video preload="metadata" class="img-responsive gallery-item">
               <source :src="item.href + '#t=15'" type="video/mp4" />
             </video>
-            <!-- <img width="300" height="100" class="img-responsive" src="/images/logoStamp.png" /> -->
-          </a>
-          <!-- ... -->
-        </template>
-      </lightgallery>
-    </div>
+          </div>
+          <div class="vidOverlay">&#x25B6;</div>
+          <!-- <div class="vidOverlay"></div> -->
+          <!-- <img width="300" height="100" class="img-responsive" src="/images/logoStamp.png" /> -->
+        </a>
+        <!-- ... -->
+      </template>
+    </lightgallery>
   </div>
 </template>
 
@@ -235,6 +238,17 @@ onMounted(() => {
   object-position: 50% 50%;
   image-orientation: from-image;
 }
+.vidBox {
+  /* position: relative;
+  background-color: aquamarine;
+  z-index: 4; */
+}
+
+.gallery-item {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+}
 
 .gallery-item video {
   width: 100%;
@@ -244,6 +258,32 @@ onMounted(() => {
   border-radius: 0.5em;
   object-position: 50% 50%;
   image-orientation: from-image;
+}
+.vidOverlay {
+  /* background-color: blue; */
+  aspect-ratio: 1 / 1;
+
+  z-index: 4;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  box-sizing: content-box;
+  top: -100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  vertical-align: center;
+  /* top: -200px; */
+  /* left: 50%; */
+  /* transform: translate(-50%, -50%); */
+  /* -webkit-transform: translate(-50%, -50%); */
+  /* content: '\25B6'; */
+  /* font-family: FontAwesome; */
+  font-size: 6rem;
+  color: #ffffff;
+  opacity: 0.7;
+  text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
 }
 </style>
 
