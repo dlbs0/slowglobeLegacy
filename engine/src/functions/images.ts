@@ -23,14 +23,26 @@ export function getImage(imgName: string) {
   return allTripImages[fullPathLookup[imgName]]
 }
 
-export const allTripVideos = import.meta.glob('~/**/images/*.m4v', {
+export const allTripVideos = import.meta.glob('~/**/videos/o_*.m4v', {
   import: 'default'
   // query: '?raw'
 })
-
 export const fullVideoPathLookup = Object.keys(allTripVideos).reduce(
   (acc: Record<string, string>, curr) => {
     const imgName = curr.split('/').pop() as string
+    acc[imgName] = curr
+    return acc
+  },
+  {}
+)
+
+export const allTripVideoThumbs = import.meta.glob('~/**/videos/*_thumb.png', {
+  import: 'default',
+  query: '?w=400&format=webp&as=metadata'
+})
+export const fullVideoPathThumbsLookup = Object.keys(allTripVideoThumbs).reduce(
+  (acc: Record<string, string>, curr) => {
+    const imgName = curr.split('/').pop()?.split('.')[0] as string
     acc[imgName] = curr
     return acc
   },

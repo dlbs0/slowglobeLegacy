@@ -1,10 +1,6 @@
 <template>
   <div class="container">
-    <lightgallery
-      :settings="{ speed: 500, plugins: plugins }"
-      :onInit="onInit"
-      :onBeforeSlide="onBeforeSlide"
-    >
+    <lightgallery :settings="{ speed: 500, plugins: plugins, licenseKey: '1' }" :onInit="onInit">
       <template v-for="item in galleryImages" :key="item.href">
         <a
           v-if="item.type === 'image'"
@@ -20,15 +16,15 @@
         <a
           v-if="item.type === 'video'"
           className="gallery-item"
-          data-lg-size="1080-1920"
           :data-video="getVideoData(item.href)"
+          :data-poster="item.thumbnail"
+          :data-lg-size="item.size"
         >
-          <!-- <img width="300" height="100" class="img-responsive" :src="item.href" /> -->
           <div class="vidBox">
-            <!-- <video preload="metadata" loop autoplay muted class="img-responsive gallery-item"> -->
-            <video preload="metadata" class="img-responsive gallery-item">
-              <source :src="item.href + '#t=15'" type="video/mp4" />
-            </video>
+            <img className="img-responsive" :src="item.thumbnail" />
+            <!-- <video preload="metadata" class="img-responsive gallery-item">
+              <source :src="item.href" type="video/mp4" />
+            </video> -->
           </div>
           <div class="vidOverlay">&#x25B6;</div>
           <!-- <div class="vidOverlay"></div> -->
@@ -41,7 +37,6 @@
 </template>
 
 <script setup lang="ts">
-// import { Options, Vue } from 'vue-class-component'
 import Lightgallery from 'lightgallery/vue'
 import lgThumbnail from 'lightgallery/plugins/thumbnail'
 import lgZoom from 'lightgallery/plugins/zoom'
@@ -57,8 +52,10 @@ import { asyncComputed } from '@vueuse/core'
 import {
   allTripImages,
   allTripVideos,
+  allTripVideoThumbs,
   fullPathLookup,
-  fullVideoPathLookup
+  fullVideoPathLookup,
+  fullVideoPathThumbsLookup
 } from '@/functions/images'
 import { computed, nextTick, onMounted, watch } from 'vue'
 
@@ -76,24 +73,10 @@ const props = defineProps<{
 const plugins = [lgThumbnail, lgZoom, lgVideo]
 let lg: LightGallery | null = null
 
-// const items = [
-//   {
-//     src: '/images/logoStamp.png',
-//     caption: 'Stamp',
-//     type: 'image',
-//     thumb: '/images/logoStamp.png',
-//     subHtml: '<h4>Stamp</h4>'
-//   }
-// ]
-
 function onInit(detail: InitDetail) {
-  console.log('lightGallery has been initialized')
+  // console.log('lightGallery has been initialized')
   lg = detail.instance
-  console.log('detail:', detail)
   updateSlides()
-}
-function onBeforeSlide() {
-  console.log('calling before slide')
 }
 
 function getVideoData(href: string) {
@@ -102,27 +85,22 @@ function getVideoData(href: string) {
 
 function updateSlides() {
   lg?.refresh()
-  //   lg?.updateSlides(items, 0)
-  //   lg?.openGallery()
 }
 
 const imageList = computed(() =>
   (props.list ?? []).map((i) => {
     const base = typeof i == 'string' ? i : i.img
-    console.log(
-      'i:',
-      i,
-      allTripImages[fullPathLookup[base]],
-      allTripVideos[fullVideoPathLookup[base]]
-    )
-    if (base.endsWith('.m4v'))
+    if (base.endsWith('.m4v')) {
+      const imgName = base.split('.')[0] + '_thumb'
       return {
-        module: allTripVideos[fullVideoPathLookup[base]],
+        imageModule: allTripVideoThumbs[fullVideoPathThumbsLookup[imgName]],
+        videoModule: allTripVideos[fullVideoPathLookup[base]],
         coords: typeof i == 'string' ? undefined : i?.coords,
         caption: typeof i == 'string' ? undefined : i?.caption
       }
+    }
     return {
-      module: allTripImages[fullPathLookup[base]],
+      imageModule: allTripImages[fullPathLookup[base]],
       coords: typeof i == 'string' ? undefined : i?.coords,
       caption: typeof i == 'string' ? undefined : i?.caption
     }
@@ -131,62 +109,47 @@ const imageList = computed(() =>
 
 const galleryImages = asyncComputed(async () => {
   if (!imageList.value) return []
-  const output: Array<{
+  const gImages: Array<{
     href: string
-    width?: number
-    height?: number
-    thumbnail?: string
+    thumbnail: string
     coords?: [number, number]
     caption: string
     type: 'image' | 'video'
-    size?: string
+    size: string
   }> = []
-  for (const path in imageList.value) {
-    console.log('path:', imageList.value[path])
-    // if ('video' in imageList.value[path]) {
-    //   output.push({
-    //     href: imageList.value[path].video ?? '',
-    //     width: 0,
-    //     height: 0,
-    //     thumbnail: imageList.value[path].video ?? '',
-    //     coords: undefined,
-    //     caption: ''
-    //   })
-    //   continue
-    // }
+  for (const path of imageList.value) {
+    const imageModule = await path.imageModule()
+    const coords = path.coords
+    const caption = path?.caption ?? ''
 
-    const mod = await imageList.value[path].module()
-    console.log('mod:', mod)
-    const coords = imageList.value[path].coords
-    const caption = imageList.value[path]?.caption ?? ''
+    const thumbnail = !Array.isArray(imageModule) ? imageModule : imageModule[0]
 
-    if (Array.isArray(mod)) {
-      const { width, height } = mod[1]
-      output.push({
-        href: mod[1].src,
-        width,
-        height,
-        thumbnail: mod[0].src,
-        coords,
-        caption,
-        type: 'image',
-        size: `${width}-${height}`
-      })
-    } else {
-      output.push({
-        href: mod as string,
-        coords,
-        caption,
-        type: 'video'
-      })
+    const output = {
+      coords,
+      caption,
+      size: '',
+      href: '',
+      thumbnail: thumbnail.src,
+      type: 'image' as 'video' | 'image'
     }
+
+    if (path.videoModule) {
+      const videoModule = await path.videoModule()
+      output.type = 'video'
+      output.href = videoModule as string
+      output.size = `${thumbnail.width * 3}-${thumbnail.height * 3}`
+    } else if (Array.isArray(imageModule) && imageModule[1]) {
+      const { width, height } = imageModule[1]
+      output.size = `${width}-${height}`
+      output.href = imageModule[1].src
+    }
+    gImages.push(output)
   }
-  return output
+  return gImages
 })
 watch(galleryImages, () => {
   nextTick(() => {
     updateSlides()
-    console.log('watched updateSlides:')
   })
 })
 
@@ -260,9 +223,8 @@ onMounted(() => {
   image-orientation: from-image;
 }
 .vidOverlay {
-  /* background-color: blue; */
   aspect-ratio: 1 / 1;
-
+  cursor: pointer;
   z-index: 4;
   position: relative;
   width: 100%;
@@ -274,16 +236,21 @@ onMounted(() => {
   flex-direction: column;
   justify-content: center;
   vertical-align: center;
-  /* top: -200px; */
-  /* left: 50%; */
-  /* transform: translate(-50%, -50%); */
-  /* -webkit-transform: translate(-50%, -50%); */
-  /* content: '\25B6'; */
-  /* font-family: FontAwesome; */
   font-size: 6rem;
   color: #ffffff;
   opacity: 0.7;
   text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+  transition:
+    opacity 0.2s ease-in-out,
+    transform 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
+
+  &:hover {
+    opacity: 0.9;
+    background-color: #ffffff15;
+    /* font-size: 6.5rem; */
+    transform: scale(1.1);
+  }
 }
 </style>
 

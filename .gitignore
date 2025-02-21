@@ -30,4 +30,6 @@ coverage
 *.tsbuildinfo
 engine/typed-router.d.ts
 
+**/videos/source_files/**
+
 logo/oldVersions

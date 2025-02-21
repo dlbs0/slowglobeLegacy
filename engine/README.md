@@ -1,35 +1,25 @@
 # slowglobe
 
-This template should help get you started developing with Vue 3 in Vite.
+A map and photo based blogging engine
 
-## Recommended IDE Setup
+## Recommended Setup
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+[VSCode](https://code.visualstudio.com/) + Nodejs + npm.
 
-## Type Support for `.vue` Imports in TS
+Using Eslint with prettier as formatter.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+ffmpeg is required if using the video optimisation tools.
 
 ## Project Setup
 
+The engine folder is the backend of this project, but the content lives in the separate `trips` folder. There are scripts to generate trips. `npm run create-trip` will generate a new trip.
+
+### Install and Start
+
 ```sh
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
@@ -37,3 +27,11 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## Images and Videos
+
+Images are stored in the `images` folder of the relevant trip. They are compressed with vite-imagetools, and on build, two versions are created, the thumbnail and original.
+
+Videos are stored in the `videos` folder of the relevant trip. We need to both compress and create a thumbnail for the video, and vite cannot do this natively, so we use the `encode-video` script to do this.
+
+To use, place videos into the `videos` folder in the trip, and run `npm run encode-video`. It will move the original files to the `source_files` folder (not committed), and create the new files with the prefix `o_` (optimised). If you want to crop the video, you should do that before optimising.

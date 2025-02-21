@@ -4,6 +4,7 @@
     "build": "npm run build --workspace=engine",
     "lint": "npm run lint --workspaces",
     "create-trip": "npm run create-trip --workspace=engine",
+    "encode-video": "npm run encode-video --workspace=engine",
     "postinstall": "patch-package"
   },
   "workspaces": [

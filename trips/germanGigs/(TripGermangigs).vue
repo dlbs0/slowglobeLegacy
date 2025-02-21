@@ -15,7 +15,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
   <DetailView>
     <SGHeader>Three Gigs in Germany</SGHeader>
     <!-- <SGGallery :list="['vid1.m4v']" /> -->
-    <SGGallery :list="['20250201_095913.jpg', '20250131_184152.jpg', 'vid1.m4v']" />
+    <SGGallery :list="['20250201_095913.jpg', '20250131_184152.jpg', 'o_IMG_1899.m4v']" />
     <!-- <SGImages :list="['/public/Img1899-1.m4v']" /> -->
     <SGText>
       <!-- <img src="/public/Img1899-1.m4v" /> -->
@@ -38,7 +38,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       architecture, before giving up, eating at the station, and boarding our night train to Berlin.
     </SGText>
 
-    <!-- <SGMapCutout
+    <SGMapCutout
       :fit-bounds-geometry="germanGigs.geography.detail"
       :feature-indexes="[0]"
       :reveal="1"
@@ -146,7 +146,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       ]"
     />
     <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :reveal="[3, 4]" />
-    <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" /> -->
+    <SpotifyEmbed url="album/3Bhtlh9Mc1CVNaen3eTEyP" />
     <SGText>
       <!-- <SpotifyEmbed url="playlist/6VWBc91arnXu6JyqCVAcbr" :small="true" :dark-mode="true" /> -->
       <br />
