@@ -5,6 +5,7 @@ import { sweden } from '~/sweden/sweden'
 import { ljusdal } from '~/ljusdal/ljusdal'
 import { germanGigs } from '~/germanGigs/germanGigs'
 import { greatOceanRoad } from '~/greatOceanRoad/greatOceanRoad'
+import { abisko } from './abisko/abisko'
 
 export interface Trip {
   id: string
@@ -36,6 +37,7 @@ export function getTripHeaderInfoById(id: string) {
 
 export const allTrips: Trip[] = [
   germanGigs,
+  abisko,
   ljusdal,
   gavle,
   bracke,
