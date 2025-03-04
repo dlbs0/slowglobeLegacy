@@ -2,7 +2,7 @@
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGText from '@/components/SGText.vue'
-import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import { flinders } from './flindersHike'
 import SGMapFollow from '@/components/SGMapFollow.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
@@ -80,7 +80,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       :follow-pitch="70"
       :overview="true"
     />
-    <SGImages
+    <SGGallery
       :list="[
         '20240712_141222.jpg',
         '20240712_141456.jpg',
@@ -93,7 +93,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
         '20240712_151027.jpg',
         '20240712_153416.jpg'
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGText>
       The hike up through Black Gap and over Bridle Gap was absolutely beautiful, slowly revealing
       more of the Red and Elder Ranges behind us as we climbed. It was also pretty steep in parts,
@@ -114,7 +114,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       :hide-marker="true"
       :satellite="true"
     />
-    <SGImages
+    <SGGallery
       :list="[
         '20240712_155334.jpg',
         '20240712_155424.jpg',
@@ -127,7 +127,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
         '20240712_162053.jpg',
         'PXL_20240712_065224071.jpg'
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGText>
       With Dick Nob summitted, and geocache found, we headed back down, where we found that
       (surprise), we would need quite a cracking pace to make camp before dark.
@@ -139,7 +139,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       <br />We made camp in a nice little flat spot, where we stargazed, ate our dinner, and learnt
       that Akira had only brought Mac and Cheese to eat for every meal.
     </SGText>
-    <SGImages
+    <SGGallery
       :list="[
         '20240712_170710.jpg',
         '20240712_171907.jpg',
@@ -148,7 +148,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
         'PXL_20240712_075417683.MP.jpg',
         'PXL_20240712_104235784.MP.jpg'
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGDayBreak />
     <SGText>
       The night was cold. Some of us were better prepared for that than others. Brodie, still
@@ -171,7 +171,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       travel, as all the views were behind us again. The views at lunch, however, were excellent and
       all around us. We ate well, knowing we had a resupply a few hours away.
     </SGText>
-    <SGImages
+    <SGGallery
       :list="[
         'PXL_20240712_224012445.jpg',
         'PXL_20240713_005906686.MP.jpg',
@@ -183,7 +183,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
         '20240713_130515.jpg',
         '20240713_130522.jpg'
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGText>
       Unfortunately, it took us a few more hours than expected to reach the resupply. Progress down
       the steep and rocky hillside was slow and technical, and it wasn't until we were back on flat
@@ -206,7 +206,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       :use-time="false"
       :show-time="true"
     />
-    <SGImages
+    <SGGallery
       :list="[
         'PXL_20240713_035650511.MP.jpg',
         '20240713_135537.jpg',
@@ -214,7 +214,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
         'PXL_20240713_071414475.jpg',
         '20240713_171357.jpg'
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGDayBreak />
 
     <SGText> We woke to the most beautiful morning light on the side of the range. </SGText>

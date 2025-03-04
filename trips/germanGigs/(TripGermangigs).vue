@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
-import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
@@ -16,7 +16,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
     <SGHeader>Three Gigs in Germany</SGHeader>
     <!-- <SGGallery :list="['vid1.m4v']" /> -->
     <!-- <SGGallery :list="['20250201_095913.jpg', '20250131_184152.jpg', 'o_IMG_1899.m4v']" /> -->
-    <!-- <SGImages :list="['/public/Img1899-1.m4v']" /> -->
+    <!-- <SGGallery :list="['/public/Img1899-1.m4v']" /> -->
     <SGText>
       <!-- <img src="/public/Img1899-1.m4v" /> -->
       <!-- <video src="/public/Img1899-1.m4v" controls></video> -->
@@ -44,7 +44,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       :fitOnlyToIndexes="[0]"
       :reveal="1"
     />
-    <SGImages :list="['20250130_113836.jpg', 'IMG_1841.jpg', 'IMG_1862.jpg', 'IMG_1889.jpg']" />
+    <SGGallery :list="['20250130_113836.jpg', 'IMG_1841.jpg', 'IMG_1862.jpg', 'IMG_1889.jpg']" />
     <SGText>
       The ride was quite comfortable, and while we were delayed by a few hours, it was just long
       enough for us to get a 50% refund and meet the very fun conductor who gave us some free

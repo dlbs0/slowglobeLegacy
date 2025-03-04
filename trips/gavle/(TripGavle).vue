@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
@@ -48,7 +48,7 @@ import { gavle } from './gavle'
     </SGText>
     <SGMapCutout :fit-bounds-geometry="gavle.geography.detail?.features[1]" :reveal="2" />
 
-    <SGImages
+    <SGGallery
       :add-photos-to-map="true"
       :list="[
         {
@@ -80,14 +80,14 @@ import { gavle } from './gavle'
         },
         'DSC_0116.jpg'
       ]"
-    ></SGImages>
+    />
     <SGText>
       <br />I had a late salad bar and pastry lunch (Swedish salad bars are in most supermarkets,
       and a great easy lunch option), and then it was getting close to time to actually go and pick
       up some speakers.
       <br />
     </SGText>
-    <SGImages
+    <SGGallery
       :add-photos-to-map="true"
       :list="[
         {
@@ -100,7 +100,7 @@ import { gavle } from './gavle'
           coords: [17.14950866889892, 60.67287024882222]
         }
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGMapCutout
       :center="[17.14993156983021, 60.673195058808204]"
       :zoom="16.5"
@@ -121,7 +121,7 @@ import { gavle } from './gavle'
       was delayed a little so I could take a break halfway through and put them down.
       <br />
     </SGText>
-    <SGImages :list="['20240930_160947.jpg', '20240930_154613.jpg']"></SGImages>
+    <SGGallery :list="['20240930_160947.jpg', '20240930_154613.jpg']"></SGGallery>
     <SGText>
       <br />Luckily when I arrived back in Sundsvall, I was saved from having to carry them home by
       Ebba and Paula picking me up after their bulb buying trip to the nursery.

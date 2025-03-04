@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
@@ -23,7 +23,7 @@ import SGMapOrbit from '@/components/SGMapOrbit.vue'
       Since my last update, winter has come properly. The autumn leaves are long gone, so too is the
       cold and dead interim period before the snow comes.
     </SGText>
-    <SGImages :list="['20241120_124548.jpg', '20241123_144615.jpg']" />
+    <SGGallery :list="['20241120_124548.jpg', '20241123_144615.jpg']" />
     <SGText
       >That said, it's still not cold enough that ice doesn't form, and today was the most slippery
       that it's been so far. On my way down the hill into town I made the mistake of taking an
@@ -64,7 +64,7 @@ import SGMapOrbit from '@/components/SGMapOrbit.vue'
     </SGText>
     <!-- <SGMapCutout :center="[17.10789360017543, 61.726987298161816]" :zoom="15.5" :pitch="60" /> -->
     <SGMapOrbit :center="[17.10789360017543, 61.726987298161816]" :zoom="15.5" :pitch="60" />
-    <SGImages
+    <SGGallery
       :list="[
         { img: '20241126_142457.jpg', coords: [17.107931996545744, 61.726869336238025] },
         '20241126_142952.jpg',

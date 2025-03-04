@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
-import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
 import { bracke } from './bracke'
@@ -38,7 +38,7 @@ import { dFeatureCollection, dPoint } from '@/functions/classes'
       by Sunday. And so Sunday, just after lunch, I found myself walking to the station on a lovely
       crisp Autumn day.
     </SGText>
-    <SGImages
+    <SGGallery
       :addPhotosToMap="true"
       :list="[
         {
@@ -76,7 +76,7 @@ import { dFeatureCollection, dPoint } from '@/functions/classes'
     </SGText>
 
     <SGMapCutout :fit-bounds-geometry="bracke.geography.detail?.features[2]" :pitch="55" />
-    <SGImages
+    <SGGallery
       :add-photos-to-map="true"
       :list="[
         {
@@ -107,7 +107,7 @@ import { dFeatureCollection, dPoint } from '@/functions/classes'
       down the hill to the lake where I beat the train by seconds. After my earlier bus experiences,
       I enjoyed the newfound luxury of the train all the way home.
     </SGText>
-    <SGImages :list="['20240922_162227.jpg', '20240922_172726-3.jpg']" />
+    <SGGallery :list="['20240922_162227.jpg', '20240922_172726-3.jpg']" />
   </DetailView>
 </template>
 

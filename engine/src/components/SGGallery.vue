@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" ref="target">
     <lightgallery :settings="{ speed: 500, plugins: plugins, licenseKey: '1' }" :onInit="onInit">
       <template v-for="item in galleryImages" :key="item.href">
         <a
@@ -10,9 +10,7 @@
         >
           <img className="img-responsive" :src="item.thumbnail" />
         </a>
-        <!-- <a href="/images/logoStamp.png" className="gallery-item">
-            <img alt="img1" src="/images/logoStamp.png" />
-          </a> -->
+
         <a
           v-if="item.type === 'video'"
           className="gallery-item"
@@ -22,15 +20,9 @@
         >
           <div class="vidBox">
             <img className="img-responsive" :src="item.thumbnail" />
-            <!-- <video preload="metadata" class="img-responsive gallery-item">
-              <source :src="item.href" type="video/mp4" />
-            </video> -->
           </div>
           <div class="vidOverlay">&#x25B6;</div>
-          <!-- <div class="vidOverlay"></div> -->
-          <!-- <img width="300" height="100" class="img-responsive" src="/images/logoStamp.png" /> -->
         </a>
-        <!-- ... -->
       </template>
     </lightgallery>
   </div>
@@ -48,7 +40,7 @@ import 'lightgallery/css/lg-zoom.css'
 import 'lightgallery/css/lg-video.css'
 import type { InitDetail } from 'lightgallery/lg-events'
 import type { LightGallery } from 'lightgallery/lightgallery'
-import { asyncComputed } from '@vueuse/core'
+import { asyncComputed, useIntersectionObserver } from '@vueuse/core'
 import {
   allTripImages,
   allTripVideos,
@@ -57,7 +49,10 @@ import {
   fullVideoPathLookup,
   fullVideoPathThumbsLookup
 } from '@/functions/images'
-import { computed, nextTick, onMounted, watch } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import type { Marker } from 'mapbox-gl'
+import { getMap } from '@/functions/map'
+import mapboxgl from 'mapbox-gl'
 
 interface Img {
   img: string
@@ -156,37 +151,65 @@ watch(galleryImages, () => {
 onMounted(() => {
   updateSlides()
 })
+
+const target = ref(null)
+let markers: Marker[] = []
+
+if (props.addPhotosToMap) {
+  useIntersectionObserver(target, ([{ isIntersecting }]) => {
+    if (isIntersecting && galleryImages.value) {
+      for (const [index, entry] of galleryImages.value.entries()) {
+        // Create a DOM element for each marker.
+        if (!entry.coords) continue
+        const el = document.createElement('div')
+        el.onclick = () => {
+          lg?.openGallery(index)
+        }
+        el.className = 'photoMarker'
+
+        const img = document.createElement('img')
+        img.src = entry.thumbnail
+        el.appendChild(img)
+
+        // Add markers to the map.
+        const map = getMap()
+        if (!map) continue
+        const m = new mapboxgl.Marker(el).setLngLat(entry.coords).addTo(map)
+        markers.push(m)
+      }
+    } else {
+      removeAllMarkers()
+    }
+  })
+}
+
+function removeAllMarkers() {
+  if (markers.length > 0) {
+    markers.forEach((m) => {
+      m.remove()
+    })
+    markers = []
+  }
+}
+
+onUnmounted(() => {
+  removeAllMarkers()
+})
 // export default class App extends Vue {}
 </script>
 <style lang="css" scoped>
 .container {
   z-index: 2;
   position: relative;
-  /* margin: 1em 0; */
 }
 
 .lightgallery-vue {
   padding: 1em;
-
   width: 100%;
   margin-left: -1em;
   background-color: white;
-  /* border: rgb(235, 235, 235) 1px solid; */
-  /* box-shadow: 0px 1px 0.25em rgba(0, 0, 0, 0.2); */
   border-radius: 0.5em;
-  /* background-color: rgb(252 234 232); */
-  /* background-color: rgb(245 221 219); */
-  /* background-color: rgb(255 248 247); */
   gap: 1em;
-  /* padding: 2em; */
-  flex-wrap: wrap;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.vpis-gallery {
-  gap: 1em;
-  /* padding: 2em; */
   flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -200,11 +223,6 @@ onMounted(() => {
   border-radius: 0.5em;
   object-position: 50% 50%;
   image-orientation: from-image;
-}
-.vidBox {
-  /* position: relative;
-  background-color: aquamarine;
-  z-index: 4; */
 }
 
 .gallery-item {
@@ -248,7 +266,6 @@ onMounted(() => {
   &:hover {
     opacity: 0.9;
     background-color: #ffffff15;
-    /* font-size: 6.5rem; */
     transform: scale(1.1);
   }
 }

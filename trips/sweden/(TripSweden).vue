@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SGImages from '@/components/SGImages.vue'
+import SGGallery from '@/components/SGGallery.vue'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
@@ -64,7 +64,7 @@ import { sweden } from './sweden'
       the first time in weeks. It was fun.
     </SGText>
     <SGMapCutout :fit-bounds-geometry="sweden.geography.detail" />
-    <SGImages
+    <SGGallery
       :list="[
         '20240906_112409.jpg',
         '20240905_212251.jpg',
@@ -74,7 +74,7 @@ import { sweden } from './sweden'
         '20240906_212444.jpg',
         'PXL_20240905_000733663.MP.jpg'
       ]"
-    ></SGImages>
+    ></SGGallery>
     <SGText>(Flight path above is the actual recorded flight data for the day)</SGText>
   </DetailView>
 </template>
