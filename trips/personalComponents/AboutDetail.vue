@@ -46,8 +46,10 @@
   justify-content: center;
   box-sizing: border-box;
   padding: 2em;
-  padding-top: 6em;
+  /* padding-top: 6em; */
   text-align: center;
+  /* background-color: white; */
+  max-width: 50em;
   a {
     color: var(--primary);
   }

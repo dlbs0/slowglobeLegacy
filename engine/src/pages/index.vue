@@ -100,6 +100,9 @@ const intMarg = computed(() => {
   width: 100%;
   color: var(--md-sys-color-on-surface);
   background-color: var(--md-sys-color-surface);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .polaroidGrid {
