@@ -22,7 +22,7 @@ export default defineConfig({
   },
   build: { outDir: '../dist', emptyOutDir: true },
   plugins: [
-    imagetools(),
+    // imagetools(),
     VueRouter({
       /* options */
       routesFolder: ['src/pages', { src: '../trips', path: 'trip/' }]
