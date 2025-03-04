@@ -31,13 +31,13 @@ const { setMapInteractive, mapInteractive } = useMapInteractive()
 const { showHikingLayers } = useHikingLayers()
 
 const props = defineProps<{
-  fitBoundsGeometry?: FeatureCollection | Feature
-  center?: [number, number]
+  fitBoundsGeometry?: FeatureCollection | Feature // optional, will fit the map to the bounds of this geometry
+  center?: [number, number] // optional, will set the map center to this location
   zoom?: number
   pitch?: number
   bearing?: number
-  featureIndexes?: number[]
-  reveal?: Reveal
+  fitOnlyToIndexes?: number[] // only use some of the features in the fitBoundsGeometry when fitting
+  reveal?: Reveal // show only some parts of the trip on the map, requires the 'order' property in the features
 }>()
 
 const { height } = useWindowSize()
@@ -49,13 +49,13 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
     if (props.fitBoundsGeometry) {
       let fitGeom = props.fitBoundsGeometry ?? featureCollection([])
       if (
-        props.featureIndexes &&
-        props.featureIndexes.length > 0 &&
+        props.fitOnlyToIndexes &&
+        props.fitOnlyToIndexes.length > 0 &&
         fitGeom.type == 'FeatureCollection'
       ) {
         // take only the features from the fitBoundsGeometry that are in the array at the given indexes
         // @ts-expect-error we have already checked for the type in the if above
-        fitGeom = featureCollection(props.featureIndexes.map((i) => fitGeom?.features[i]))
+        fitGeom = featureCollection(props.fitOnlyToIndexes.map((i) => fitGeom?.features[i]))
       }
 
       const vh = height.value * 0.2

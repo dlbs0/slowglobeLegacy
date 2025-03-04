@@ -7,7 +7,7 @@ import { existsSync, mkdirSync, rename, stat } from 'fs'
 console.log('Converting all videos to .mp4')
 
 // scan the trips/**/videos/ folder for.mov files
-const videoFiles = await glob('../trips/**/videos/*.{MOV,mov}', {
+const videoFiles = await glob('../trips/**/videos/*.{MOV,mov,mp4}', {
   stat: true,
   withFileTypes: true,
   ignore: {
@@ -45,7 +45,8 @@ for (const video of videoFiles) {
   //   Convert the video to mp4
   const options = {
     input: video.fullpath(),
-    output: video.parentPath + '/o_' + video.name.split('.')[0] + '.m4v'
+    output: video.parentPath + '/o_' + video.name.split('.')[0] + '.m4v',
+    preset: 'Social 100 MB 5 Minutes 1080p30'
   }
   const newSize = await doVidEnc(options, bar)
 

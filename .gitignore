@@ -30,6 +30,10 @@ coverage
 *.tsbuildinfo
 engine/typed-router.d.ts
 
+**/images/source_files/**
 **/videos/source_files/**
+
+*.heic
+*.HEIC
 
 logo/oldVersions

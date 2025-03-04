@@ -21,7 +21,12 @@ export default defineConfig({
   },
   build: { outDir: '../dist', emptyOutDir: true },
   plugins: [
-    imagetools(),
+    imagetools({
+      include: [
+        '**/*.{heif,avif,jpeg,jpg,png,tiff,webp,gif}?*',
+        '../trips/**/images/*.{heif,avif,jpeg,jpg,png,tiff,webp,gif}?*'
+      ]
+    }),
     VueRouter({
       /* options */
       routesFolder: ['src/pages', { src: '../trips', path: 'trip/' }]

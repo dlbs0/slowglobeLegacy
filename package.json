@@ -5,6 +5,7 @@
     "lint": "npm run lint --workspaces",
     "create-trip": "npm run create-trip --workspace=engine",
     "encode-video": "npm run encode-video --workspace=engine",
+    "convert-images": "npm run convert-images --workspace=engine",
     "postinstall": "patch-package"
   },
   "workspaces": [
@@ -30,7 +31,6 @@
     "typescript": "~5.4.0",
     "unplugin-vue-router": "^0.11.2",
     "vite": "^5.4.14",
-    "vite-imagetools": "^7.0.5",
     "vue-tsc": "^2.2.0"
   }
 }
