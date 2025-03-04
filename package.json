@@ -1,50 +1,36 @@
 {
-  "name": "slowglobe",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "run-p type-check \"build-only {@}\" -- && vite-bundle-visualizer",
-    "preview": "vite preview",
-    "build-only": "vite build",
-    "type-check": "vue-tsc --build --force",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "format": "prettier --write src/",
+    "dev": "npm run dev --workspace=engine",
+    "build": "npm run build --workspace=engine",
+    "lint": "npm run lint --workspaces",
+    "create-trip": "npm run create-trip --workspace=engine",
+    "encode-video": "npm run encode-video --workspace=engine",
+    "convert-images": "npm run convert-images --workspace=engine",
     "postinstall": "patch-package"
   },
+  "workspaces": [
+    "trips",
+    "engine"
+  ],
   "dependencies": {
-    "@tmcw/togeojson": "^5.8.1",
-    "@turf/turf": "^7.1.0",
-    "@types/geojson": "^7946.0.14",
-    "@vueuse/components": "^11.1.0",
-    "@vueuse/core": "^11.1.0",
-    "date-fns": "^4.1.0",
-    "date-fns-tz": "^3.2.0",
-    "iconify-icon": "^2.1.0",
-    "mapbox-gl": "^3.7.0",
-    "pinia": "^2.2.4",
-    "vue": "^3.4.29",
-    "vue-preview-imgs": "^2.0.1",
-    "vue-router": "^4.4.5"
+    "vue": "^3.4.29"
   },
   "devDependencies": {
-    "@rushstack/eslint-patch": "^1.10.4",
+    "@rushstack/eslint-patch": "^1.10.5",
     "@tsconfig/node20": "^20.1.4",
-    "@types/node": "^20.16.14",
-    "@vitejs/plugin-vue": "^5.1.4",
+    "@types/geojson": "^7946.0.16",
+    "@types/node": "^20.17.17",
+    "@vitejs/plugin-vue": "^5.2.1",
     "@vue/eslint-config-prettier": "^9.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
     "@vue/tsconfig": "^0.5.1",
     "eslint": "^8.57.1",
-    "eslint-plugin-vue": "^9.29.1",
-    "npm-run-all2": "^6.2.6",
+    "eslint-plugin-vue": "^9.32.0",
     "patch-package": "^8.0.0",
-    "prettier": "^3.3.3",
+    "prettier": "^3.4.2",
     "typescript": "~5.4.0",
-    "vite": "^5.4.9",
-    "vite-bundle-visualizer": "^1.2.1",
-    "vite-imagetools": "^7.0.4",
-    "vue-tsc": "^2.1.6"
+    "unplugin-vue-router": "^0.11.2",
+    "vite": "^5.4.14",
+    "vue-tsc": "^2.2.0"
   }
 }
