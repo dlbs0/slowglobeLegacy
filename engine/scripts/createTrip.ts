@@ -8,9 +8,9 @@ const rl = readline.createInterface({
   output: process.stdout
 })
 
-rl.question(`Trip ID (used in the url)`, (id) => {
-  rl.question(`Trip Name (used in the title)`, (name) => {
-    console.log(`OK ${id}! ${name}`)
+rl.question(`Trip ID (used in the url): `, (id) => {
+  rl.question(`Trip Name (used in the title): `, (name) => {
+    console.log(`DONE \ntrip_id: ${id}\ntrip_name: ${name}`)
     rl.close()
 
     const typescriptContent = `import type { Trip } from '~/allTrips'
@@ -52,6 +52,7 @@ import { ${id} } from './${id}'
     try {
       if (!existsSync('../trips/' + id)) mkdirSync('../trips/' + id)
       if (!existsSync('../trips/' + id + '/images')) mkdirSync('../trips/' + id + '/images')
+      if (!existsSync('../trips/' + id + '/videos')) mkdirSync('../trips/' + id + '/videos')
       writeFileSync('../trips/' + id + '/' + id + '.ts', typescriptContent)
       writeFileSync(
         '../trips/' +
