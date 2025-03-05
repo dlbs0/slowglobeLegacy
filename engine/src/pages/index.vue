@@ -131,7 +131,7 @@ const intMarg = computed(() => {
     height: 100%;
     @supports (-webkit-touch-callout: none) {
       /* CSS specific to iOS devices */
-      background-color: blue;
+      /* background-color: blue; */
       scroll-snap-align: start;
       height: 100vh;
       z-index: 20;
