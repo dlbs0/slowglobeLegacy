@@ -5,7 +5,6 @@ import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
 import { abisko } from './abisko'
-import SGMapOrbit from '@/components/SGMapOrbit.vue'
 import SGDayBreak from '@/components/SGDayBreak.vue'
 </script>
 
@@ -13,8 +12,8 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
   <DetailView>
     <SGHeader>An Adventure in Abisko</SGHeader>
     <SGText>
-      Lil and Emma were over in Sweden for a few over new years, and we decided to visit Abisko to
-      experience the deep cold of winter. Every Swede we spoke to seemed to think this was a bad
+      Lil and Emma were over in Sweden for a few days over new years, and we decided to visit Abisko
+      to experience the deep cold of winter. Every Swede we spoke to seemed to think this was a bad
       idea, but all the tourism websites said this is the must do thing this time of year, so do it
       we did.
       <br />
@@ -35,7 +34,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
     <SGGallery :list="['IMG_1110.jpg', '20241228_144459.jpg', '20241228_233632.jpg']" />
     <SGMapCutout :fit-bounds-geometry="abisko.geography.detail" />
     <SGText
-      >We also were notified that the train would be not go all the way to Abisko due to bad
+      >We also were notified that the train would not be going all the way to Abisko due to bad
       weather, and would make it's last stop in Kiruna. I rang Kiruna taxi the night before, and
       asked if could book a taxi for the last leg of the journey, and was told that there was no
       need for that, just hail one at the station.
@@ -85,14 +84,15 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       Our guide Gonilla (rhymes with Vanilla), when she arrived, was the picture of Swedish
       outdoorsiness. She was immediately concerned with our levels of warmth, and once assured that
       we were wearing suitable clothes, she began fitting us for crampons. Crampons are big
-      triangles of metal stuck to the bottom of your boots, easily capable of tearing holes in our
-      pants if we walked with our feet too close together.
+      triangles of metal stuck to the bottom of your boots, and we were warned that they were easily
+      capable of tearing holes in our pants if we walked with our feet too close together. We found
+      this out the hard way anyway, despite our best efforts.
       <br />
       <br />
       We headed outside and towards the canyon, marvelling at how the ground we'd be sliding around
       on yesterday was rendered rock steady under our newly spiked feet. After Gonilla setup the
-      ropes, we had to make our way down the narrow path on the canyon wall, which was probably the
-      most dangerous part of the whole experience.
+      ropes, we had to make our way down the narrow path on the canyon wall. This was probably the
+      most dangerous and definitely the most scary part of the whole experience.
       <br />
       <br />
       Safely down, we were roped up, and went climbing. I think the thing that struck me most about
@@ -124,10 +124,11 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
     />
     <SGText>
       That afternoon we headed into the town proper to go dog sledding. Dog sledding is pretty much
-      as cool as it sounds. The dogs are all excited to be moving, and just want to run. We were
-      sledding for an hour across some beautiful terrain, surrounded by mountains, and lit by the
-      slowly setting sun. I can't recommend it enough, though it might be even better when it's not
-      quite so cold.
+      as cool as it sounds. The dogs are all excited to be moving, and just want to run whenever
+      they're stopped. Once they're running though, it's silent and calm, with just the swish of the
+      snow and sound of the dogs panting. We were sledding for an hour across some beautiful
+      terrain, surrounded by mountains, and lit by the slowly setting sun. I can't recommend it
+      enough, though it might be even better when it's not quite so cold.
     </SGText>
     <SGGallery :list="['IMG_1335-2.jpg', 'IMG_1338.jpg']" />
     <SGMapCutout :center="[20.252554303154056, 67.850241953904]" :zoom="12" />
