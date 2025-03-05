@@ -19,6 +19,7 @@ import {
   showTracks,
   useHikingLayers,
   useMapInteractive,
+  type MapOverlays,
   type Reveal
 } from '@/functions/map'
 import type { Feature, FeatureCollection } from 'geojson'
@@ -38,6 +39,7 @@ const props = defineProps<{
   bearing?: number
   fitOnlyToIndexes?: number[] // only use some of the features in the fitBoundsGeometry when fitting
   reveal?: Reveal // show only some parts of the trip on the map, requires the 'order' property in the features
+  satellite?: MapOverlays
 }>()
 
 const { height } = useWindowSize()
@@ -45,7 +47,7 @@ const tripId = inject(tripIdSymbol)
 
 function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[]) {
   if (isIntersecting) {
-    showHikingLayers(false)
+    showHikingLayers(props.satellite ?? false)
     if (props.fitBoundsGeometry) {
       let fitGeom = props.fitBoundsGeometry ?? featureCollection([])
       if (
@@ -75,6 +77,12 @@ function onIntersectionObserver([{ isIntersecting }]: IntersectionObserverEntry[
         zoom: props.zoom,
         pitch: props.pitch ?? 0,
         bearing: props.bearing ?? 0,
+        padding: {
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: 20
+        },
         duration: 3000
       })
     }

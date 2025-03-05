@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { useHikingLayers, getMap, useMapInteractive } from '@/functions/map'
+import { useHikingLayers, getMap, useMapInteractive, type MapOverlays } from '@/functions/map'
 import { featureCollection, point } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
@@ -27,11 +27,11 @@ const props = defineProps<{
   zoom?: number
   pitch?: number
   hideMarker?: boolean
-  satellite?: boolean
+  satellite?: MapOverlays
   vanishingOffset?: number
 }>()
 
-const { width, height } = useWindowSize()
+const { height } = useWindowSize()
 
 const randomId = Math.random().toString(36).slice(2)
 const shouldAnimate = ref(false)
