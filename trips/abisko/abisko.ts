@@ -1,5 +1,5 @@
 import type { Trip } from '~/allTrips'
-import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
+import imgUrl from './images/20241231_122518.jpg?w=600&gallery'
 import abiksoGeo from './abisko.json'
 
 export const abisko: Trip = {
