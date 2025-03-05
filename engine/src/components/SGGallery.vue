@@ -1,6 +1,14 @@
 <template>
   <div class="container" ref="target">
-    <lightgallery :settings="{ speed: 500, plugins: plugins, licenseKey: '1' }" :onInit="onInit">
+    <lightgallery
+      :settings="{
+        speed: 500,
+        plugins: plugins,
+        licenseKey: '1',
+        mobileSettings: { showCloseIcon: true, download: false, controls: false }
+      }"
+      :onInit="onInit"
+    >
       <template v-for="item in galleryImages" :key="item.href">
         <a
           v-if="item.type === 'image'"
