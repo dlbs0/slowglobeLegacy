@@ -13,6 +13,6 @@ export const abisko: Trip = {
       center: [18.784589334449606, 68.35816615337762],
       zoom: 5.5
     },
-    detail: abiksoGeo
+    detail: abiksoGeo as any
   }
 }
