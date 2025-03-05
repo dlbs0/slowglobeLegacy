@@ -13,11 +13,12 @@
 </template>
 
 <script setup lang="ts">
-import { useHikingLayers, getMap, useMapInteractive } from '@/functions/map'
+import { useHikingLayers, getMap, useMapInteractive, type MapOverlays } from '@/functions/map'
 import { featureCollection, point } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
 import { onMounted, onUnmounted, ref, watch } from 'vue'
 import { LngLat, type GeoJSONSource } from 'mapbox-gl'
+import { useWindowSize } from '@vueuse/core'
 const { setMapInteractive, mapInteractive } = useMapInteractive()
 const { showHikingLayers } = useHikingLayers()
 
@@ -26,8 +27,11 @@ const props = defineProps<{
   zoom?: number
   pitch?: number
   hideMarker?: boolean
-  satellite?: boolean
+  satellite?: MapOverlays
+  vanishingOffset?: number
 }>()
+
+const { height } = useWindowSize()
 
 const randomId = Math.random().toString(36).slice(2)
 const shouldAnimate = ref(false)
@@ -61,7 +65,18 @@ function generateFrame(timestamp: number) {
   }
   const nb = ((timestamp - initialBearing) / 100) % 360
 
-  map.jumpTo({ center: LngLat.convert(props.center), zoom: props.zoom ?? 12, bearing: nb })
+  const padding = { top: 0, bottom: 0, left: 0, right: 0 }
+  if (props.vanishingOffset) {
+    padding.top = props.vanishingOffset * height.value
+  }
+
+  map.jumpTo({
+    center: LngLat.convert(props.center),
+    zoom: props.zoom ?? 12,
+    bearing: nb,
+    padding,
+    retainPadding: false
+  })
   // map.rotateTo(((timestamp - initialBearing) / 100) % 360, { duration: 0 })
   lastTimestamp = timestamp
   requestAnimationFrame(generateFrame)
@@ -84,12 +99,18 @@ function flyToCenter() {
     if (shouldFlyToCenter) pitch = props.pitch ? 5 : 0
     else pitch = props.pitch ?? 0
 
+    const padding = { top: 0, bottom: 0, left: 0, right: 0 }
+    if (props.vanishingOffset) {
+      padding.top = props.vanishingOffset * height.value
+    }
+
     map.flyTo({
       center: props.center,
       zoom: props.zoom ?? 12,
       pitch,
       bearing: map.getBearing(),
       speed: 1,
+      padding,
       easing: (t) => {
         return t
       }

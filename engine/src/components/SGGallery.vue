@@ -5,9 +5,14 @@
         <a
           v-if="item.type === 'image'"
           :data-lg-size="item.size"
-          className="gallery-item"
+          className="gallery-item "
           :data-src="item.href"
+          :data-sub-html="'<h4>' + item.captionText + '</h4>'"
         >
+          <div v-if="item.hasCaption" class="note-icon">
+            <div class="tooltipText">{{ item.captionText }}</div>
+            <iconify-icon icon="ph:note" inline></iconify-icon>
+          </div>
           <img className="img-responsive" :src="item.thumbnail" />
         </a>
 
@@ -108,20 +113,22 @@ const galleryImages = asyncComputed(async () => {
     href: string
     thumbnail: string
     coords?: [number, number]
-    caption: string
+    captionText: string
+    hasCaption: boolean
     type: 'image' | 'video'
     size: string
   }> = []
   for (const path of imageList.value) {
     const imageModule = await path.imageModule()
     const coords = path.coords
-    const caption = path?.caption ?? ''
+    const caption = path?.caption ?? '&nbsp;'
 
     const thumbnail = !Array.isArray(imageModule) ? imageModule : imageModule[0]
 
     const output = {
       coords,
-      caption,
+      captionText: caption,
+      hasCaption: !!path?.caption,
       size: '',
       href: '',
       thumbnail: thumbnail.src,
@@ -225,10 +232,45 @@ onUnmounted(() => {
   image-orientation: from-image;
 }
 
+.note-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 1.2em;
+  border-radius: 0 0 0 0.5em;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 5px;
+  z-index: 10;
+  display: inline-block;
+  display: flex;
+  max-width: 100%;
+}
+.note-icon:hover {
+  border-radius: 0;
+}
+
+.note-icon:hover .tooltipText {
+  visibility: visible;
+  display: block;
+}
+
+.note-icon .tooltipText {
+  font-size: 0.7em;
+  visibility: hidden;
+  display: none;
+  font-family: 'Public Sans', sans-serif;
+  text-align: left;
+  border-radius: 6px;
+  padding: 0.2em 0.5em;
+}
+
 .gallery-item {
   width: 100%;
   height: 100%;
   aspect-ratio: 1 / 1;
+  position: relative;
+  /* display: inline-block; */
 }
 
 .gallery-item video {

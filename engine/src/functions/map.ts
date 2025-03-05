@@ -212,18 +212,25 @@ export function showTracks(id: string, sequence?: Reveal) {
     tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
   }
 }
-
+export type MapOverlays = 'satellite' | 'contours' | boolean
 export function useHikingLayers() {
-  function showHikingLayers(visible: boolean) {
+  function showHikingLayers(visible: MapOverlays) {
     const map = getMap()
     if (!map) return
     const coolLayers = ['mapbox-satellite', 'hillshade', 'contour', 'contour-labels']
-    hikingLayersVisible.value = visible
+    hikingLayersVisible.value = visible == true
 
     coolLayers.forEach((layer) => {
       const lay = map.getLayer(layer) as RasterLayerSpecification
       if (lay) {
-        map.setLayoutProperty(layer, 'visibility', visible ? 'visible' : 'none')
+        let shouldShow = visible === true
+        if (visible == 'satellite' && layer == 'mapbox-satellite') shouldShow = true
+        if (
+          visible == 'contours' &&
+          (layer == 'contour' || layer == 'contour-labels' || layer == 'hillshade')
+        )
+          shouldShow = true
+        map.setLayoutProperty(layer, 'visibility', shouldShow ? 'visible' : 'none')
       }
     })
   }
