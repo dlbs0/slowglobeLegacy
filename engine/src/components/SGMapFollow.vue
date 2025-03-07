@@ -20,7 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { useHikingLayers, fitBounds, getMap, useMapInteractive } from '@/functions/map'
+import {
+  useHikingLayers,
+  fitBounds,
+  getMap,
+  useMapInteractive,
+  type MapOverlays
+} from '@/functions/map'
 import type { Feature, LineString } from 'geojson'
 import { bbox, bezierSpline, featureCollection, length, point, simplify } from '@turf/turf'
 import { vIntersectionObserver } from '@vueuse/components'
@@ -40,7 +46,7 @@ const props = defineProps<{
   showTime?: boolean
   followPitch?: number
   followZoom?: number
-  noSatellite?: boolean
+  satellite?: MapOverlays
 }>()
 
 const fPitch = props.followPitch ?? 60
@@ -358,7 +364,7 @@ useIntersectionObserver(
   ([{ isIntersecting }]) => {
     if (isIntersecting) {
       showLocationArrow(true)
-      showHikingLayers(props.noSatellite !== true)
+      showHikingLayers(props.satellite ?? true)
     } else {
       // showHikingLayers(false)
       showLocationArrow(false)

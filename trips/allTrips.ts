@@ -6,6 +6,7 @@ import { ljusdal } from '~/ljusdal/ljusdal'
 import { germanGigs } from '~/germanGigs/germanGigs'
 import { golden_day_in_sweden } from '~/golden_day_in_sweden/golden_day_in_sweden'
 import { greatOceanRoad } from '~/greatOceanRoad/greatOceanRoad'
+import { abisko } from './abisko/abisko'
 
 export interface Trip {
   id: string
@@ -38,6 +39,7 @@ export function getTripHeaderInfoById(id: string) {
 export const allTrips: Trip[] = [
   golden_day_in_sweden,
   germanGigs,
+  abisko,
   ljusdal,
   gavle,
   bracke,
