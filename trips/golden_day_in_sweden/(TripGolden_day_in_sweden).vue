@@ -30,9 +30,9 @@ import { golden_day_in_sweden } from './golden_day_in_sweden'
     <SGText>
       We decided to hit the slopes across town the next day, Bek and Paula on skis and Daniel and
       Nathan on snowboards. We had managed to borrow most of our gear from Fritidsbanken, a kind of
-      free gear library. This first outing took us to the giddy heights of the free kids platter,
-      giving us a downwards run of almost 200 meters. This was still plenty while we got our feet
-      back under us, but started to get old fairly quickly.
+      free outdoor gear library. This first outing took us to the giddy heights of the free kids
+      platter, giving us a downwards run of almost 200 meters. This was still plenty while we got
+      our feet back under us, but started to get old fairly quickly.
       <br />
       <br />
       <!-- TODO: Thinking the following paragraph could be in italics?? -->
