@@ -11,9 +11,23 @@
     >
       <template v-for="item in galleryImages" :key="item.href">
         <a
-          v-if="item.type === 'image'"
+          v-if="item.type === 'image' && galleryImages.length > 1"
           :data-lg-size="item.size"
-          className="gallery-item "
+          className="gallery-item"
+          :data-src="item.href"
+          :data-sub-html="'<h4>' + item.captionText + '</h4>'"
+        >
+          <div v-if="item.hasCaption" class="note-icon">
+            <div class="tooltipText">{{ item.captionText }}</div>
+            <iconify-icon icon="ph:note" inline></iconify-icon>
+          </div>
+          <img className="img-responsive" :src="item.thumbnail" />
+        </a>
+
+        <a
+          v-else-if="item.type === 'image' && galleryImages.length === 1"
+          :data-lg-size="item.size"
+          className="gallery-item-single"
           :data-src="item.href"
           :data-sub-html="'<h4>' + item.captionText + '</h4>'"
         >
@@ -131,7 +145,8 @@ const galleryImages = asyncComputed(async () => {
     const coords = path.coords
     const caption = path?.caption ?? '&nbsp;'
 
-    const thumbnail = !Array.isArray(imageModule) ? imageModule : imageModule[0]
+    // For single images use the source image as the thumbnail
+    const thumbnail = imageList.value.length === 1 ? imageModule[1] : imageModule[0]
 
     const output = {
       coords,
@@ -230,16 +245,6 @@ onUnmounted(() => {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 0.5em;
-  object-position: 50% 50%;
-  image-orientation: from-image;
-}
-
 .note-icon {
   position: absolute;
   top: 0;
@@ -277,8 +282,38 @@ onUnmounted(() => {
   width: 100%;
   height: 100%;
   aspect-ratio: 1 / 1;
-  position: relative;
-  /* display: inline-block; */
+  object-fit: cover;
+  border-radius: 0.5em;
+  object-position: 50% 50%;
+  image-orientation: from-image;
+}
+
+.gallery-item-single img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5em;
+  object-position: 50% 50%;
+  image-orientation: from-image;
+}
+
+.gallery-item-single video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5em;
+  object-position: 50% 50%;
+  image-orientation: from-image;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0.5em;
+  object-position: 50% 50%;
+  image-orientation: from-image;
 }
 
 .gallery-item video {
@@ -290,6 +325,7 @@ onUnmounted(() => {
   object-position: 50% 50%;
   image-orientation: from-image;
 }
+
 .vidOverlay {
   aspect-ratio: 1 / 1;
   cursor: pointer;
