@@ -11,23 +11,9 @@
     >
       <template v-for="item in galleryImages" :key="item.href">
         <a
-          v-if="item.type === 'image' && galleryImages.length > 1"
+          v-if="item.type === 'image'"
           :data-lg-size="item.size"
-          className="gallery-item"
-          :data-src="item.href"
-          :data-sub-html="'<h4>' + item.captionText + '</h4>'"
-        >
-          <div v-if="item.hasCaption" class="note-icon">
-            <div class="tooltipText">{{ item.captionText }}</div>
-            <iconify-icon icon="ph:note" inline></iconify-icon>
-          </div>
-          <img className="img-responsive" :src="item.thumbnail" />
-        </a>
-
-        <a
-          v-else-if="item.type === 'image' && galleryImages.length === 1"
-          :data-lg-size="item.size"
-          className="gallery-item-single"
+          :class="imageList.length > 1 ? 'gallery-item' : 'gallery-item gallery-item-single'"
           :data-src="item.href"
           :data-sub-html="'<h4>' + item.captionText + '</h4>'"
         >
@@ -40,15 +26,15 @@
 
         <a
           v-if="item.type === 'video'"
-          className="gallery-item"
+          :class="imageList.length > 1 ? 'gallery-item' : 'gallery-item gallery-item-single'"
           :data-video="getVideoData(item.href)"
           :data-poster="item.thumbnail"
           :data-lg-size="item.size"
         >
-          <div class="vidBox">
-            <img className="img-responsive" :src="item.thumbnail" />
+          <div class="play-icon">
+            <iconify-icon icon="mingcute:play-fill" inline></iconify-icon>
           </div>
-          <div class="vidOverlay">&#x25B6;</div>
+          <img className="img-responsive" :src="item.thumbnail" />
         </a>
       </template>
     </lightgallery>
@@ -145,8 +131,11 @@ const galleryImages = asyncComputed(async () => {
     const coords = path.coords
     const caption = path?.caption ?? '&nbsp;'
 
-    // For single images use the source image as the thumbnail
-    const thumbnail = imageList.value.length === 1 ? imageModule[1] : imageModule[0]
+    const thumbnail = !Array.isArray(imageModule)
+      ? imageModule
+      : imageList.value.length == 1
+        ? imageModule[1]
+        : imageModule[0]
 
     const output = {
       coords,
@@ -172,15 +161,9 @@ const galleryImages = asyncComputed(async () => {
   }
   return gImages
 })
-watch(galleryImages, () => {
-  nextTick(() => {
-    updateSlides()
-  })
-})
 
-onMounted(() => {
-  updateSlides()
-})
+watch(galleryImages, () => nextTick(updateSlides))
+onMounted(updateSlides)
 
 const target = ref(null)
 let markers: Marker[] = []
@@ -192,9 +175,8 @@ if (props.addPhotosToMap) {
         // Create a DOM element for each marker.
         if (!entry.coords) continue
         const el = document.createElement('div')
-        el.onclick = () => {
-          lg?.openGallery(index)
-        }
+        el.onclick = () => lg?.openGallery(index)
+
         el.className = 'photoMarker'
 
         const img = document.createElement('img')
@@ -222,11 +204,9 @@ function removeAllMarkers() {
   }
 }
 
-onUnmounted(() => {
-  removeAllMarkers()
-})
-// export default class App extends Vue {}
+onUnmounted(removeAllMarkers)
 </script>
+
 <style lang="css" scoped>
 .container {
   z-index: 2;
@@ -243,6 +223,31 @@ onUnmounted(() => {
   flex-wrap: wrap;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.gallery-item,
+.gallery-item img,
+.gallery-item video {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 0.5em;
+}
+
+.gallery-item {
+  position: relative;
+  img {
+    object-position: 50% 50%;
+    image-orientation: from-image;
+  }
+}
+
+.gallery-item-single {
+  aspect-ratio: unset;
+  img {
+    aspect-ratio: unset;
+  }
 }
 
 .note-icon {
@@ -278,80 +283,31 @@ onUnmounted(() => {
   padding: 0.2em 0.5em;
 }
 
-.gallery-item {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 0.5em;
-  object-position: 50% 50%;
-  image-orientation: from-image;
-}
-
-.gallery-item-single img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0.5em;
-  object-position: 50% 50%;
-  image-orientation: from-image;
-}
-
-.gallery-item-single video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 0.5em;
-  object-position: 50% 50%;
-  image-orientation: from-image;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 0.5em;
-  object-position: 50% 50%;
-  image-orientation: from-image;
-}
-
-.gallery-item video {
-  width: 100%;
-  height: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 0.5em;
-  object-position: 50% 50%;
-  image-orientation: from-image;
-}
-
-.vidOverlay {
-  aspect-ratio: 1 / 1;
+.play-icon {
   cursor: pointer;
+  border-radius: 0.5rem;
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
   z-index: 4;
-  position: relative;
+  display: flex;
   width: 100%;
   height: 100%;
-  box-sizing: content-box;
-  top: -100%;
-  text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   vertical-align: center;
+  opacity: 0.8;
   font-size: 6rem;
   color: #ffffff;
-  opacity: 0.7;
-  text-shadow: 0px 0px 30px rgba(0, 0, 0, 0.5);
+  filter: drop-shadow(1px 2px 8px #000000);
   transition:
     opacity 0.2s ease-in-out,
-    transform 0.2s ease-in-out,
-    background-color 0.2s ease-in-out;
+    transform 0.2s ease-in-out;
 
   &:hover {
     opacity: 0.9;
-    background-color: #ffffff15;
     transform: scale(1.1);
   }
 }
