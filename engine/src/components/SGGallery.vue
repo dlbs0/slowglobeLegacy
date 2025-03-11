@@ -209,7 +209,6 @@ onUnmounted(removeAllMarkers)
 
 <style lang="css" scoped>
 .container {
-  z-index: 2;
   position: relative;
 }
 

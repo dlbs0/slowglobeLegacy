@@ -36,11 +36,13 @@ import { golden_day_in_sweden } from './golden_day_in_sweden'
       <br />
       <br />
       <!-- TODO: Thinking the following paragraph could be in italics?? -->
-      A subsequent trip later in the week took us to Sidsjöbacken, a slightly larger set of runs on
-      the other side of the same mountain. Buying a lift pass didn’t get us away from the children
-      however, as our visit coincided with a school trip, meaning we had to be on the lookout for
-      small children pizza-ing straight down the hill.
-      <br />
+      <aside>
+        A subsequent trip later in the week took us to Sidsjöbacken, a slightly larger set of runs
+        on the other side of the same mountain. Buying a lift pass didn’t get us away from the
+        children however, as our visit coincided with a school trip, meaning we had to be on the
+        lookout for small children pizza-ing straight down the hill.
+      </aside>
+      <!-- <br /> -->
       <br />
       We broke for a late lunch at Max, a Swedish burger chain, where we discovered some delicious
       dipping sauces, and then drove up to the North Mountain for a hike and to admire the view over
