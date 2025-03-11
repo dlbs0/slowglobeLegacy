@@ -12,13 +12,6 @@ import { sweden } from './sweden'
 <template>
   <DetailView>
     <SGHeader>Moving to Sweden</SGHeader>
-    <!-- <SGMapFollow
-      :geometry="sweden.geography.detail?.features[5]"
-      :follow="true"
-      :no-satelite="true"
-      :overview="true"
-      :follow-zoom="4"
-    ></SGMapFollow> -->
     <SGText>
       For anyone who's been out of the loop, and hasn't already worked it out from the title, we're
       moving (moved?) to Sweden for the next few years. And since this is a collection of stories
@@ -59,7 +52,7 @@ import { sweden } from './sweden'
       <br />
       We were picked up at Sundsvall station by our new landlord Peter, and made a quick supermarket
       run before getting a tour of the house. We're lucky enough to get a whole house to ourselves,
-      and spent the afternoon learning about all the house maintanence that comes with sub-zero
+      and spent the afternoon learning about all the house maintenance that comes with sub-zero
       temperatures. House lesson over, we finally had a chance to sleep for as long as we wanted for
       the first time in weeks. It was fun.
     </SGText>

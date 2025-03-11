@@ -434,7 +434,6 @@ onUnmounted(() => {
   mask: var(--mask);
 }
 .endSeg {
-  /* background-color: var(--article-background-color); */
   height: 0em;
   --mask: conic-gradient(from 130deg at top, #000000, #000000 1deg 99deg, #00000000 100deg)
     50%/2.38em 100%;
