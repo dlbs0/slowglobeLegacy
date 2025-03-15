@@ -30,8 +30,8 @@
       cartography skills, mapmaking is hard.
     </div>
     <br />
-    Written in Vue, Vite, Typescript, using the Mapbox, VueUse, PhotoSwipe and vite-imagetools
-    libraries.
+    Written with Vue, Vite, Typescript, using the Mapbox, Turf, VueUse, LightGallery and
+    vite-imagetools libraries.
     <br /><br />
     There are almost certainly bugs (especially on iOS). Let me know if you find one.
   </div>
