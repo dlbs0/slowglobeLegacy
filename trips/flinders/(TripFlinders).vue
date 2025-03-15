@@ -79,6 +79,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       :show-time="true"
       :follow-pitch="70"
       :overview="true"
+      :satellite="true"
     />
     <SGGallery
       :list="[
@@ -205,6 +206,7 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
       :overview="false"
       :use-time="false"
       :show-time="true"
+      :satellite="true"
     />
     <SGGallery
       :list="[
@@ -218,7 +220,19 @@ const dayFourGeom = flinders.geography.detail?.features[3] as Feature<LineString
     <SGDayBreak />
 
     <SGText> We woke to the most beautiful morning light on the side of the range. </SGText>
-    <SGMapFollow :geometry="dayThreeGeom" :follow="false" :overview="true" :use-time="true" />
-    <SGMapFollow :geometry="dayFourGeom" :follow="true" :overview="true" :use-time="false" />
+    <SGMapFollow
+      :geometry="dayThreeGeom"
+      :follow="false"
+      :overview="true"
+      :use-time="true"
+      :satellite="true"
+    />
+    <SGMapFollow
+      :geometry="dayFourGeom"
+      :follow="true"
+      :overview="true"
+      :use-time="false"
+      :satellite="true"
+    />
   </DetailView>
 </template>

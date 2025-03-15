@@ -1,15 +1,15 @@
 import type { Trip } from '~/allTrips'
-import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
+import imgUrl from './images/PXL_20250227_212707341.jpg?w=600&gallery'
 
 export const golden_day_in_sweden: Trip = {
   id: 'golden_day_in_sweden',
   name: 'A Golden Day in Sweden',
   headerImage: imgUrl,
-  date: '2024-09-22',
-  locationText: 'Bräcke, Sweden',
+  date: '2025-02-22',
+  locationText: 'Sundsvall, Sweden',
   geography: {
     overview: {
-      center: [15.4185552491721, 62.750063825451555],
-      zoom: 7
+      center: [17.2638639906221, 62.406413433909364],
+      zoom: 6
   }}
 }
