@@ -225,28 +225,20 @@ onUnmounted(removeAllMarkers)
 }
 
 .gallery-item,
-.gallery-item img,
-.gallery-item video {
+.gallery-item img {
+  aspect-ratio: 1 / 1;
+  object-position: 50% 50%;
+  image-orientation: from-image;
   width: 100%;
   height: 100%;
-  aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 0.5em;
-}
-
-.gallery-item {
   position: relative;
-  img {
-    object-position: 50% 50%;
-    image-orientation: from-image;
-  }
 }
 
-.gallery-item-single {
+.gallery-item-single,
+.gallery-item-single img {
   aspect-ratio: unset;
-  img {
-    aspect-ratio: unset;
-  }
 }
 
 .note-icon {
@@ -311,5 +303,3 @@ onUnmounted(removeAllMarkers)
   }
 }
 </style>
-
-<style></style>
