@@ -4,7 +4,7 @@ import { routes } from 'vue-router/auto-routes'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   scrollBehavior(to, from, savedPosition) {
-    if (to.name !== 'home') {
+    if (to.path !== '/') {
       if (savedPosition) {
         return savedPosition
       } else {

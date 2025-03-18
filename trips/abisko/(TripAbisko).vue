@@ -151,7 +151,13 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
         'DSC_0652.jpg',
         'DSC_0680.jpg',
         'IMG_1544.jpg',
-        'IMG_1561.jpg'
+        'IMG_1561.jpg',
+        'IMG_1460.jpg',
+        'IMG_1472.jpg',
+        'IMG_1465.jpg',
+        'IMG_1477.jpg',
+        'IMG_1511.jpg',
+        'IMG_1533.jpg'
       ]"
     />
     <SGText>
