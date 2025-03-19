@@ -4,7 +4,8 @@ import SGHeader from '@/components/SGHeader.vue'
 import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { golden_day_in_sweden } from './golden_day_in_sweden'
+import { useTripDetails } from '@/functions/loaders'
+const { data: geom } = useTripDetails()
 </script>
 
 <template>

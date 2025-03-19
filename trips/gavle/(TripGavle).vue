@@ -4,7 +4,8 @@ import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { gavle } from './gavle'
+import { useTripDetails } from '@/functions/loaders'
+const { data: geom } = useTripDetails()
 </script>
 
 <template>
@@ -25,7 +26,7 @@ import { gavle } from './gavle'
       train station over frost-covered ground, regretting my lack of gloves and metal brake levers.
       I made it onto the full train with a few minutes to warm up before we left.
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="gavle.geography.detail?.features[0]" />
+    <SGMapCutout :fit-bounds-geometry="geom?.features[0]" />
     <SGText>
       On the train, I had a look at what exciting things there would be to do when I got there.
       Gävle is famous for the Gävlebocken, a giant goat made from straw, but it's a Christmas
@@ -46,7 +47,7 @@ import { gavle } from './gavle'
       industrial district and gasworks, with lovely old brick buildings.
       <br />
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="gavle.geography.detail?.features[1]" :reveal="2" />
+    <SGMapCutout :fit-bounds-geometry="geom?.features[1]" :reveal="2" />
 
     <SGGallery
       :add-photos-to-map="true"

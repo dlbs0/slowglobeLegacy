@@ -1,10 +1,11 @@
 <script setup lang="ts">
+import { useTripDetails } from '@/functions/loaders'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { bracke } from './bracke'
+const { data: geom } = useTripDetails()
 import { dFeatureCollection, dPoint } from '@/functions/classes'
 </script>
 
@@ -30,7 +31,7 @@ import { dFeatureCollection, dPoint } from '@/functions/classes'
       turning into quite the undertaking.
       <br />
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="bracke.geography.detail" />
+    <SGMapCutout :fit-bounds-geometry="geom" />
     <SGText>
       <br />
       But I had nothing else to do on the weekend, so I messaged the guy, who informed me that he
@@ -75,7 +76,7 @@ import { dFeatureCollection, dPoint } from '@/functions/classes'
       town.
     </SGText>
 
-    <SGMapCutout :fit-bounds-geometry="bracke.geography.detail?.features[2]" :pitch="55" />
+    <SGMapCutout :fit-bounds-geometry="geom?.features[2]" :pitch="55" />
     <SGGallery
       :add-photos-to-map="true"
       :list="[

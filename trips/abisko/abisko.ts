@@ -1,6 +1,7 @@
-import type { Trip } from '~/allTrips'
 import imgUrl from './images/20241231_122518.jpg?w=600&gallery'
-import abiksoGeo from './abisko.json'
+import overviewGeo from './geometry.geojson?simplify'
+import detailGeo from './geometry.geojson'
+import type { Trip } from '@/functions/trips'
 
 export const abisko: Trip = {
   id: 'abisko',
@@ -11,8 +12,9 @@ export const abisko: Trip = {
   geography: {
     overview: {
       center: [18.784589334449606, 68.35816615337762],
-      zoom: 5.5
+      zoom: 5.5,
+      tracks: overviewGeo
     },
-    detail: abiksoGeo as any
+    detail: detailGeo
   }
 }

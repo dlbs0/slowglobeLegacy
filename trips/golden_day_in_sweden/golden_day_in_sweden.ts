@@ -1,4 +1,4 @@
-import type { Trip } from '~/allTrips'
+import type { Trip } from '@/functions/trips'
 import imgUrl from './images/PXL_20250227_212707341.jpg?w=600&gallery'
 
 export const golden_day_in_sweden: Trip = {
@@ -11,5 +11,6 @@ export const golden_day_in_sweden: Trip = {
     overview: {
       center: [17.2638639906221, 62.406413433909364],
       zoom: 6
-  }}
+    }
+  }
 }

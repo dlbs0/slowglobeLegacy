@@ -1,4 +1,4 @@
-import type { Trip } from '~/allTrips'
+import type { Trip } from '@/functions/trips'
 import imgUrl from '@/assets/images/other/20240922_172726-2.jpg'
 
 export const greatOceanRoad: Trip = {

@@ -1,6 +1,7 @@
-import type { Trip } from '~/allTrips'
+import type { Trip } from '@/functions/trips'
 import imgUrl from './images/vlcsnap-2025-03-04-15h41m48s027.jpg?w=600&gallery'
-import germanyGeo from './germany.json'
+import overviewGeo from './geometry.geojson?simplify'
+import detailGeo from './geometry.geojson'
 
 export const germanGigs: Trip = {
   id: 'germanGigs',
@@ -11,8 +12,9 @@ export const germanGigs: Trip = {
   geography: {
     overview: {
       center: [13.38905952078278, 52.517102412037445],
-      zoom: 7
+      zoom: 7,
+      tracks: overviewGeo
     },
-    detail: germanyGeo as any
+    detail: detailGeo
   }
 }

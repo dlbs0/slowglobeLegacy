@@ -4,7 +4,8 @@ import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { sweden } from './sweden'
+import { useTripDetails } from '@/functions/loaders'
+const { data: geom } = useTripDetails()
 
 // Flight data from https://www.flightaware.com/live/flight/THA466/history/20240905/0340Z/YMML/VTBS/tracklog
 </script>
@@ -56,7 +57,7 @@ import { sweden } from './sweden'
       temperatures. House lesson over, we finally had a chance to sleep for as long as we wanted for
       the first time in weeks. It was fun.
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="sweden.geography.detail" />
+    <SGMapCutout :fit-bounds-geometry="geom" />
     <SGGallery
       :list="[
         '20240906_112409.jpg',

@@ -1,6 +1,7 @@
-import type { Trip } from '~/allTrips'
+import type { Trip } from '@/functions/trips'
 import imgUrl from './images/20240712_141222-2.jpg?w=600&gallery'
-import flindersGeo from './flindersHike.json'
+import overviewGeo from './geometry.geojson?simplify'
+import detailGeo from './geometry.geojson'
 
 export const flinders: Trip = {
   id: 'flinders',
@@ -11,8 +12,9 @@ export const flinders: Trip = {
   geography: {
     overview: {
       center: [138.5445785243, -31.5794543736],
-      zoom: 7
+      zoom: 7,
+      tracks: overviewGeo
     },
-    detail: flindersGeo as any
+    detail: detailGeo
   }
 }
