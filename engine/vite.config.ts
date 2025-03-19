@@ -1,20 +1,19 @@
-// import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import VueRouter from 'unplugin-vue-router/vite'
 import { imagetools } from 'vite-imagetools'
 import { resolve } from 'path'
 import { realpathSync } from 'fs'
+import geoJsonSimplify from './vite-plugin-geojson-simplify'
 
 const dirname = realpathSync('.')
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  assetsInclude: ['**/*.m4v'],
+  assetsInclude: ['**/*.m4v', '**/*.geojson'],
   resolve: {
+    // extensions: ['.js', '.ts', '.vue', '.json', '.geojson'],
     alias: {
-      // '@': fileURLToPath(new URL('./src', import.meta.url)),
-      // '~': fileURLToPath(new URL('../trips', import.meta.url)),
       '~': resolve(dirname, '../trips'),
       '@': resolve(dirname, './src')
     }
@@ -27,8 +26,8 @@ export default defineConfig({
         '../trips/**/images/*.{heif,avif,jpeg,jpg,png,tiff,webp,gif}?*'
       ]
     }),
+    geoJsonSimplify(),
     VueRouter({
-      /* options */
       routesFolder: ['src/pages', { src: '../trips', path: 'trip/' }]
     }),
     vue({

@@ -1,4 +1,4 @@
-import { getTripById } from '~/allTrips'
+import { getTripById, getTripDetailsById } from './trips'
 import { bbox, featureCollection, featureEach, point } from '@turf/turf'
 import { useWindowSize } from '@vueuse/core'
 import type { Feature, FeatureCollection } from 'geojson'
@@ -152,7 +152,7 @@ export function zoomToId(id: string) {
   const dotSource = map.getSource('dot-point') as GeoJSONSource
   dotSource?.setData(featureCollection([point(trip.geography.overview.center)]))
   const tracksSource = map.getSource('overview-tracks') as GeoJSONSource
-  tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+  tracksSource?.setData(trip.geography.overview.tracks ?? featureCollection([]))
   firstLoad = false
 }
 
@@ -162,27 +162,23 @@ interface RevealIndex {
   onlyCurrent?: boolean
 }
 
-export function showTracks(id: string, sequence?: Reveal) {
+export async function showTracks(id: string, sequence?: Reveal) {
   if (!map) return
-  const trip = getTripById(id)
+  const trip = await getTripDetailsById(id)
   if (!trip) return
 
   const tracksSource = map.getSource('detail-tracks') as GeoJSONSource
 
   // Handle showing only portions of the full detailled tracks, in a few different formats
-  if (
-    typeof sequence !== 'undefined' &&
-    Array.isArray(trip.geography.detail?.features) &&
-    trip.geography.detail.features.length > 0
-  ) {
+  if (typeof sequence !== 'undefined' && Array.isArray(trip.features) && trip.features.length > 0) {
     if (sequence == 'all') {
-      tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+      tracksSource?.setData(trip ?? featureCollection([]))
     } else if (sequence == 'none') {
       tracksSource?.setData(featureCollection([]))
     } else {
       const output: Feature[] = []
 
-      featureEach(trip.geography.detail, (currentFeature) => {
+      featureEach(trip, (currentFeature) => {
         if (!currentFeature.properties) return
 
         if (typeof sequence == 'number' && currentFeature.properties.order <= sequence)
@@ -209,7 +205,7 @@ export function showTracks(id: string, sequence?: Reveal) {
       tracksSource?.setData(featureCollection(output))
     }
   } else {
-    tracksSource?.setData(trip.geography.detail ?? featureCollection([]))
+    tracksSource?.setData(trip ?? featureCollection([]))
   }
 }
 export type MapOverlays = 'satellite' | 'contours' | boolean

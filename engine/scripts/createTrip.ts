@@ -23,10 +23,11 @@ function yesNoPrompt(question) {
 
 const id = prompt('Trip ID (used in the url): ')
 const name = prompt('Trip Name (used in the title): ')
+const createGeojsonFile = yesNoPrompt('Do you want to show routes on the map?')
 const flight = yesNoPrompt('Did you fly anywhere on this trip?')
 const hike = yesNoPrompt('Did you go for a hike on this trip?')
 
-const typescriptContent = `import type { Trip } from '~/allTrips'
+const typescriptContent = `import type { Trip } from '@/functions/trips'
 import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
 
 export const ${id}: Trip = {
@@ -43,12 +44,13 @@ export const ${id}: Trip = {
 }`
 
 const vueContent = `<script setup lang="ts">
+import { useTripDetails } from '@/functions/loaders'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { ${id} } from './${id}'
+const { data: geom } = useTripDetails()
 </script>
 
 <template>
@@ -71,6 +73,7 @@ try {
   if (!existsSync(path + '/flight_data') && flight) mkdirSync(path + '/flight_data')
   if (!existsSync(path + '/hike_data') && hike) mkdirSync(path + '/hike_data')
 
+  if (createGeojsonFile) writeFileSync(path + '/geometry.geojson', '')
   writeFileSync(path + '/' + id + '.ts', typescriptContent)
   writeFileSync(
     '../trips/' +

@@ -54,7 +54,7 @@
 </style>
 
 <script setup lang="ts">
-import { getTripHeaderInfoById } from '~/allTrips'
+import { getTripHeaderInfoById } from '@/functions/trips'
 import PostageStamp from './PostageStamp.vue'
 import { inject } from 'vue'
 import { tripIdSymbol } from '@/functions/classes'
