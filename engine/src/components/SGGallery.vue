@@ -30,9 +30,14 @@
           :data-video="getVideoData(item.href)"
           :data-poster="item.thumbnail"
           :data-lg-size="item.size"
+          :data-sub-html="'<h4>' + item.captionText + '</h4>'"
         >
           <div class="play-icon">
             <iconify-icon icon="mingcute:play-fill" inline></iconify-icon>
+          </div>
+          <div v-if="item.hasCaption" class="note-icon">
+            <div class="tooltipText">{{ item.captionText }}</div>
+            <iconify-icon icon="ph:note" inline></iconify-icon>
           </div>
           <img className="img-responsive" :src="item.thumbnail" />
         </a>
