@@ -1,5 +1,5 @@
 import type { Trip } from '@/functions/trips'
-import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
+import imgUrl from './images/d186894c-f18b-4148-b6c3-0361baa2724e-2.jpg?w=600&gallery'
 import overviewGeo from './geometry.geojson?simplify'
 import detailGeo from './geometry.geojson'
 
