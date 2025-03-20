@@ -8,8 +8,10 @@ import { germanGigs } from '~/germanGigs/germanGigs'
 import { golden_day_in_sweden } from '~/golden_day_in_sweden/golden_day_in_sweden'
 import { greatOceanRoad } from '~/greatOceanRoad/greatOceanRoad'
 import { abisko } from './abisko/abisko'
+import { crossCountryKlovsjo } from './crossCountryKlovsjo/crossCountryKlovsjo'
 
 export const allTrips: Trip[] = [
+  crossCountryKlovsjo,
   golden_day_in_sweden,
   germanGigs,
   abisko,
