@@ -13,7 +13,7 @@ import {
 } from '@/functions/map'
 import { allTrips } from '~/allTrips'
 import { useRouter } from 'vue-router'
-import AboutDetail from '~/personalComponents/AboutDetail.vue'
+import AboutDetail from '~/AboutDetail.vue'
 
 const { showHikingLayers } = useHikingLayers()
 const { setMapInteractive } = useMapInteractive()

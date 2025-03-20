@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { useTripDetails } from '@/functions/loaders'
 import SGGallery from '@/components/SGGallery.vue'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { ljusdal } from './ljusdal'
 import SGMapOrbit from '@/components/SGMapOrbit.vue'
+const { data: geom } = useTripDetails()
 </script>
 
 <template>
@@ -34,7 +35,7 @@ import SGMapOrbit from '@/components/SGMapOrbit.vue'
       Sticking to the marked paths, I repeated my pilgrimage to the ATM, and then found my way by
       train and bus into the town of Ljusdal.
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="ljusdal.geography.detail" />
+    <SGMapCutout :fit-bounds-geometry="geom" />
     <SGText>
       The first thing you notice about Ljusdal station when you arrive is the sheer number of logs
       stacked on the opposite side of the tracks. If you're me, the next thing you notice is the log

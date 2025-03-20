@@ -6,11 +6,8 @@
     "cypress.config.*",
     "nightwatch.conf.*",
     "playwright.config.*",
-    "./typed-router.d.ts"
-    // "../trips/**/*",
-    // "../trips/**/*.vue",
-    // "./src/**/*",
-    // "./src/**/*.vue"
+    "./typed-router.d.ts",
+    "vite-plugin-geojson-simplify.ts"
   ],
   "compilerOptions": {
     "composite": true,

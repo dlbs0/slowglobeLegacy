@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import { useTripDetails } from '@/functions/loaders'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { germanGigs } from './germanGigs'
 import SpotifyEmbed from '@/components/SpotifyEmbed.vue'
 import SGDayBreak from '@/components/SGDayBreak.vue'
-// import imgUrl from './images/IMG_1942.heic?format=jpg'
+const { data: geom } = useTripDetails()
 </script>
 
 <template>
@@ -38,11 +38,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       architecture, before giving up, eating at the station, and boarding our night train to Berlin.
     </SGText>
 
-    <SGMapCutout
-      :fit-bounds-geometry="germanGigs.geography.detail"
-      :fitOnlyToIndexes="[0]"
-      :reveal="1"
-    />
+    <SGMapCutout :fit-bounds-geometry="geom" :fitOnlyToIndexes="[0]" :reveal="1" />
     <SGGallery :list="['20250130_113836.jpg', 'IMG_1841.jpg', 'IMG_1862.jpg', 'IMG_1889.jpg']" />
     <SGText>
       The ride was quite comfortable, and while we were delayed by a few hours, it was just long
@@ -131,7 +127,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       (though at 11:34pm), which once again qualified us for a partial refund.
     </SGText>
     <SGMapCutout
-      :fit-bounds-geometry="germanGigs.geography.detail"
+      :fit-bounds-geometry="geom"
       :fitOnlyToIndexes="[1, 2, 3]"
       :reveal="{ index: 2, onlyCurrent: true }"
     />
@@ -164,11 +160,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       Eventually, the time came for us to leave their hospitality behind, and with one last big
       German breakfast, we headed South for Cologne.
     </SGText>
-    <SGMapCutout
-      :fit-bounds-geometry="germanGigs.geography.detail"
-      :reveal="3"
-      :fitOnlyToIndexes="[3, 4]"
-    />
+    <SGMapCutout :fit-bounds-geometry="geom" :reveal="3" :fitOnlyToIndexes="[3, 4]" />
     <SGText>
       Cologne is a difficult city to describe. On the surface, it's just like any other modern
       European city; nice old not too tall buildings, relatively pedestrian friendly, and the
@@ -245,7 +237,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       military police searched the plane for someone (they didn't find them), and then we were
       finally in our uncomfortable chairs on the way back home.
     </SGText>
-    <SGMapCutout :fit-bounds-geometry="germanGigs.geography.detail" :reveal="4" />
+    <SGMapCutout :fit-bounds-geometry="geom" :reveal="4" />
     <SGText>
       I still haven't gotten used to how close everything in Europe is, and how cheap and easy it is
       to travel to another country. Hopefully this is the first of many international adventures out

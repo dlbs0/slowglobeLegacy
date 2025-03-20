@@ -85,12 +85,12 @@ import {
   useMapInteractive,
   type Reveal
 } from '@/functions/map'
-import { getTripHeaderInfoById } from '~/allTrips'
 import PostageStamp from './PostageStamp.vue'
 import { vIntersectionObserver } from '@vueuse/components'
 import { inject, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { tripIdSymbol } from '@/functions/classes'
+import { getTripHeaderInfoById } from '@/functions/trips'
 
 const props = defineProps<{
   reveal?: Reveal

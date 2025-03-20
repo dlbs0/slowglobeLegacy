@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { useTripDetails } from '@/functions/loaders'
 import DetailView from '@/components/DetailView.vue'
 import SGHeader from '@/components/SGHeader.vue'
 import SGGallery from '@/components/SGGallery.vue'
 import SGMapCutout from '@/components/SGMapCutout.vue'
 import SGText from '@/components/SGText.vue'
-import { abisko } from './abisko'
+const { data: geom } = useTripDetails()
+
 import SGDayBreak from '@/components/SGDayBreak.vue'
 </script>
 
@@ -32,7 +34,7 @@ import SGDayBreak from '@/components/SGDayBreak.vue'
       Boden.
     </SGText>
     <SGGallery :list="['IMG_1110.jpg', '20241228_144459.jpg', '20241228_233632.jpg']" />
-    <SGMapCutout :fit-bounds-geometry="abisko.geography.detail" />
+    <SGMapCutout :fit-bounds-geometry="geom" />
     <SGText
       >We also were notified that the train would not be going all the way to Abisko due to bad
       weather, and would make it's last stop in Kiruna. I rang Kiruna taxi the night before, and
