@@ -29,6 +29,12 @@ const hike = yesNoPrompt('Did you go for a hike on this trip?')
 
 const typescriptContent = `import type { Trip } from '@/functions/trips'
 import imgUrl from '@/assets/images/other/20240922_172726-2.jpg?w=600&gallery'
+${
+  createGeojsonFile
+    ? `import overviewGeo from './geometry.geojson?simplify'
+import detailGeo from './geometry.geojson'`
+    : ''
+}
 
 export const ${id}: Trip = {
   id: '${id}',
@@ -39,8 +45,11 @@ export const ${id}: Trip = {
   geography: {
     overview: {
       center: [15.4185552491721, 62.750063825451555],
+      ${createGeojsonFile ? 'tracks: overviewGeo,' : ''}
       zoom: 7
-  }}
+    }
+    ${createGeojsonFile ? `,detail: detailGeo` : ''}
+  }
 }`
 
 const vueContent = `<script setup lang="ts">
